@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style>
+        .card {
+            margin: 0 auto; /* Added */
+            float: none; /* Added */
+            margin-bottom: 10px; /* Added */
+        }
+    </style>
+    <title>Agregar Pacientes</title>
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mt-4 text-center">
+                <h1>Tus Pacientes</h1>
+            </div>
+            <div class="col-md-6 mt-4 text-center">
+                <a href="/add-note" class="btn btn-success">Agregar Paciente nuevo</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Editar Datos del Paciente <%= result[0].id_note %></h5>
+                    <form action="/edit-note/<%=result[0].id_pac%>" method="post">
+                        <textarea name="nombre" class="form-control" cols="10" rows="1" autofocus><%= result[0].nombre %></textarea>
+                        <input name="appat" class="form-control"  value="<%= result[0].appat%>">
+                        <input name="apmat" class="form-control"  value="<%= result[0].apmat%>">
+                        <input name="tel" class="form-control"  value="<%= result[0].tel%>">
+                        <input name="enf_pac" class="form-control"  value="<%= result[0].enf_pac%>">
+                        <center><button type="submit" class="btn btn-success mt-2">Guardar</button></center>
+                        <center><a href="/" class="btn btn-danger mt-2">Cancelar</a></center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
