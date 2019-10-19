@@ -1,9 +1,16 @@
 const dbConnection = require('../../config/dbconnection');
-const 
+const valida = require('notes');
 const connection = dbConnection();
 
 function login(req,res){
+    try{
+        var nombre = req.body;
+        var appat = req.body;
+        var apmat = req.body;
 
+    }catch(error){
+        res.render('404');
+    }
 }
 
 function agregarUsuario(req,res){
