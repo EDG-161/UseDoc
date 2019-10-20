@@ -35,6 +35,16 @@ module.exports = app => {
     app.get('/login',(req,res)=>{
         res.render('login');
     });
+    
+    app.get('/registro',(req,res)=>{
+        connection.query('SELECT * FROM cestado',(err,result)=>{
+            res.render('registro',{result});
+        });
+    });
+    
+    app.post('/registro',(req,res)=>{
+        modulos.agregarUsuario(req,res);
+    });
 
 
 }

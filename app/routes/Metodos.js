@@ -1,5 +1,5 @@
 const dbConnection = require('../../config/dbconnection');
-const valida = require('notes');
+const valida = require('./notes');
 const connection = dbConnection();
 
 function login(req,res){
