@@ -18,6 +18,12 @@
 
 <body>
 <!-- banner -->
+<%
+if(typeof mensaje !== "undefined"){
+   %>
+   <script>alert(<%=mensaje%>);</script>
+   <%
+}%>
 <div class="wthree_agile_admin_info">
 		  <!-- /w3_agileits_top_nav-->
 		  <!-- /nav-->
@@ -59,8 +65,8 @@
                         </form>
                     </div>
                     
-                     <h6><a href="index">Volver al inicio</a><h6>
-                         <h6><a href="index">Registrarse</a><h6>
+                   <h6><a href="index">Volver al inicio</a></h6>
+                   <h6><a href="registro">Registrarse</a></h6>
                 </div>
             </div>
         <!-- //inner_content_w3_agile_info-->

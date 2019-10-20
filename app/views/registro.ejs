@@ -40,9 +40,15 @@
         <div class="inner_content_w3_agile_info">
             <div class="registration admin_agile" >
                <div class="signin-form profile admin" style="width: 80vw">
+                   <%
+                   if(!(typeof mensaje === "undefined")){
+                       %>
+                       <script>alert(<%=mensaje%>);</script>
+                       <%
+                   }%>
                     <h2>Registrar cuenta</h2>
                     <div class="login-form">
-                        <form action="registro" method="post">
+                        <form action="Registro" method="post">
                             <div class="row">
                                 <div class="col-md-6">
                                     <strong>Datos de cuenta</strong>
@@ -53,14 +59,14 @@
                                     <hr>
                                     <strong>Datos personales</strong>
                                     <hr>
-                                    <input type="text" name="email" placeholder="Nombre" required="">
+                                    <input type="text" name="name" placeholder="Nombre" required="">
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <input type="text" name="appat" placeholder="Apellido paterno">
                                             </div>
                                             <div class="col-md-6">
-                                                <input type="text" name="appat" placeholder="Apellido materno">
+                                                <input type="text" name="apmat" placeholder="Apellido materno">
                                             </div>
                                         </div>
                                     </div>
@@ -106,8 +112,8 @@
                                            </div>
                                            <div class="col-md-6">
                                                <select name="est" id="" class="form-control" style="height:auto;">
-                                                   <%for(var i =0;i<result.length;i++){%>
-                                                       <option value="<%=result[i].id_sta%>"><%=result[i].name_sta%></option>
+                                                   <%for(var i =0;i<estados.length;i++){%>
+                                                       <option value="<%=estados[i].id_sta%>"><%=estados[i].name_sta%></option>
                                                    <%}%>
                                                </select>
                                            </div>
@@ -123,7 +129,7 @@
                                        </select>
                                    </div>
                                    <div class="form-group">
-                                       <input type="text" name="ced" id="cedula" required placeholder="Cedula profesional">
+                                       <input type="text" name="ced" id="cedula"  placeholder="Cedula profesional">
                                    </div>
                                     <div class="tp">
                                         <input type="submit" value="ENTRAR">
@@ -157,6 +163,11 @@
     <!-- //js -->
     <script src="js/screenfull.js"></script>
     <script>
+        $( document ).ready(function (e){
+            if($('#tipo').val==2){
+                document.getElementById('cedula').style.display = 'none';
+            }
+        });
         $('#tipo').change(function(e){
             if($(this).val()==1){
                 document.getElementById('cedula').style.display = 'block';
