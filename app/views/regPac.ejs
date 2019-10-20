@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>UseDoc - Iniciar Sesion</title>
+    <title>Registro - Paciente</title>
     <!-- custom-theme -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -25,7 +25,7 @@
         <ul id="gn-menu" class="gn-menu-main">
 
             <!-- //nav_agile_w3l -->
-            <li class="second logo admin"><h1><a href="main-page"><i class="fa fa-graduation-cap" aria-hidden="true"></i>USEDOC </a></h1></li>
+            <li class="second logo admin"><h1><a href="main-page.html"><i class="fa fa-graduation-cap" aria-hidden="true"></i>USEDOC </a></h1></li>
 
             
             <li class="second full-screen">
@@ -47,20 +47,29 @@
         <div class="inner_content_w3_agile_info">
             <div class="registration admin_agile">
                <div class="signin-form profile admin">
-                    <h2>iniciar sesion</h2>
+                    <h2>Registrarse</h2>
                     <div class="login-form">
-                        <form action="Home" method="post">
-                            <input type="text" name="email" placeholder="Correo Electronico" required="">
-                            <input type="password" name="pass" placeholder="Contraseña" required="">
+
+                        <form action="Home.html" method="post">
+                            <input type="text" name="name" placeholder="Nombre" required="">
+                            <input type="text" name="appat" placeholder="Apellido Pat." required="">
+                            <input type="text" name="apmat" placeholder="Apellido Mat." required="">
+                            <input type="text" name="phone" placeholder="Numero Telefonico" required="">
+                            <input type="text" name="street" placeholder="Calle" required="">
+                            <input type="text" name="state" placeholder="Estado" required="">
+                            <input type="text" name="col" placeholder="Colonia" required="">
+                            <input type="text" name="num" placeholder="Numero Interior (Opcional)">
+                            <input type="text" name="numo" placeholder="Numero Exterior" required="">
                             <div class="tp">
                                 <input type="submit" value="ENTRAR">
                             </div>
 
                         </form>
+
                     </div>
                     
                      <h6><a href="index.ejs">Volver al inicio</a><h6>
-                         <h6><a href="registro.ejs">Registrarse</a><h6>
+                         <h6><a href="registro.ejs">Atras</a><h6>
                 </div>
             </div>
         <!-- //inner_content_w3_agile_info-->

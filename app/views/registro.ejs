@@ -25,7 +25,14 @@
         <ul id="gn-menu" class="gn-menu-main">
 
             <!-- //nav_agile_w3l -->
-            <li class="second logo admin"><h1><a href="main-page"><i class="fa fa-graduation-cap" aria-hidden="true"></i>USEDOC </a></h1></li>
+            <li class="second logo admin"><h1><a href="main-page.html"><i class="fa fa-graduation-cap" aria-hidden="true"></i>USEDOC </a></h1></li>
+
+            
+            <li class="second full-screen">
+                <section class="full-top">
+                    <button id="toggle"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>	
+                </section>
+            </li>
 
         </ul>
         <!-- //nav -->
@@ -35,109 +42,19 @@
     <!-- //w3_agileits_top_nav-->
 
     <!-- /inner_content-->
-    <div class="inner_content" style="background-image: url('images/a1.jpg');">
+    <div class="inner_content" style="background-image: url('images/a1.jpg'); height: 100vh">
         <!-- /inner_content_w3_agile_info-->
         <div class="inner_content_w3_agile_info">
-            <div class="registration admin_agile" >
-               <div class="signin-form profile admin" style="width: 80vw">
-                    <h2>Registrar cuenta</h2>
+            <div class="registration admin_agile">
+               <div class="signin-form profile admin">
+                    <h2>Registrarse Como:</h2>
                     <div class="login-form">
-                        <form action="registro" method="post">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <strong>Datos de cuenta</strong>
-                                    <hr>
-                                    <input type="text" name="email" placeholder="Correo Electronico" required="">
-                                    <input type="password" name="pass" placeholder="Contraseña" required="">
-                                    <input type="password" name="pass1" placeholder="Repetir Contraseña" required="">
-                                    <hr>
-                                    <strong>Datos personales</strong>
-                                    <hr>
-                                    <input type="text" name="email" placeholder="Nombre" required="">
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <input type="text" name="appat" placeholder="Apellido paterno">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <input type="text" name="appat" placeholder="Apellido materno">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                       <label for="sex">Genero</label>
-                                        <select name="sex" id="" class="form-control" style="height:auto;">
-                                            <option value="1">Hombre</option>
-                                            <option value="2">Mujer</option>
-                                            <option value="3">Prefiero no decirlo</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                   <strong>Datos de contacto</strong>
-                                   <hr>
-                                   <div class="form-group">
-                                       <input type="text" name="calle" placeholder="Calle" required>
-                                   </div>
-                                   <div class="form-group">
-                                       <div class="row">
-                                           <div class="col-md-6">
-                                               <input type="text" name="nume" placeholder="Numero exterior" required>
-                                           </div>
-                                           <div class="col-md-6">
-                                               <input type="text" name="numi" placeholder="Numero interior" required>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   <div class="form-group">
-                                       <div class="row">
-                                           <div class="col-md-6">
-                                               <input type="text" name="col" placeholder="Colonia" required>
-                                           </div>
-                                           <div class="col-md-6">
-                                               <input type="text" name="cod" placeholder="Codigo postal" required>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   <div class="form-group">
-                                       <div class="row">
-                                           <div class="col-md-6">
-                                               <input type="text" name="mun" placeholder="Delegacion o municipio" required>
-                                           </div>
-                                           <div class="col-md-6">
-                                               <select name="est" id="" class="form-control" style="height:auto;">
-                                                   <%for(var i =0;i<result.length;i++){%>
-                                                       <option value="<%=result[i].id_sta%>"><%=result[i].name_sta%></option>
-                                                   <%}%>
-                                               </select>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   <div class="form-group">
-                                       <input type="text" name="tel" required placeholder="Telefono">
-                                   </div>
-                                   <div class="form-group">
-                                       <select name="tip" id="tipo" class="form-control" style="height:auto;">
-                                           <option value="1">Medico</option>
-                                           <option value="2">Paciente</option>
-                                       </select>
-                                   </div>
-                                   <div class="form-group">
-                                       <input type="text" name="ced" id="cedula" required placeholder="Cedula profesional">
-                                   </div>
-                                    <div class="tp">
-                                        <input type="submit" value="ENTRAR">
-                                    </div>
-                                </div>
-                            </div>
-
-                            
-
-                        </form>
+                        <input type="submit" value="Doctor" onclick="location.href='regMed.ejs'">
+                        <input type="submit" value="Paciente" onclick="location.href='regPac.ejs'">
                     </div>
                     
-                   <h6><a class="btn btn-default" href="index">Volver al inicio</a></h6>
-                     <h6><a href="index" class="btn btn-default">Registrarse</a></h6>
+                     <h6><a href="index">Volver al inicio</a><h6>
+                         <h6><a href="login">Iniciar Sesion</a><h6>
                 </div>
             </div>
         <!-- //inner_content_w3_agile_info-->
@@ -157,13 +74,19 @@
     <!-- //js -->
     <script src="js/screenfull.js"></script>
     <script>
-        $('#tipo').change(function(e){
-            if($(this).val()==1){
-                document.getElementById('cedula').style.display = 'block';
-            }else{
-                document.getElementById('cedula').style.display = 'none';
-            }
-        });
+    $(function () {
+        $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+
+        if (!screenfull.enabled) {
+            return false;
+        }
+
+
+
+        $('#toggle').click(function () {
+            screenfull.toggle($('#container')[0]);
+        });	
+    });
     </script>
     <script src="js/scripts.js"></script>
 
