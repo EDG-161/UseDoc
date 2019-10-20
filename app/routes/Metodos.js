@@ -4,35 +4,29 @@ const connection = dbConnection();
 
 function login(req,res){
     try{
-        var email =  req.body;
-        var pass = req.body;
-        var pass1= req.body;
-        var freg = new Date();
-        
-        var name = req.body;
-        var appat = req.body;
-        var apmat = req.body;
-        var sex = req.body;
-        var calle = req.body;
-        var nume = req.body;
-        var numi = req.body;
-        var col = req.body;
-        var cod = req.body;
-        var mun = req.body;
-        var est = req.body;
-        var tel = req.body;
-        var tip = req.body;
-        var ced;
-        if(tip == 1){
-            ced = req.body;
-        }
-        if(valida.validarNombre(nombre,appat,apmat)){
-            console.log(email+"\n" +pass+"\n" +pass1+"\n" +freg+"\n" +nombre+"\n" +appat+"\n" +apmat+"\n" +genero+"\n" +calle+"\n" +nume+"\n" +numi+"\n" +col+"\n" +cod+"\n" +del+"\n" +est+"\n" +tel+"\n" +tip);
+        const {email } =  req.body;
+        const { pass } = req.body;
+
+        if (valida.validarLogin(email,pass)) {
+            console.log("SELECT * FROM musuarios WHERE email_usr = '"+ email + "' && pass_usr = '"+ pass + "'");
+            connection.query("SELECT * FROM musuarios WHERE email_usr = '"+ email + "' && pass_usr = '"+ pass + "'",(err,result)=>{
+                if (!err) {
+                    var user = result[0];
+                    if (typeof user !== 'undefined') {
+                        req.session.user = user;
+                        res.render('Home');
+                    }else{
+                        res.render('login',{mensaje:"Contraseña o usuario incorrecto"})
+                    }
+                }
+            });
+        }else{
+            res.render('login',{mensaje:"Contraseña o usuario incorrecto"})
         }
 
     }catch(error){
         console.log("-------------------------------------"+error);
-        res.render('Registro');
+        res.render('login');
     }
 }
 
@@ -184,6 +178,7 @@ function editar(req,res,id_pac){
 }
 
 exports.agregarUsuario = agregarUsuario;
+exports.login = login;
 exports.obtener =  obtener;
 exports.editar =  editar;
 exports.eliminar = eliminar;

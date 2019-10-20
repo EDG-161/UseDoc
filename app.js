@@ -4,7 +4,12 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
 const app = express();
-
+session = require('express-session');
+app.use(session({
+    secret: '2C44-4D44-WppQ38S',
+    resave: true,
+    saveUninitialized: true
+}));
 // Settings
 app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'ejs');
