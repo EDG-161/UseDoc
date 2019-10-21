@@ -64,7 +64,7 @@ function agregarUsuario(req,res){
         const { tip } = req.body;
         const { ced } = req.body;
             
-        if(valida.validarNombre(name,appat,apmat)&&valida.validarEmail(email)&&valida.validarPassword(pass,pass1)&&valida.validarCodigoP(cod)&&valida.validarTelefono(tel)){
+        if(valida.validarNombre(name,appat,apmat)&&valida.validarEmail(email)&&valida.validarPassword(pass,pass1)&&valida.validarCodigoP(cod)&&valida.validarTelefono(tel)&&valida.validarCedula(ced,tip)){
             connection.query('INSERT INTO musuarios (email_usr, pass_usr, reg_usr) values("'+email+'","'+pass+'","'+freg1+'")',(err,result)=>{
                 if (err){
                     console.log(err);
