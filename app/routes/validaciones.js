@@ -1,7 +1,6 @@
 function validarNombre(nombre,appat,apmat){
 	//Aqui tendran que validar la longitud caracteres que solo sean letras y eso si no lo cumple
-    //retornaran un false 
-    //Iabo no hizo esta parte 
+	//retornaran un false 
     return true;
 }
 
