@@ -16,7 +16,7 @@ function validarNombre(name,appat,apmat){
 }
 
 function validarEmail(email){
-    var emailval = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/;
+    var emailval = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     if(emailval.test(email) || email.length > 100){
         return true;
     }else{
@@ -31,12 +31,6 @@ function validarPassword(pass,pass2){
     if(pass.length > 30){
         return false;
     }else{
-        for(var i = 0; i <pass.length;i++){
-            if(pass.charAt(i) == " "){
-                cont = false;
-                break; 
-            }else{}
-        }
         if(passval.test(pass)){
             if(pass == pass1){
                 cont = true;
@@ -127,17 +121,22 @@ function validarCedula(ced, tip){
 
 function validarLogin(email,pass){
 	//aqui validaran inyecciones sql, longitud de cadenas, ya saben
-    var emailcar = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/;
+    var emailcar = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+;
     var sql = /^(?=.*")(?=.*')/;
     if(email.length >100){
+        console.log("longitud mayor");
         return false;
     }else{
         if(sql.test(email)){
+            console.log("Contiene comillas");
             return false;
         }else{
             if(emailcar.test(email)){
+                console.log("Valido");
                 return true;
             }else{
+                console.log("No es email");
                 return false;
             }
         }
@@ -145,33 +144,27 @@ function validarLogin(email,pass){
     let cont = true;
     var passval = /^(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ]/;
     if(pass.length > 30){
+        console.log("Contraseña larga");
         return false;
     }else{
         if(!sql.test(pass)){
-            for(var i = 0; i <pass.length;i++){
-                if(pass.charAt(i) == " "){
-                    cont = false;
-                    break; 
-                }else{}
-            }
             if(passval.test(pass)){
-                if(pass == pass1){
-                    cont = true;
-                }else{cont = false;}
-            }else{cont = false;}
+                console.log("Valida");
+                cont = true;
+            }else{
+                console.log("Contraseña no valida");
+                cont = false;
+            }
             if(!cont){
                 return false;
             }else{
                 return true;
             }
         }else{
+            console.log("contiene comillas");
             return false;
         }
     }
-
-
-
-	return true;
 }
 
 exports.validarCedula = validarCedula;

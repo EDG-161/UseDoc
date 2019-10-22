@@ -8,9 +8,6 @@
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
  SET NAMES utf8 ;
-
-CREATE Database usedoc_db;
-USE usedoc_db;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -70,6 +67,29 @@ LOCK TABLES `contacto` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `crangos`
+--
+
+DROP TABLE IF EXISTS `crangos`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `crangos` (
+  `id_ran` int(11) NOT NULL AUTO_INCREMENT,
+  `des_ran` varchar(45) NOT NULL,
+  PRIMARY KEY (`id_ran`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `crangos`
+--
+
+LOCK TABLES `crangos` WRITE;
+/*!40000 ALTER TABLE `crangos` DISABLE KEYS */;
+/*!40000 ALTER TABLE `crangos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `csexo`
 --
 
@@ -115,6 +135,30 @@ LOCK TABLES `ctipos` WRITE;
 /*!40000 ALTER TABLE `ctipos` DISABLE KEYS */;
 INSERT INTO `ctipos` VALUES (1,'Finalizada'),(2,'Pendiente'),(3,'Cancelada');
 /*!40000 ALTER TABLE `ctipos` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ctipousuario`
+--
+
+DROP TABLE IF EXISTS `ctipousuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `ctipousuario` (
+  `id_tid` int(11) NOT NULL AUTO_INCREMENT,
+  `des_tid` varchar(45) NOT NULL,
+  PRIMARY KEY (`id_tid`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ctipousuario`
+--
+
+LOCK TABLES `ctipousuario` WRITE;
+/*!40000 ALTER TABLE `ctipousuario` DISABLE KEYS */;
+INSERT INTO `ctipousuario` VALUES (1,'Medico'),(2,'Paciente');
+/*!40000 ALTER TABLE `ctipousuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -222,7 +266,7 @@ CREATE TABLE `mdoctores` (
   `id_usr` int(11) NOT NULL,
   PRIMARY KEY (`id_med`),
   KEY `id_usr` (`id_usr`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -258,6 +302,34 @@ CREATE TABLE `mhistoriales` (
 LOCK TABLES `mhistoriales` WRITE;
 /*!40000 ALTER TABLE `mhistoriales` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mhistoriales` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mpaciente_medico`
+--
+
+DROP TABLE IF EXISTS `mpaciente_medico`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+ SET character_set_client = utf8mb4 ;
+CREATE TABLE `mpaciente_medico` (
+  `id_pm` int(11) NOT NULL AUTO_INCREMENT,
+  `id_med` int(11) NOT NULL,
+  `id_pac` int(11) NOT NULL,
+  `id_ran` int(11) NOT NULL,
+  PRIMARY KEY (`id_pm`),
+  KEY `id_med_idx` (`id_med`),
+  KEY `id_pac_idx` (`id_pac`),
+  KEY `id_ran_idx` (`id_ran`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mpaciente_medico`
+--
+
+LOCK TABLES `mpaciente_medico` WRITE;
+/*!40000 ALTER TABLE `mpaciente_medico` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mpaciente_medico` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -355,6 +427,7 @@ CREATE TABLE `musuarios` (
   `email_usr` varchar(120) NOT NULL,
   `pass_usr` varchar(100) NOT NULL,
   `reg_usr` varchar(200) NOT NULL,
+  `id_tid` int(11) NOT NULL,
   PRIMARY KEY (`id_usr`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -365,7 +438,7 @@ CREATE TABLE `musuarios` (
 
 LOCK TABLES `musuarios` WRITE;
 /*!40000 ALTER TABLE `musuarios` DISABLE KEYS */;
-INSERT INTO `musuarios` VALUES (4,'eduag161@gmail.com','123456789','6/9/2019');
+INSERT INTO `musuarios` VALUES (4,'eduag161@gmail.com','123456789','6/9/2019',2);
 /*!40000 ALTER TABLE `musuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -403,4 +476,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-22  0:36:23
+-- Dump completed on 2019-10-22 11:36:04

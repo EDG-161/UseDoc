@@ -15,12 +15,22 @@ module.exports = app => {
     });
 
     app.get('/Home',(req,res)=>{
-        res.render("Home");
+        if (req.session.user) {
+            let userobj = req.session.user;
+            if (userobj.id_tip==1) {
+                res.render("Home",{user:userobj});    
+            }else{
+                res.render("Home-Paciente",{user:userobj});
+            }
+            
+        }else{
+            res.writeHead(301,{'Location':'login'});
+            res.end();
+        }
     })
     
     app.get('/login',(req,res)=>{
         if (req.session.user) {
-            console.log("con sesion iniciada");
             res.render('Home');
             res.end();
         }else{
@@ -30,18 +40,15 @@ module.exports = app => {
 
     app.post('/login',(req,res)=>{
         if (req.session.user) {
-            console.log("con sesion iniciada");
             res.render('Home');
             res.end();
         }else{
-            console.log("iniciar sesion ");
             modulos.login(req,res);
         }
     });
     
     app.get('/registro',(req,res)=>{
         if (req.session.user) {
-            console.log("con sesion iniciada");
             res.render('Home');
             res.end();
         }else{
@@ -53,7 +60,6 @@ module.exports = app => {
     
     app.post('/registro',(req,res)=>{
         if (req.session.user) {
-            console.log("con sesion iniciada");
             res.render('Home');
             res.end();
         }else{

@@ -14,14 +14,15 @@ function login(req,res){
                     var user = result[0];
                     if (typeof user !== 'undefined') {
                         req.session.user = user;
-                        res.render('Home');
+                        res.writeHead(301,{'Location':'Home'});
+                        res.end();
                     }else{
                         res.render('login',{mensaje:"Contraseña o usuario incorrecto"})
                     }
                 }
             });
         }else{
-            res.render('login',{mensaje:"Contraseña o usuario incorrecto"})
+            res.render('login',{mensaje:"Correo o contraseña no validos"})
         }
 
     }catch(error){
@@ -65,7 +66,7 @@ function agregarUsuario(req,res){
         const { ced } = req.body;
             
         if(valida.validarNombre(name,appat,apmat)&&valida.validarEmail(email)&&valida.validarPassword(pass,pass1)&&valida.validarCodigoP(cod)&&valida.validarTelefono(tel)&&valida.validarCedula(ced,tip)){
-            connection.query('INSERT INTO musuarios (email_usr, pass_usr, reg_usr) values("'+email+'","'+pass+'","'+freg1+'")',(err,result)=>{
+            connection.query('INSERT INTO musuarios (email_usr, pass_usr, reg_usr,id_tid) values("'+email+'","'+pass+'","'+freg1+'",'+tip+')',(err,result)=>{
                 if (err){
                     console.log(err);
                     registrado = false;
@@ -100,22 +101,26 @@ function agregarUsuario(req,res){
                     }
                 });
             
-        }else if(!valida.validarNombre){
+        }else if(!valida.validarNombre(name,appat,apmat)){
             var mensaje =  "El nombre no es valido";
             res.render('Registro',{estados,mensaje});
-        }else if(!valida.validarPassword){
+        }else if(!valida.validarPassword(pass,pass1)){
             var mensaje =  "La contraseña no es valida";
             res.render('Registro',{estados,mensaje});
-        }else if(!valida.validarCodigoP){
+        }else if(!valida.validarCodigoP(cod)){
             var mensaje =  "El codigo postal no es valido";
             res.render('Registro',{estados,mensaje});
-        }else if(!valida.validarTelefono){
+        }else if(!valida.validarTelefono(tel)){
             var mensaje =  "El telefono no es valido";
             res.render('Registro',{estados,mensaje});
-        }else if(!valida.validarEmail){
+        }else if(!valida.validarEmail(email)){
             var mensaje =  "El correo ya esta en uso o no es valido";
             res.render('Registro',{estados,mensaje});
+        }else if(!valida.validarCedula(ced)){
+            var mensaje =  "La cedula no es valida";
+            res.render('Registro',{estados,mensaje});
         }
+
 
     }catch(error){
         console.log("-------------------------------------"+error);
