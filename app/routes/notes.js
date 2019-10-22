@@ -4,14 +4,30 @@ var modulos =  require('./Metodos');
 
 module.exports = app => {
     const connection = dbConnection();
+
     app.get('/', (req, res) => {
-        modulos.obtener(req,res);
+        if (req.session.user) {
+            res.writeHead(301,{'Location':'Home'});
+            res.end();
+        }else{
+        res.render('index');
+        }
     });
     app.get('/index', (req, res) => {
-        modulos.obtener(req,res);
+        if (req.session.user) {
+            res.writeHead(301,{'Location':'Home'});
+            res.end();
+        }else{
+        res.render('index');
+        }
     });
     app.get('/main-page', (req, res) => {
-        modulos.obtener(req,res);
+        if (req.session.user) {
+            res.writeHead(301,{'Location':'Home'});
+            res.end();
+        }else{
+        res.render('index');
+        }
     });
 
     app.get('/Home',(req,res)=>{
@@ -67,5 +83,5 @@ module.exports = app => {
         }
     });
 
-
+    
 }
