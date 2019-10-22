@@ -125,8 +125,51 @@ function validarCedula(ced, tip){
     }
 }
 
-function validarLogin(emal,pass){
-	//aqui validaran inyecciones sql, longitud de cadenas, ya saben 
+function validarLogin(email,pass){
+	//aqui validaran inyecciones sql, longitud de cadenas, ya saben
+    var emailcar = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/;
+    var sql = /^(?=.*")(?=.*')/;
+    if(email.length >100){
+        return false;
+    }else{
+        if(sql.test(email)){
+            return false;
+        }else{
+            if(emailcar.test(email)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    }
+    let cont = true;
+    var passval = /^(?=.*\d)(?=.*[a-záéíóúüñ]).*[A-ZÁÉÍÓÚÜÑ]/;
+    if(pass.length > 30){
+        return false;
+    }else{
+        if(!sql.test(pass)){
+            for(var i = 0; i <pass.length;i++){
+                if(pass.charAt(i) == " "){
+                    cont = false;
+                    break; 
+                }else{}
+            }
+            if(passval.test(pass)){
+                if(pass == pass1){
+                    cont = true;
+                }else{cont = false;}
+            }else{cont = false;}
+            if(!cont){
+                return false;
+            }else{
+                return true;
+            }
+        }else{
+            return false;
+        }
+    }
+
+
 
 	return true;
 }
