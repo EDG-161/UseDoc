@@ -64,8 +64,18 @@ function agregarUsuario(req,res){
         const { tel } = req.body;
         const { tip } = req.body;
         const { ced } = req.body;
-            
+
         if(valida.validarNombre(name,appat,apmat)&&valida.validarEmail(email)&&valida.validarPassword(pass,pass1)&&valida.validarCodigoP(cod)&&valida.validarTelefono(tel)&&valida.validarCedula(ced,tip)){
+            connection.query("SELECT * FROM musuarios WHERE email_usr = '" + email+"'",(er1,res1)=>{
+              if (!er1) {
+                if (res1.length>0) {
+                  connection.query('SELECT * FROM cestado',(err,result)=>{
+                      var mensaje =  "El correo ya esta en uso";
+                      res.render('Registro',{estados:result,mensaje});
+                  });
+                }
+              }
+            });
             connection.query('INSERT INTO musuarios (email_usr, pass_usr, reg_usr,id_tid) values("'+email+'","'+pass+'","'+freg1+'",'+tip+')',(err,result)=>{
                 if (err){
                     console.log(err);
@@ -85,6 +95,7 @@ function agregarUsuario(req,res){
                                 });
                             }else{
                                 res.render('login',{mensaje:"Ahora inicia sesion"});
+                                res.end();
                             }
                         });
                     }else if(tip ==2){
@@ -100,25 +111,42 @@ function agregarUsuario(req,res){
                         });
                     }
                 });
-            
+
         }else if(!valida.validarNombre(name,appat,apmat)){
-            var mensaje =  "El nombre no es valido";
-            res.render('Registro',{estados,mensaje});
+            connection.query('SELECT * FROM cestado',(err,result)=>{
+                var mensaje =  "El nombre no es valido";
+                res.render('Registro',{estados:result,mensaje});
+            });
         }else if(!valida.validarPassword(pass,pass1)){
-            var mensaje =  "La contraseña no es valida";
-            res.render('Registro',{estados,mensaje});
+            connection.query('SELECT * FROM cestado',(err,result)=>{
+                var mensaje =  "La contraseña no es valida";
+                res.render('Registro',{estados:result,mensaje});
+            });
         }else if(!valida.validarCodigoP(cod)){
-            var mensaje =  "El codigo postal no es valido";
-            res.render('Registro',{estados,mensaje});
+            connection.query('SELECT * FROM cestado',(err,result)=>{
+                var mensaje =  "El codigo postal no es valido";
+                res.render('Registro',{estados:result,mensaje});
+            });
         }else if(!valida.validarTelefono(tel)){
-            var mensaje =  "El telefono no es valido";
-            res.render('Registro',{estados,mensaje});
+            connection.query('SELECT * FROM cestado',(err,result)=>{
+                var mensaje =  "El telefono no es valido";
+                res.render('Registro',{estados:result,mensaje});
+            });
         }else if(!valida.validarEmail(email)){
-            var mensaje =  "El correo ya esta en uso o no es valido";
-            res.render('Registro',{estados,mensaje});
-        }else if(!valida.validarCedula(ced)){
-            var mensaje =  "La cedula no es valida";
-            res.render('Registro',{estados,mensaje});
+            connection.query('SELECT * FROM cestado',(err,result)=>{
+                var mensaje =  "El correo no es valido";
+                res.render('Registro',{estados:result,mensaje});
+            });
+        }else if(!valida.validarCedula(ced,tip)){
+            connection.query('SELECT * FROM cestado',(err,result)=>{
+                var mensaje =  "La cedula no es valida";
+                res.render('Registro',{estados:result,mensaje});
+            });
+        }else {
+          connection.query('SELECT * FROM cestado',(err,result)=>{
+              var mensaje =  "Datos erroneos";
+              res.render('Registro',{estados:result,mensaje});
+          });
         }
 
 
@@ -135,7 +163,7 @@ function obtenerUsuario(req,res,id){
 
 
 function obtener(req, res){
-	
+
 	connection.query('SELECT * FROM Paciente', (err, result) => {
         console.log(result);
         res.render('index', { result });
@@ -149,12 +177,12 @@ function agregar(req,res){
     const { apmat } = req.body;
     const { tel } = req.body;
     const { enf_pac } = req.body;
-     if (nombre.length == 0 || nombre.length < 3 || nombre.length > 28 || appat.length > 28 || apmat.length > 28 || tel.length != 10 || enf_pac.length > 58) { 
+     if (nombre.length == 0 || nombre.length < 3 || nombre.length > 28 || appat.length > 28 || apmat.length > 28 || tel.length != 10 || enf_pac.length > 58) {
         res.redirect('/');
     }else{
         connection.query('INSERT INTO Paciente (nombre, appat, apmat, tel, enf_pac) VALUES ("'+nombre+'", "'+appat+'", "'+apmat+'", "'+tel+'", "'+enf_pac+'")',  (err, result) => {
             res.redirect('/');
-        });  
+        });
     }
 }
 
@@ -173,13 +201,13 @@ function editar(req,res,id_pac){
     const { apmat } = req.body;
     const { tel } = req.body;
     const { enf_pac } = req.body;
-    if (nombre.length == 0 || nombre.length < 3 || nombre.length > 28 || appat.length > 28 || apmat.length > 28 || tel.length != 10 || enf_pac.length > 58) { 
+    if (nombre.length == 0 || nombre.length < 3 || nombre.length > 28 || appat.length > 28 || apmat.length > 28 || tel.length != 10 || enf_pac.length > 58) {
         res.redirect('/');
     }else{
         connection.query('UPDATE Paciente SET nombre = "'+nombre+'" ,  appat = "'+appat+'",  apmat = "'+apmat+'",  tel = "'+tel+'" , enf_pac = "'+enf_pac+'" WHERE id_pac = '+id_pac+'', (err, result) => {
             res.redirect('/');
         });
-    }	
+    }
 }
 
 exports.agregarUsuario = agregarUsuario;

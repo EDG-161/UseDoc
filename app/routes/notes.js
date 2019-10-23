@@ -1,5 +1,5 @@
 const dbConnection = require('../../config/dbconnection');
-
+let pacientes = require('./pacientes');
 var modulos =  require('./Metodos');
 
 module.exports = app => {
@@ -33,18 +33,25 @@ module.exports = app => {
     app.get('/Home',(req,res)=>{
         if (req.session.user) {
             let userobj = req.session.user;
-            if (userobj.id_tip==1) {
-                res.render("Home",{user:userobj});    
+            console.log(userobj);
+            if (userobj.id_tid==1) {
+                res.render("Home",{user:userobj});
             }else{
-                res.render("Home-Paciente",{user:userobj});
+                pacientes.obtenerDoctores(userobj.id_user,function(doctores){
+                  req.session.doctor = doctores;
+                });
+                res.render("Home-Paciente",{
+                  user:userobj,
+                  doctores: req.session.doctor
+                });
             }
-            
+
         }else{
             res.writeHead(301,{'Location':'login'});
             res.end();
         }
     })
-    
+
     app.get('/login',(req,res)=>{
         if (req.session.user) {
             res.render('Home');
@@ -62,7 +69,7 @@ module.exports = app => {
             modulos.login(req,res);
         }
     });
-    
+
     app.get('/registro',(req,res)=>{
         if (req.session.user) {
             res.render('Home');
@@ -73,7 +80,7 @@ module.exports = app => {
         });
     }
     });
-    
+
     app.post('/registro',(req,res)=>{
         if (req.session.user) {
             res.render('Home');
@@ -83,5 +90,5 @@ module.exports = app => {
         }
     });
 
-    
+
 }
