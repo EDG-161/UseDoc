@@ -62,7 +62,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                     <ul class="dropdown-menu drp-mnu">
                                         <li> <a href="#"><i class="fa fa-cog"></i> Configuracion</a> </li>
                                         <li> <a href="#"><i class="fa fa-user"></i> Perfil</a> </li>
-                                        <li> <a href="#"><i class="fa fa-sign-out"></i> Cerrar sesion</a> </li>
+                                        <li> <a href="salir"><i class="fa fa-sign-out"></i> Cerrar sesion</a> </li>
                                     </ul>
                                 </li>
 
@@ -121,8 +121,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                                    <div class="profile_bg_agile ">
                                      <div class="profile-pic wthree">
                                           <h2>Medico</h2>
-                                          <img src="images/admin.png" alt="Image">
-                                          <p>Medico General</p>
+																					<%if(doctores.length>0){
+																						%>
+																						<img src="images/admin.png" alt="Image">
+																						<p>Medico General</p>
+																						<%
+																					}else{
+																						%>
+																						<img src="images/admin.png" alt="Image">
+																							<p>Aún no has registro algún medico</p>
+																						<%
+																					}%>
+
                                       </div>
                                       <div class="profile-ser">
                                           <div class="follow-grids-agileits-w3layouts">

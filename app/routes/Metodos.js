@@ -1,6 +1,7 @@
 const dbConnection = require('../../config/dbconnection');
 const valida = require('./validaciones');
 const connection = dbConnection();
+const aes = require('./aes');
 
 function login(req,res){
     try{
@@ -8,8 +9,7 @@ function login(req,res){
         const { pass } = req.body;
 
         if (valida.validarLogin(email,pass)) {
-            console.log("SELECT * FROM musuarios WHERE email_usr = '"+ email + "' && pass_usr = '"+ pass + "'");
-            connection.query("SELECT * FROM musuarios WHERE email_usr = '"+ email + "' && pass_usr = '"+ pass + "'",(err,result)=>{
+            connection.query("SELECT * FROM musuarios WHERE email_usr = '"+ aes.cifrar(email) + "' && pass_usr = '"+ aes.cifrar(pass) + "'",(err,result)=>{
                 if (!err) {
                     var user = result[0];
                     if (typeof user !== 'undefined') {
@@ -34,9 +34,13 @@ function login(req,res){
 function vadUsuario(email,pass,callback){
     const connection = dbConnection();
     var re = 0;
-    connection.query("SELECT * FROM musuarios WHERE email_usr = '"+email+"' && pass_usr = '" + pass+"'", (err, result) => {
+    console.log("SELECT * FROM musuarios WHERE email_usr = '"+aes.cifrar(email)+"' && pass_usr = '" + aes.cifrar(pass)+"'");
+    connection.query("SELECT * FROM musuarios WHERE email_usr = '"+aes.cifrar(email)+"' && pass_usr = '" + aes.cifrar(pass)+"'", (err, result) => {
         if (!err){
+          console.log("cuif     "+result);
             callback(null,result[0].id_usr);
+        }else {
+
         }
     });
     return re;
@@ -66,51 +70,53 @@ function agregarUsuario(req,res){
         const { ced } = req.body;
 
         if(valida.validarNombre(name,appat,apmat)&&valida.validarEmail(email)&&valida.validarPassword(pass,pass1)&&valida.validarCodigoP(cod)&&valida.validarTelefono(tel)&&valida.validarCedula(ced,tip)){
-            connection.query("SELECT * FROM musuarios WHERE email_usr = '" + email+"'",(er1,res1)=>{
+            connection.query("SELECT * FROM musuarios WHERE email_usr = '" + aes.cifrar(email)+"'",(er1,res1)=>{
               if (!er1) {
                 if (res1.length>0) {
                   connection.query('SELECT * FROM cestado',(err,result)=>{
                       var mensaje =  "El correo ya esta en uso";
                       res.render('Registro',{estados:result,mensaje});
                   });
+                }else{
+                  connection.query('INSERT INTO musuarios (email_usr, pass_usr, reg_usr,id_tid) values("'+aes.cifrar(email)+'","'+aes.cifrar(pass)+'","'+aes.cifrar(freg1)+'",'+tip+')',(err,result)=>{
+                      if (err){
+                          console.log(err);
+                          registrado = false;
+                      }else{
+                          registrado = true;
+                      }
+                  });
+                  let id = 0;
+                      vadUsuario(email,pass,function(err,data){
+                         id = data;
+                          if (tip == 1){
+                              connection.query('INSERT INTO mdoctores (name_med, appat_med, apmat_med, ced_med, id_usr) values("'+aes.cifrar(name)+'","'+aes.cifrar(appat)+'","'+aes.cifrar(apmat)+'","'+aes.cifrar(ced)+'",'+id+')',(err,result)=>{
+                                  if (err){
+                                      connection.query('SELECT * FROM cestado',(err,result1)=>{
+                                         res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
+                                      });
+                                  }else{
+                                      res.render('login',{mensaje:"Ahora inicia sesion"});
+                                      res.end();
+                                  }
+                              });
+                          }else if(tip ==2){
+                              console.log("as.----------------------"+ id);
+                              connection.query('INSERT INTO mpacientes (nom_pac, appat_pac, apmat_pac, id_usr) values("'+aes.cifrar(name)+'","'+aes.cifrar(appat)+'","'+aes.cifrar(apmat)+'",'+id+')',(err,result)=>{
+                                  if (err){
+                                      connection.query('SELECT * FROM cestado',(err,result1)=>{
+                                         res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
+                                      });
+                                  }else{
+                                      res.render('login',{mensaje:"Ahora inicia sesion"});
+                                  }
+                              });
+                          }
+                      });
                 }
               }
             });
-            connection.query('INSERT INTO musuarios (email_usr, pass_usr, reg_usr,id_tid) values("'+email+'","'+pass+'","'+freg1+'",'+tip+')',(err,result)=>{
-                if (err){
-                    console.log(err);
-                    registrado = false;
-                }else{
-                    registrado = true;
-                }
-            });
-            let id = 0;
-                vadUsuario(email,pass,function(err,data){
-                   id = data;
-                    if (tip == 1){
-                        connection.query('INSERT INTO mdoctores (name_med, appat_med, apmat_med, ced_med, id_usr) values("'+name+'","'+appat+'","'+apmat+'","'+ced+'",'+id+')',(err,result)=>{
-                            if (err){
-                                connection.query('SELECT * FROM cestado',(err,result1)=>{
-                                   res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
-                                });
-                            }else{
-                                res.render('login',{mensaje:"Ahora inicia sesion"});
-                                res.end();
-                            }
-                        });
-                    }else if(tip ==2){
-                        console.log("as.----------------------"+ id);
-                        connection.query('INSERT INTO mpacientes (nom_pac, appat_pac, apmat_pac, id_usr) values("'+name+'","'+appat+'","'+apmat+'",'+id+')',(err,result)=>{
-                            if (err){
-                                connection.query('SELECT * FROM cestado',(err,result1)=>{
-                                   res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
-                                });
-                            }else{
-                                res.render('login',{mensaje:"Ahora inicia sesion"});
-                            }
-                        });
-                    }
-                });
+
 
         }else if(!valida.validarNombre(name,appat,apmat)){
             connection.query('SELECT * FROM cestado',(err,result)=>{
