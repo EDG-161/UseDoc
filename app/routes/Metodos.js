@@ -162,11 +162,6 @@ function agregarUsuario(req,res){
     }
 }
 
-function obtenerUsuario(req,res,id){
-
-}
-
-
 
 function obtener(req, res){
 

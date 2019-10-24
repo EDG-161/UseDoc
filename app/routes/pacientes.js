@@ -15,7 +15,7 @@ function obtenerDoctores(id,callback){
 			
 			callback(doctores);
 		}else{
-			console.log("-asdasda:    " +err);
+			console.log("error en obtener doctores:  " +err);
 		}
 	});
 }

@@ -33,7 +33,6 @@ module.exports = app => {
     app.get('/Home',(req,res)=>{
         if (req.session.user!= null) {
             let userobj = req.session.user;
-            console.log(userobj);
             if (userobj.id_tid==1) {
                 res.render("Home",{user:userobj});
             }else{
@@ -52,12 +51,36 @@ module.exports = app => {
         }
     })
 
+    app.get('/agregarMedico',(req,res)=>{
+        try{
+            if (req.session.user!= null) {
+                userobj = req.session.user;
+                if (userobj.id_tid==1) {
+                    res.render("agregarPaciente",{
+                        user:userobj
+                    });
+                }else{
+                    res.render("agregarMedico",{
+                    user:userobj
+                    });
+                }
+    
+            }else{
+                res.writeHead(301,{'Location':'login'});
+                res.end();
+            }
+        }catch(error){
+            console.log("error agregar   "+ error);
+            res.redirect("Home");
+        }
+    });
+
     app.get('/login',(req,res)=>{
         if (req.session.user!= null) {
-            res.render('Home');
+            res.redirect('Home');
             res.end();
         }else{
-        res.render('login');
+            res.render('login');
         }
     });
 
@@ -91,10 +114,11 @@ module.exports = app => {
     });
 
     app.get('/salir',(req,res)=>{
+        console.log("Salir");
+        
+      req.session.destroy();
 
-      req.session.user = null;
-
-      res.writeHead(301,{'Location':'login'});
+      res.writeHead(301,{'Location':'index'});
       res.end();
     });
 

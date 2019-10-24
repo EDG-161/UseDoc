@@ -27,9 +27,9 @@ app.use(function(req, res, next) {
 });
 
 // 500 - Any server error
-//app.use(function(err, req, res, next) {
-//  return res.status(500).render('404');
-//});
+app.use(function(err, req, res, next) {
+  return res.status(500).render('404');
+});
 // Start server
 app.listen(app.get('port'), () => {
     console.log('Server on port', app.get('port'));
