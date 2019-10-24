@@ -356,7 +356,6 @@ CREATE TABLE `mpacientes` (
 
 LOCK TABLES `mpacientes` WRITE;
 /*!40000 ALTER TABLE `mpacientes` DISABLE KEYS */;
-INSERT INTO `mpacientes` VALUES (8,'Eduardo','Albino','Garcia',4);
 /*!40000 ALTER TABLE `mpacientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -438,7 +437,6 @@ CREATE TABLE `musuarios` (
 
 LOCK TABLES `musuarios` WRITE;
 /*!40000 ALTER TABLE `musuarios` DISABLE KEYS */;
-INSERT INTO `musuarios` VALUES (4,'eduag161@gmail.com','123456789','6/9/2019',2);
 /*!40000 ALTER TABLE `musuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
