@@ -120,5 +120,6 @@ module.exports = app => {
 
       res.writeHead(301,{'Location':'index'});
     });
-
+    
+   
 }
