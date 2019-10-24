@@ -60,9 +60,17 @@ module.exports = app => {
                         user:userobj
                     });
                 }else{
-                    res.render("agregarMedico",{
-                    user:userobj
-                    });
+                    if(typeof req.session.doctor[0] === "undefined"){
+                        res.render("agregarMedico",{
+                        user:userobj,
+                        principal:1
+                        });
+                    }else{
+                        res.render("agregarMedico",{
+                        user:userobj,
+                        principal:2
+                        });
+                    }
                 }
 
             }else{
@@ -71,6 +79,26 @@ module.exports = app => {
             }
         }catch(error){
             console.log("error agregar   "+ error);
+            res.redirect("Home");
+        }
+    });
+
+    app.post('/agregarMedico',(req,res)=>{
+        try{
+            if (req.session.user!= null) {
+                userobj = req.session.user;
+                if (userobj.id_tid==2) {
+                    modulos.setMedico(req,res);
+                }else{
+                    modulos.setPaciente(req,res);
+                }
+
+            }else{
+                res.writeHead(301,{'Location':'login'});
+                res.end();
+            }
+        }catch(error){
+            console.log("error agregar post   "+ error);
             res.redirect("Home");
         }
     });
@@ -99,6 +127,10 @@ module.exports = app => {
             res.end();
         }else{
         connection.query('SELECT * FROM cestado',(err,result)=>{
+            if(err){
+                console.log(err);
+                
+            }
             res.render('registro',{estados:result});
         });
     }
@@ -119,6 +151,7 @@ module.exports = app => {
       req.session.destroy();
 
       res.writeHead(301,{'Location':'index'});
+      res.end();
     });
 
 }

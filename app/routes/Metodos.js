@@ -2,6 +2,7 @@ const dbConnection = require('../../config/dbconnection');
 const valida = require('./validaciones');
 const connection = dbConnection();
 const aes = require('./aes');
+let pacientes = require('./pacientes');
 
 function login(req,res){
     try{
@@ -185,57 +186,67 @@ function agregarUsuario(req,res){
     }
 }
 
-
-function obtener(req, res){
-
-	connection.query('SELECT * FROM Paciente', (err, result) => {
-        console.log(result);
-        res.render('index', { result });
-    });
-}
-
-function agregar(req,res){
-	const connection = dbConnection();
-	const { nombre } = req.body;
-    const { appat } = req.body;
-    const { apmat } = req.body;
-    const { tel } = req.body;
-    const { enf_pac } = req.body;
-     if (nombre.length == 0 || nombre.length < 3 || nombre.length > 28 || appat.length > 28 || apmat.length > 28 || tel.length != 10 || enf_pac.length > 58) {
-        res.redirect('/');
-    }else{
-        connection.query('INSERT INTO Paciente (nombre, appat, apmat, tel, enf_pac) VALUES ("'+nombre+'", "'+appat+'", "'+apmat+'", "'+tel+'", "'+enf_pac+'")',  (err, result) => {
-            res.redirect('/');
-        });
+function setMedico(req,res){//Este metodo asina medicos a pacientes
+    try{
+        const { tip } = req.body;
+        const { cod } = req.body;
+        var id = req.session.user.id_usr;
+        var numeval = /^([0-9])+$/;
+        var idmed = (cod/2)-95158;
+        var tipot;
+        if(tip ==1){
+            tipot = "Medico principal agregado";
+        }else{
+            tipot = "Medico auxiliar agregado";
+        }
+        if(numeval.test(tip) && numeval.test(cod)){
+            connection.query('SELECT * FROM mdoctores where id_usr = ' + idmed,(ers,ress)=>{
+                if(ers){
+                    console.log(ers);
+                    
+                }else{
+                    if( typeof ress[0] !== "undefined"){
+                        connection.query('INSERT INTO mpaciente_medico (id_med, id_pac, id_ran) values ('+idmed+','+id+','+tip+')',(err,result)=>{
+                            if(err){
+                                console.log("Error insercion setMedico      " + err);
+                            }else{
+                                pacientes.obtenerDoctores(userobj.id_usr,function(doctores){
+                                    req.session.doctor = doctores;
+                                    res.render("Home-Paciente",{
+                                      user:userobj,
+                                      doctores: req.session.doctor,
+                                      mensaje: tipot
+                                    }); 
+                                });
+                            }
+                        });
+                    }else{
+                        pacientes.obtenerDoctores(userobj.id_usr,function(doctores){
+                            req.session.doctor = doctores;
+                            res.render("Home-Paciente",{
+                              user:userobj,
+                              doctores: req.session.doctor,
+                              mensaje: "El codigo no existe"
+                            }); 
+                        });
+                    } 
+                }
+            })
+        }else{
+            res.redirect('Home');
+        }
+    }catch(Errors){
+        console.log("error ser Medico        " + Errors );
+        
+        res.redirect('Home');
     }
 }
 
-function eliminar(req,res){
-	const connection = dbConnection();
-	const { id_pac } = req.body;
-    connection.query('DELETE FROM Paciente WHERE ?', { id_pac: id_pac }, (err, result) => {
-        res.redirect('/');
-    });
-}
+function setPaciente(req,res){//Este metodo asigna pacientes a medicos
 
-function editar(req,res,id_pac){
-	const connection = dbConnection();
-    const { nombre } = req.body;
-    const { appat } = req.body;
-    const { apmat } = req.body;
-    const { tel } = req.body;
-    const { enf_pac } = req.body;
-    if (nombre.length == 0 || nombre.length < 3 || nombre.length > 28 || appat.length > 28 || apmat.length > 28 || tel.length != 10 || enf_pac.length > 58) {
-        res.redirect('/');
-    }else{
-        connection.query('UPDATE Paciente SET nombre = "'+nombre+'" ,  appat = "'+appat+'",  apmat = "'+apmat+'",  tel = "'+tel+'" , enf_pac = "'+enf_pac+'" WHERE id_pac = '+id_pac+'', (err, result) => {
-            res.redirect('/');
-        });
-    }
 }
 
 exports.agregarUsuario = agregarUsuario;
 exports.login = login;
-exports.obtener =  obtener;
-exports.editar =  editar;
-exports.eliminar = eliminar;
+exports.setMedico = setMedico;
+exports.setPaciente = setPaciente;
