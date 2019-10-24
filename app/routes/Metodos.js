@@ -93,44 +93,47 @@ function agregarUsuario(req,res){
                               connection.query('INSERT INTO mdoctores (name_med, appat_med, apmat_med, ced_med, id_usr) values("'+aes.cifrar(name)+'","'+aes.cifrar(appat)+'","'+aes.cifrar(apmat)+'","'+aes.cifrar(ced)+'",'+id+')',(err,result)=>{
                                   if (err){
                                       connection.query('SELECT * FROM cestado',(err,result1)=>{
+                                        console.log(err);
                                          res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
                                       });
                                   }else{
-                                      res.render('login',{mensaje:"Ahora inicia sesion"});
-                                      res.end();
+                                    connection.query('INSERT INTO mdatos (id_usr, id_sex, tel_dat, numext_dat, numint_dat, calle_dat, del_dat, id_sta, col_dat, codpost_dat) values('+id+', '+sex+', "'+aes.cifrar(tel)+'", "'+aes.cifrar(nume)+'", "'+aes.cifrar(numi)+'", "'+aes.cifrar(calle)+'", "'+aes.cifrar(mun)+'", "'+est+'","'+aes.cifrar(col)+'","'+aes.cifrar(cod)+'")',(err,result)=>{
+                                      if (err){
+                                        console.log(err);
+                                          connection.query('SELECT * FROM cestado',(err,result1)=>{
+                                             res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
+                                          });
+                                      }else{
+                                          res.render('login',{mensaje:"Ahora inicia sesion"});
+                                          res.end();
+                                      }
+                                  });
                                   }
                               });
-                              connection.query('INSERT INTO mdatos (id_usr, id_sex, tel_dat, numext_dat, numint_dat, calle_dat, sta_dat, col_dat, codpost_dat) values('+id+', '+sex+', "'+aes.cifrar(tel)+'", '+numext+', '+numint+', "'+aes.cifrar(calle)+'", "'+aes.cifrar(est)+'","'+aes.cifrar(col)+'","'+aes.cifrar(cod)+'")',(err,result)=>{
-                                if (err){
-                                    connection.query('SELECT * FROM cestado',(err,result1)=>{
-                                       res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
-                                    });
-                                }else{
-                                    res.render('login',{mensaje:"Ahora inicia sesion"});
-                                    res.end();
-                                }
-                            });
+
                           }else if(tip ==2){
                               console.log("as.----------------------"+ id);
                               connection.query('INSERT INTO mpacientes (nom_pac, appat_pac, apmat_pac, id_usr) values("'+aes.cifrar(name)+'","'+aes.cifrar(appat)+'","'+aes.cifrar(apmat)+'",'+id+')',(err,result)=>{
                                   if (err){
+                                    console.log(err);
                                       connection.query('SELECT * FROM cestado',(err,result1)=>{
                                          res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
                                       });
                                   }else{
-                                      res.render('login',{mensaje:"Ahora inicia sesion"});
+                                    connection.query('INSERT INTO mdatos (id_usr, id_sex, tel_dat, numext_dat, numint_dat, calle_dat, del_dat, id_sta, col_dat, codpost_dat) values('+id+', '+sex+', "'+aes.cifrar(tel)+'", "'+aes.cifrar(nume)+'", "'+aes.cifrar(numi)+'", "'+aes.cifrar(calle)+'", "'+aes.cifrar(mun)+'", "'+est+'","'+aes.cifrar(col)+'","'+aes.cifrar(cod)+'")',(err,result)=>{
+                                      if (err){
+                                        console.log(err);
+                                          connection.query('SELECT * FROM cestado',(err,result1)=>{
+                                             res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
+                                          });
+                                      }else{
+                                          res.render('login',{mensaje:"Ahora inicia sesion"});
+                                          res.end();
+                                      }
+                                    });
                                   }
                               });
-                              connection.query('INSERT INTO mdatos (id_usr, id_sex, tel_dat, numext_dat, numint_dat, calle_dat, sta_dat, col_dat, codpost_dat) values('+id+', '+sex+', "'+aes.cifrar(tel)+'", '+numext+', '+numint+', "'+aes.cifrar(calle)+'", "'+aes.cifrar(est)+'","'+aes.cifrar(col)+'","'+aes.cifrar(cod)+'")',(err,result)=>{
-                                if (err){
-                                    connection.query('SELECT * FROM cestado',(err,result1)=>{
-                                       res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
-                                    });
-                                }else{
-                                    res.render('login',{mensaje:"Ahora inicia sesion"});
-                                    res.end();
-                                }
-                            });
+
                           }
                       });
                 }

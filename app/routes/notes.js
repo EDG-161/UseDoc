@@ -64,7 +64,7 @@ module.exports = app => {
                     user:userobj
                     });
                 }
-    
+
             }else{
                 res.writeHead(301,{'Location':'login'});
                 res.end();
@@ -115,11 +115,10 @@ module.exports = app => {
 
     app.get('/salir',(req,res)=>{
         console.log("Salir");
-        
+
       req.session.destroy();
 
       res.writeHead(301,{'Location':'index'});
-      res.end();
     });
 
 }
