@@ -9,11 +9,11 @@ function validarNombre(name,appat,apmat){
         cont = false;
     }else{
         if(!nomval.test(appat) || appat.length > 20){
-          console.log('name');
+          console.log('name app');
             cont = false;
         }else{
             if(!nomval.test(apmat) || apmat.length > 20){
-              console.log('name');
+              console.log('name apm');
                 cont = false;
             }
         }
