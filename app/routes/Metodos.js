@@ -14,12 +14,15 @@ function login(req,res){
                 if (!err) {
                     var user = result[0];
                     if (typeof user !== 'undefined') {
+                        console.log("Entro al login");
+                        
                         req.session.user = user;
-                        res.writeHead(301,{'Location':'Home'});
-                        res.end();
+                        res.redirect('/Home');
                     }else{
                         res.render('login',{mensaje:"Contraseña o usuario incorrecto"})
                     }
+                }else{
+                    console.log("Error login    " + err);
                 }
             });
         }else{

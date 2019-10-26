@@ -1,5 +1,6 @@
 const dbConnection = require('../../config/dbconnection');
 let pacientes = require('./pacientes');
+let doctores = require('./doctores');
 var modulos =  require('./Metodos');
 
 module.exports = app => {
@@ -34,13 +35,25 @@ module.exports = app => {
         if (req.session.user!= null) {
             let userobj = req.session.user;
             if (userobj.id_tid==1) {
-                res.render("Home",{user:userobj});
+                doctores.obtenerPacientes(userobj.id_usr,function(pac){
+                    console.log("Entro");
+                    
+                    req.session.pacientes = pac;
+                    res.render("Home",{
+                        user:userobj,
+                        pacientes:req.session.pacientes
+                    });
+                });
             }else{
                 pacientes.obtenerDoctores(userobj.id_usr,function(doctores){
                   req.session.doctor = doctores;
-                  res.render("Home-Paciente",{
-                    user:userobj,
-                    doctores: req.session.doctor
+                  pacientes.obtenerRangos(userobj.id_usr,function(rangos){
+                    req.session.rangos = rangos;
+                    res.render("Home-Paciente",{
+                        user:userobj,
+                        doctores: req.session.doctor,
+                        rangos: req.session.rangos
+                    });
                   });
                 });
             }
@@ -103,6 +116,12 @@ module.exports = app => {
         }
     });
 
+
+    //----------------------Sesiones------------------------
+    app.get('/contacto',(req,res)=>{
+        res.render("contacto");
+    });
+
     app.get('/login',(req,res)=>{
         if (req.session.user!= null) {
             res.redirect('Home');
@@ -153,6 +172,25 @@ module.exports = app => {
       res.writeHead(301,{'Location':'index'});
       res.end();
     });
+
     
+    //----------------------Rutas medicos------------------------
    
+    app.get('/pacientes',(req,res)=>{
+        if (req.session.user!= null) {
+            let userobj = req.session.user;
+            if (userobj.id_tid==1) {
+                res.render("pacientes",{
+                    user:userobj,
+                    pacientes: req.session.pacientes
+                });   
+            }else{
+                res.redirect("/Home");
+            }
+        }else{
+            res.writeHead(301,{'Location':'login'});
+            res.end();
+        }
+    });
+
 }

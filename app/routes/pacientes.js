@@ -1,27 +1,46 @@
 const dbConnection = require('../../config/dbconnection');
 const valida = require('./validaciones');
 const connection = dbConnection();
+const aes = require('./aes');
+
+function obtenerRangos(id,callback){
+	connection.query('select * from mpaciente_medico where id_pac='+id,(err,res)=>{
+		if(!err){
+			if(res.length>0){
+				callback(res);
+			}
+		}
+	});
+}
 
 function obtenerDoctores(id,callback){
 	try{
 		connection.query('SELECT * FROM mpaciente_medico where id_pac='+id,(err,result)=>{
 			if (!err) {
 				let doctores = [];
-				
+				let cad = "SELECT * FROM mdoctores where ";
 				for (var i = 0; i < result.length; i++) {
-					console.log(result[i]);
-					
-					connection.query('SELECT * FROM mdoctores where id_med = ' + result[i].id_med,(er,res)=>{
-						if(er){
-							console.log("error " + er);
-						}else{
-							doctores.push(res[0]);
-							
-						}
-					});
+					if(i == (result.length-1)){
+						cad += "id_usr = "+ result[i].id_med;
+					}else{
+						cad += "id_usr = "+ result[i].id_med + " && ";
+					}
 				}
-				
-				callback(doctores);
+				console.log(cad);
+				connection.query(cad,(er,res)=>{
+					if(er){
+						console.log("error " + er);
+					}else{
+						for(var c = 0; c < res.length;c++){
+							res[c].name_med = aes.decifrar(res[c].name_med);
+							res[c].appat_med = aes.decifrar(res[c].appat_med);
+							res[c].apmat_med = aes.decifrar(res[c].apmat_med);
+							res[c].ced_med = aes.decifrar(res[c].ced_med);
+						}
+						console.log(res);
+						callback(res);
+					}
+				});
 			}else{
 				console.log("error en obtener doctores:  " +err);
 			}
@@ -32,3 +51,4 @@ function obtenerDoctores(id,callback){
 }
 
 exports.obtenerDoctores = obtenerDoctores;
+exports.obtenerRangos = obtenerRangos;
