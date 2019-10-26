@@ -119,6 +119,7 @@ module.exports = app => {
       req.session.destroy();
 
       res.writeHead(301,{'Location':'index'});
+      res.end();
     });
 
 }
