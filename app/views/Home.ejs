@@ -21,6 +21,13 @@
 
 </head>
 <body>
+        <%
+        if(typeof mensaje !== "undefined"){
+           %>
+        
+           <script>alert("<%=mensaje%>");</script>
+           <%
+        }%>
 <!-- banner -->
 <div class="wthree_agile_admin_info">
     <div class="w3_agileits_top_nav">
@@ -92,6 +99,7 @@
     <div class="inner_content">
         <div class="inner_content_w3_agile_info">
             <h2 style="margin-bottom: 30px;">Inicio </h2>
+            <h4>Codigo de medico:  <%=((user.id_usr+95158)*2)%></h4>
                 <div class="agile-tables">
                     <div class="w3l-table-info agile_info_shadow">
                         <div class="container">

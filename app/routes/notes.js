@@ -1,5 +1,6 @@
 const dbConnection = require('../../config/dbconnection');
 let pacientes = require('./pacientes');
+let doctores = require('./doctores');
 var modulos =  require('./Metodos');
 
 module.exports = app => {
@@ -34,13 +35,25 @@ module.exports = app => {
         if (req.session.user!= null) {
             let userobj = req.session.user;
             if (userobj.id_tid==1) {
-                res.render("Home",{user:userobj});
+                doctores.obtenerPacientes(userobj.id_usr,function(pac){
+                    console.log("Entro");
+                    
+                    req.session.pacientes = pac;
+                    res.render("Home",{
+                        user:userobj,
+                        pacientes:req.session.pacientes
+                    });
+                });
             }else{
                 pacientes.obtenerDoctores(userobj.id_usr,function(doctores){
                   req.session.doctor = doctores;
-                  res.render("Home-Paciente",{
-                    user:userobj,
-                    doctores: req.session.doctor
+                  pacientes.obtenerRangos(userobj.id_usr,function(rangos){
+                    req.session.rangos = rangos;
+                    res.render("Home-Paciente",{
+                        user:userobj,
+                        doctores: req.session.doctor,
+                        rangos: req.session.rangos
+                    });
                   });
                 });
             }
@@ -60,9 +73,17 @@ module.exports = app => {
                         user:userobj
                     });
                 }else{
-                    res.render("agregarMedico",{
-                    user:userobj
-                    });
+                    if(typeof req.session.doctor[0] === "undefined"){
+                        res.render("agregarMedico",{
+                        user:userobj,
+                        principal:1
+                        });
+                    }else{
+                        res.render("agregarMedico",{
+                        user:userobj,
+                        principal:2
+                        });
+                    }
                 }
 
             }else{
@@ -73,6 +94,32 @@ module.exports = app => {
             console.log("error agregar   "+ error);
             res.redirect("Home");
         }
+    });
+
+    app.post('/agregarMedico',(req,res)=>{
+        try{
+            if (req.session.user!= null) {
+                userobj = req.session.user;
+                if (userobj.id_tid==2) {
+                    modulos.setMedico(req,res);
+                }else{
+                    modulos.setPaciente(req,res);
+                }
+
+            }else{
+                res.writeHead(301,{'Location':'login'});
+                res.end();
+            }
+        }catch(error){
+            console.log("error agregar post   "+ error);
+            res.redirect("Home");
+        }
+    });
+
+
+    //----------------------Sesiones------------------------
+    app.get('/contacto',(req,res)=>{
+        res.render("contacto");
     });
 
     app.get('/login',(req,res)=>{
@@ -99,6 +146,10 @@ module.exports = app => {
             res.end();
         }else{
         connection.query('SELECT * FROM cestado',(err,result)=>{
+            if(err){
+                console.log(err);
+                
+            }
             res.render('registro',{estados:result});
         });
     }
@@ -119,6 +170,31 @@ module.exports = app => {
       req.session.destroy();
 
       res.writeHead(301,{'Location':'index'});
+      res.end();
+    });
+
+    
+    //----------------------Rutas medicos------------------------
+   
+    app.get('/pacientes',(req,res)=>{
+        if (req.session.user!= null) {
+            let userobj = req.session.user;
+            if (userobj.id_tid==1) {
+                res.render("pacientes",{
+                    user:userobj,
+                    pacientes: req.session.pacientes
+                });   
+            }else{
+                res.redirect("/Home");
+            }
+        }else{
+            res.writeHead(301,{'Location':'login'});
+            res.end();
+        }
+    });
+
+    app.get('/chat',(req,res)=>{
+        res.render('chat');
     });
 
 }

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Chat</title>
+    <style>
+      * {
+          margin: 0;
+          padding: 0;
+          font-family: sans-serif;
+        }
+
+        .main-container {
+          width: 100%;
+          height: 100vh;
+          max-height: 100vh;
+          overflow: hidden;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background-color: #61BFD4;
+        }
+
+        .user-list {
+          box-sizing: border-box;
+          width: 30%;
+          background-color: white;
+          border: 4px solid rgb(189, 189, 189);
+          border-radius: 10px;
+          height: 90vh;
+          max-height: 90vh;
+          overflow: scroll;
+          padding: 1rem;
+          color: rgb(80, 80, 80);
+        }
+
+        .text-container {
+          width: 65%;
+          box-sizing: border-box;
+          margin-right: 1rem;
+          background-color: white;
+          border: 4px solid rgb(189, 189, 189);
+          border-radius: 10px;
+          height: 90vh;
+          max-height: 90vh;
+          overflow-y: scroll;
+          overflow-x: hidden;
+          color: rgb(80, 80, 80);
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          flex-wrap: wrap;
+        }
+
+        .input-chat {
+          align-self: flex-end;
+          box-sizing: border-box;
+          position: absolute;
+          width: 65%;
+        }
+
+        #input {
+          width: 95%;
+          padding: 1rem;
+          border: none;
+          border: 2px solid #87cca7;
+          color: rgb(0, 0, 0);
+          font-size: 1rem;
+        }
+
+        hr.divider {
+          padding: 0;
+          margin: 1rem 0 1rem;
+          border: none;
+          border-bottom: 2px solid #e0e0e0;
+        }
+
+        ol#lista-users {
+          margin-left: 1rem;
+        }
+
+        .mensajes-container {
+          width: 100%;
+          display: flex;
+          justify-content: flex-start;
+          align-items: flex-start;
+          flex-wrap: wrap;
+          margin-bottom: 60px;
+        }
+
+        .local-message {
+          text-align: right;
+          padding: 1rem;
+          background-color: #7ED9ED;
+          color: white;
+          margin: 1rem;
+          box-sizing: border-box;
+          border-radius: 20px;
+          width: 70%;
+          margin-left: auto;
+          margin-bottom: 0;
+        }
+
+        .remote-message {
+          padding: 1rem;
+          background-color: #5984BA;
+          color: white;
+          margin: 1rem;
+          box-sizing: border-box;
+          border-radius: 20px;
+          width: 70%;
+          margin-bottom: 0;
+        }
+
+    </style>
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- //custom-theme -->
+    <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/component.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/export.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/flipclock.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/circles.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <!-- font-awesome-icons -->
+    <link href="css/font-awesome.css" rel="stylesheet">
+  </head>
+  <body>
+        <div class="w3_agileits_top_nav">
+            <ul id="gn-menu" class="gn-menu-main">
+                        <!-- /nav_agile_w3l -->
+                <li class="gn-trigger">
+                    <a class="gn-icon gn-icon-menu"><i class="fa fa-bars" aria-hidden="true"></i><span>Menu</span></a>
+                    <nav class="gn-menu-wrapper">
+                        <div class="gn-scroller scrollbar1">
+                            <ul class="gn-menu agile_menu_drop">
+                                <li><a href="Home"> <i class="fa fa-home"></i> Inicio</a></li>
+                                <li>
+                                    <a href="pacientes"><i class="fa fa-stethoscope" aria-hidden="true"></i> Pacientes <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                                    <ul class="gn-submenu">
+                                        <li class="mini_list_agile"><a href="Tratameintos"><i class="fa fa-caret-right" aria-hidden="true"></i> Tratamientos</a></li>
+                                        <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Diagnosticos</a></li>
+                                        <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="table"> <i class="fa fa-money" aria-hidden="true"></i> Gastos</a></li>
+                                <li><a href="#"><i class="fa fa-envelope " aria-hidden="true"></i>Mensajes</a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-table" aria-hidden="true"></i> Agenda <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                                    <ul class="gn-submenu">
+                                        <li class="mini_list_agile"><a href="buttons"><i class="fa fa-caret-right" aria-hidden="true"></i> Calendario</a></li>
+                                        <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </li>
+                <!-- //nav_agile_w3l -->
+                <li class="second logo"><h1><a href="index"><i class="fa fa-graduation-cap" aria-hidden="true"></i>USEDOC </a></h1></li>
+                    <li class="second admin-pic">
+                        <ul class="top_dp_agile">
+                                    <li class="dropdown profile_details_drop">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                            <div class="profile_img">
+                                                <span class="prfil-img"><img src="images/admin.png" style="width: 45px;" alt=""> </span>
+                                            </div>
+                                        </a>
+                                        <ul class="dropdown-menu drp-mnu">
+                                            <li> <a href="#"><i class="fa fa-cog"></i> Configuracion</a> </li>
+                                            <li> <a href="#"><i class="fa fa-user"></i> Perfil</a> </li>
+                                            <li> <a href="salir"><i class="fa fa-sign-out"></i> Cerrar sesion</a> </li>
+                                        </ul>
+                                    </li>
+    
+                        </ul>
+                </li>
+    
+    
+                <li class="second w3l_search">
+    
+                        <form action="#" method="post">
+                            <input type="search" name="search" placeholder="Busca pacientes" required="">
+                            <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                        </form>
+    
+                </li>
+    
+            </ul>
+            <!-- //nav -->
+    
+        </div>
+    <div class="main-container" style="padding-top: 90px;">
+      <div class="text-container">
+        <div class="mensajes-container">
+        </div>
+        <div class="input-chat">
+          <input type="text" id="input" placeholder="Mensaje..." onkeypress="enviarMensaje(event)">
+        </div>
+      </div>
+      <div class="user-list">
+        <h3>Lista de usuarios:</h3>
+        <hr class="divider">
+        <ol id="lista-users"></ol>
+      </div>
+    </div>
+    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+
+    <script src="js/amcharts.js"></script>
+    <script src="js/serial.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/light.js"></script>
+    <script src="js/chart1.js"></script>
+        <script src="js/Chart.min.js"></script>
+    <script src="js/modernizr.custom.js"></script>
+    
+    <script src="js/classie.js"></script>
+    <script src="js/gnmenu.js"></script>
+    <script>
+        new gnMenu( document.getElementById( 'gn-menu' ) );
+    </script>
+    <!-- script-for-menu -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script>
+        var ctx = document.getElementById('hipa').getContext('2d');
+        var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['mm/yy', 'mm2/yy', 'mm3/yy', 'mm4/yy', 'mm5/yy', 'mm6yy', 'mm7/yy'],
+                datasets: [{
+                    label: 'Pacientes',
+                    backgroundColor: '#87CCA7',
+                    borderColor: '#87CCA7',
+                    data: [0, 10, 5, 2, 20, 30, 45]
+                }]
+            },
+            options: {}
+        });
+        var ctx = document.getElementById('higa').getContext('2d');
+        var myLineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['mm/yy', 'mm2/yy', 'mm3/yy', 'mm4/yy', 'mm5/yy', 'mm6yy', 'mm7/yy'],
+                datasets: [{
+                    label: 'Ingrsos',
+                    backgroundColor: '#FF5E61',
+                    borderColor: '#FF5E61',
+                    data: [500, 550, 490, 300, 450, 200, 500],
+                    "fill":false,
+                    "lineTension":0.1
+                }]
+            },
+            options: {}
+        });
+    </script>
+    <script src="js/bars.js"></script>
+    <script src="js/scripts.js"></script>
+    
+    <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+    <!--
+    <script src="/js/jq.js" charset="utf-8"></script>
+    <script src="/js/socket.io.js"></script>
+    <script src="/js/logica.js" charset="utf-8"></script>
+    -->
+  </body>
+</html>

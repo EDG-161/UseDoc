@@ -21,6 +21,13 @@
 
 </head>
 <body>
+        <%
+        if(typeof mensaje !== "undefined"){
+           %>
+        
+           <script>alert("<%=mensaje%>");</script>
+           <%
+        }%>
 <!-- banner -->
 <div class="wthree_agile_admin_info">
     <div class="w3_agileits_top_nav">
@@ -116,33 +123,45 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-4">
                                 <%if(doctores.length>0){
+                                    for(var c = 0; c<doctores.length; c++){
+                                        for(var a = 0; a<rangos.length; a++){
+                                            if(doctores[c].id_usr == rangos[a].id_med){
+                                                if(rangos[a].id_ran==1){
+                                                    %>
+                                                    <div class="profile_bg_agile ">
+                                                        <div class="profile-pic wthree">
+                                                             <h2>Medico</h2>
+                                                               <img src="images/admin.png" alt="Image">
+                                                               <p><%=doctores[c].name_med%></p>
+                                                         </div>
+                                                         <div class="profile-ser">
+                                                             <div class="follow-grids-agileits-w3layouts">
+                                                                 <div class="profile-ser-grids">
+                                                                     <h3>Citas en este mes</h3>
+                                                                     <h4>1</h4>
+                                                                 </div>
+                                                                 <div class="profile-ser-grids ">
+                                                                     <h3>Tiempo con el</h3>
+                                                                     <h4>1582</h4>
+                                                                 </div>
+                                                                 <div class="clearfix"> </div>
+                                                             </div>
+                                                             <div class="w3l_social_icons w3l_social_icons1">
+                                                                 <a href="#" class="button btn-success" style="padding: 10px">
+                                                                     <i class="fa fa-phone" aria-hidden="true"></i>
+                                                                     Enviar mensaje
+                                                                 </a>
+                                                             </div>
+                                                         </div>
+                                                       </div>
+                                                    <%
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
                                     %>
-                                   <div class="profile_bg_agile ">
-                                     <div class="profile-pic wthree">
-                                          <h2>Medico</h2>
-                                            <img src="images/admin.png" alt="Image">
-                                            <p>Medico General</p>
-                                      </div>
-                                      <div class="profile-ser">
-                                          <div class="follow-grids-agileits-w3layouts">
-                                              <div class="profile-ser-grids">
-                                                  <h3>Citas en este mes</h3>
-                                                  <h4>1</h4>
-                                              </div>
-                                              <div class="profile-ser-grids ">
-                                                  <h3>Tiempo con el</h3>
-                                                  <h4>1582</h4>
-                                              </div>
-                                              <div class="clearfix"> </div>
-                                          </div>
-                                          <div class="w3l_social_icons w3l_social_icons1">
-                                              <a href="#" class="button btn-success" style="padding: 10px">
-                                                  <i class="fa fa-phone" aria-hidden="true"></i>
-                                                  Enviar mensaje
-                                              </a>
-                                          </div>
-                                      </div>
-                                    </div>
+                                   
                                 <%
                                 }else{
                                     %>
