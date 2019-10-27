@@ -50,5 +50,159 @@ function obtenerDoctores(id,callback){
 	}
 }
 
+function obtenerDatos(id,callback){
+	try{
+		connection.query('SELECT * FROM mpaciente_medico where id_pac='+id,(err,result)=>{
+			if (!err) {
+				let datos = [];
+				let cad = "SELECT * FROM mdatos where ";
+				for (var i = 0; i < result.length; i++) {
+					if(i == (result.length-1)){
+						cad += "id_pac = "+ result[i].id_dat;
+					}else{
+						cad += "id_pac = "+ result[i].id_dat + " && ";
+					}
+				}
+				console.log(cad);
+				connection.query(cad,(er,res)=>{
+					if(er){
+						console.log("error " + er);
+					}else{
+						for(var c = 0; c < res.length;c++){
+							res[c].id_sex = aes.decifrar(res[c].id_sex);
+							res[c].tel_dat = aes.decifrar(res[c].tel_dat);
+							res[c].numext_dat = aes.decifrar(res[c].numext_dat);
+							res[c].numint_dat = aes.decifrar(res[c].numint_dat);
+							res[c].calle_dat = aes.decifrar(res[c].calle_dat);
+							res[c].del_dat = aes.decifrar(res[c].del_dat);
+							res[c].id_sta = aes.decifrar(res[c].id_sta);
+							res[c].col_dat = aes.decifrar(res[c].col_dat);
+							res[c].codpost_dat = aes.decifrar(res[c].codpost_dat);
+						}
+						console.log(res);
+						callback(res);
+					}
+				});
+			}else{
+				console.log("error en obtener datos:  " +err);
+			}
+		});
+	}catch(error){
+		console.log("Error obtener datos");
+	}
+}
+function obtenerContacto(id,callback){
+	try{
+		connection.query('SELECT * FROM mpaciente_medico where id_pac='+id,(err,result)=>{
+			if (!err) {
+				let contacto = [];
+				let cad = "SELECT * FROM contacto where ";
+				for (var i = 0; i < result.length; i++) {
+					if(i == (result.length-1)){
+						cad += "id_pac = "+ result[i].id_pac;
+					}else{
+						cad += "id_pac = "+ result[i].id_pac + " && ";
+					}
+				}
+				console.log(cad);
+				connection.query(cad,(er,res)=>{
+					if(er){
+						console.log("error " + er);
+					}else{
+						for(var c = 0; c < res.length;c++){
+							res[c].rut_con = aes.decifrar(res[c].rut_con);
+						}
+						console.log(res);
+						callback(res);
+					}
+				});
+			}else{
+				console.log("error en obtener contacto:  " +err);
+			}
+		});
+	}catch(error){
+		console.log("Error obtener contacto");
+	}
+}
+
+function obtenerCitas(id,callback){
+	try{
+		connection.query('SELECT * FROM mpaciente_medico where id_pac='+id,(err,result)=>{
+			if (!err) {
+				let citas = [];
+				let cad = "SELECT * FROM mcitas where ";
+				for (var i = 0; i < result.length; i++) {
+					if(i == (result.length-1)){
+						cad += "id_pac = "+ result[i].id_pac;
+					}else{
+						cad += "id_pac = "+ result[i].id_pac + " && ";
+					}
+				}
+				console.log(cad);
+				connection.query(cad,(er,res)=>{
+					if(er){
+						console.log("error " + er);
+					}else{
+						for(var c = 0; c < res.length;c++){
+							res[c].id_med = res[c].id_med;
+							res[c].des_cit = aes.decifrar(res[c].des_cit);
+							res[c].dat_cit = aes.decifrar(res[c].dat_cit);
+
+						}
+						console.log(res);
+						callback(res);
+					}
+				});
+			}else{
+				console.log("error en obtener datos:  " +err);
+			}
+		});
+	}catch(error){
+		console.log("Error obtener datos");
+	}
+}
+
+function obtenerHistoriales(id,callback){
+	try{
+		connection.query('SELECT * FROM mpaciente_medico where id_pac='+id,(err,result)=>{
+			if (!err) {
+				let historiales = [];
+				let cad = "SELECT * FROM mhistoriales where ";
+				for (var i = 0; i < result.length; i++) {
+					if(i == (result.length-1)){
+						cad += "id_pac = "+ result[i].id_pac;
+					}else{
+						cad += "id_pac = "+ result[i].id_pac + " && ";
+					}
+				}
+				console.log(cad);
+				connection.query(cad,(er,res)=>{
+					if(er){
+						console.log("error " + er);
+					}else{
+						for(var c = 0; c < res.length;c++){
+							
+							res[c].rut_his = aes.decifrar(res[c].rut_his);
+							res[c].fec_his = aes.decifrar(res[c].fec_his);
+
+						}
+						console.log(res);
+						callback(res);
+					}
+				});
+			}else{
+				console.log("error en obtener historiales:  " +err);
+			}
+		});
+	}catch(error){
+		console.log("Error obtener historiales");
+	}
+}
+
 exports.obtenerDoctores = obtenerDoctores;
 exports.obtenerRangos = obtenerRangos;
+exports.obtenerDatos = obtenerDatos;
+exports.obtenerContacto = obtenerContacto;
+exports.obtenerHistoriales = obtenerHistoriales;
+exports.obtenerCitas = obtenerCitas;
+
