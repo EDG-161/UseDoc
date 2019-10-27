@@ -177,8 +177,11 @@ module.exports = app => {
     //----------------------Rutas medicos------------------------
    
     app.get('/pacientes',(req,res)=>{
+        console.log("asdasdadasdasdasdas");
+        
         if (req.session.user!= null) {
             let userobj = req.session.user;
+            console.log(userobj.id_tid);
             if (userobj.id_tid==1) {
                 res.render("pacientes",{
                     user:userobj,

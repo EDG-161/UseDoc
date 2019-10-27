@@ -115,81 +115,100 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             </div>
                        </div>
                        <div class="row">
-                           
-                            <div class="col-md-3 socail_grid_agile twitter">
-                                    <ul class="icon_w3_info">
-                                  <li><a href="#" class="wthree_facebook"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-                                  <li>Nuevo paciente</li>
-                                </ul>
-                                 <ul class="icon_w3_social">
-                                   <li><i class="fa fa-comment-o" aria-hidden="true"></i></li>
-                                   <li><i class="fa fa-user" aria-hidden="true"></i></li>
-                                 </ul>
-                                <div class="clearfix"></div>
-                                 <div class="bottom_info_social">
-                                <div class="col-md-4 agile_w3l_social_media_text_img">
-                                   <img src="images/admin.png" style="width: 100%" alt="">
-                                </div>
-                                 <div class="col-md-8 agile_w3l_social_media_text">
-                                   <h4>Jasmin Joe</h4>
-                                   <p>Ultima cita:</p>
-                                   <p>Proxima cita:</p>
-                                   <p><a href="paciente.html" class="btn btn-primary">Ver paciente</a></p>
-                                </div>
-                               
-                                <div class="clearfix"></div>
-                                </div>
-                         </div>
-                         <div class="col-md-1"></div>
-                         <div class="col-md-3 socail_grid_agile sintra">
-                                <ul class="icon_w3_info">
-                              <li><a href="#" class="wthree_facebook"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-                              <li>Fuera de tratamiento</li>
-                            </ul>
-                             <ul class="icon_w3_social">
-                               <li><i class="fa fa-comment-o" aria-hidden="true"></i></li>
-                               <li><i class="fa fa-user" aria-hidden="true"></i></li>
-                             </ul>
-                            <div class="clearfix"></div>
-                             <div class="bottom_info_social">
-                            <div class="col-md-4 agile_w3l_social_media_text_img">
-                               <img src="images/admin.png" style="width: 100%" alt="">
-                            </div>
-                             <div class="col-md-8 agile_w3l_social_media_text">
-                               <h4>Jasmin Joe</h4>
-                               <p>Ultima cita:</p>
-                               <p>Proxima cita:</p>
-                               <p><a href="paciente.html" class="btn btn-primary">Ver paciente</a></p>
-                            </div>
-                           
-                            <div class="clearfix"></div>
-                            </div>
-                     </div>
-                     <div class="col-md-1"></div>
-                     <div class="col-md-3 socail_grid_agile tra">
-                            <ul class="icon_w3_info">
-                          <li><a href="#" class="wthree_facebook"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-                          <li>En tratamiento</li>
-                        </ul>
-                         <ul class="icon_w3_social">
-                           <li><i class="fa fa-comment-o" aria-hidden="true"></i></li>
-                           <li><i class="fa fa-user" aria-hidden="true"></i></li>
-                         </ul>
-                        <div class="clearfix"></div>
-                         <div class="bottom_info_social">
-                        <div class="col-md-4 agile_w3l_social_media_text_img">
-                           <img src="images/admin.png" style="width: 100%" alt="">
-                        </div>
-                         <div class="col-md-8 agile_w3l_social_media_text">
-                           <h4>Jasmin Joe</h4>
-                           <p>Ultima cita:</p>
-                           <p>Proxima cita:</p>
-                           <p><a href="paciente.html" class="btn btn-primary">Ver paciente</a></p>
-                        </div>
-                       
-                        <div class="clearfix"></div>
-                        </div>
-                    </div>
+                           <%
+                            if(pacientes.length>0){
+                                for(var i = 0; i<pacientes.length; i++){
+                                    if(pacientes[i].sta_pac==1){
+                                        %>
+                                        <div class="col-md-3 socail_grid_agile twitter">
+                                            <ul class="icon_w3_info">
+                                          <li><a href="#" class="wthree_facebook"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                                          <li>Nuevo paciente</li>
+                                        </ul>
+                                         <ul class="icon_w3_social">
+                                           <li><i class="fa fa-comment-o" aria-hidden="true"></i></li>
+                                           <li><i class="fa fa-user" aria-hidden="true"></i></li>
+                                         </ul>
+                                        <div class="clearfix"></div>
+                                         <div class="bottom_info_social">
+                                        <div class="col-md-4 agile_w3l_social_media_text_img">
+                                           <img src="images/admin.png" style="width: 100%" alt="">
+                                        </div>
+                                         <div class="col-md-8 agile_w3l_social_media_text">
+                                           <h4>Jasmin Joe</h4>
+                                           <p>Ultima cita:</p>
+                                           <p>Proxima cita:</p>
+                                           <p><a href="paciente.html" class="btn btn-primary">Ver paciente</a></p>
+                                        </div>
+                                       
+                                        <div class="clearfix"></div>
+                                        </div>
+                                        </div>
+                                        <div class="col-md-1"></div>
+                                        <%
+                                    }else if(pacientes[i].sta_pac==2){
+                                        %>
+                                        <div class="col-md-3 socail_grid_agile sintra">
+                                            <ul class="icon_w3_info">
+                                          <li><a href="#" class="wthree_facebook"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                                          <li>Fuera de tratamiento</li>
+                                        </ul>
+                                         <ul class="icon_w3_social">
+                                           <li><i class="fa fa-comment-o" aria-hidden="true"></i></li>
+                                           <li><i class="fa fa-user" aria-hidden="true"></i></li>
+                                         </ul>
+                                        <div class="clearfix"></div>
+                                         <div class="bottom_info_social">
+                                        <div class="col-md-4 agile_w3l_social_media_text_img">
+                                           <img src="images/admin.png" style="width: 100%" alt="">
+                                        </div>
+                                         <div class="col-md-8 agile_w3l_social_media_text">
+                                           <h4>Jasmin Joe</h4>
+                                           <p>Ultima cita:</p>
+                                           <p>Proxima cita:</p>
+                                           <p><a href="paciente.html" class="btn btn-primary">Ver paciente</a></p>
+                                        </div>
+                                       
+                                        <div class="clearfix"></div>
+                                        </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                        <%
+                                    }else if(pacientes[i].sta_pac==3){
+                                        %>
+                                        <div class="col-md-3 socail_grid_agile tra">
+                                            <ul class="icon_w3_info">
+                                          <li><a href="#" class="wthree_facebook"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                                          <li>En tratamiento</li>
+                                        </ul>
+                                         <ul class="icon_w3_social">
+                                           <li><i class="fa fa-comment-o" aria-hidden="true"></i></li>
+                                           <li><i class="fa fa-user" aria-hidden="true"></i></li>
+                                         </ul>
+                                        <div class="clearfix"></div>
+                                         <div class="bottom_info_social">
+                                        <div class="col-md-4 agile_w3l_social_media_text_img">
+                                           <img src="images/admin.png" style="width: 100%" alt="">
+                                        </div>
+                                         <div class="col-md-8 agile_w3l_social_media_text">
+                                           <h4>Jasmin Joe</h4>
+                                           <p>Ultima cita:</p>
+                                           <p>Proxima cita:</p>
+                                           <p><a href="paciente.html" class="btn btn-primary">Ver paciente</a></p>
+                                        </div>
+                                       
+                                        <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                        <%
+                                    }
+                                }
+                            }
+                           %>
+                            
+                         
+                         
+                     
                        </div>
                    </div>
                     
