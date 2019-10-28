@@ -36,23 +36,30 @@ module.exports = app => {
             let userobj = req.session.user;
             if (userobj.id_tid==1) {
                 doctores.obtenerPacientes(userobj.id_usr,function(pac){
-                    console.log("Entro");
-                    
                     req.session.pacientes = pac;
-                    res.render("Home",{
-                        user:userobj,
-                        pacientes:req.session.pacientes
+                    doctores.obtenerCitas(userobj.id_usr,function(citas){
+                      req.session.citas = citas;
+                      res.render("Home",{
+                          user:userobj,
+                          pacientes:req.session.pacientes,
+                          citas: req.session.citas
+                      });
                     });
                 });
             }else{
                 pacientes.obtenerDoctores(userobj.id_usr,function(doctores){
+
                   req.session.doctor = doctores;
                   pacientes.obtenerRangos(userobj.id_usr,function(rangos){
                     req.session.rangos = rangos;
-                    res.render("Home-Paciente",{
-                        user:userobj,
-                        doctores: req.session.doctor,
-                        rangos: req.session.rangos
+                    pacientes.obtenerCitas(userobj.id_usr, function(citas){
+                      req.session.citas = citas;
+                      res.render("Home-Paciente",{
+                          user:userobj,
+                          doctores: req.session.doctor,
+                          rangos: req.session.rangos,
+                          citas: req.session.citas
+                      });
                     });
                   });
                 });
@@ -92,7 +99,7 @@ module.exports = app => {
             }
         }catch(error){
             console.log("error agregar   "+ error);
-            res.redirect("Home");
+            res.redirect("/Home");
         }
     });
 
@@ -112,7 +119,7 @@ module.exports = app => {
             }
         }catch(error){
             console.log("error agregar post   "+ error);
-            res.redirect("Home");
+            res.redirect("/Home");
         }
     });
 
@@ -124,7 +131,7 @@ module.exports = app => {
 
     app.get('/login',(req,res)=>{
         if (req.session.user!= null) {
-            res.redirect('Home');
+            res.redirect('/Home');
             res.end();
         }else{
             res.render('login');
@@ -133,7 +140,7 @@ module.exports = app => {
 
     app.post('/login',(req,res)=>{
         if (req.session.user!= null) {
-            res.render('Home');
+            res.redirect("/Home");
             res.end();
         }else{
             modulos.login(req,res);
@@ -142,13 +149,13 @@ module.exports = app => {
 
     app.get('/registro',(req,res)=>{
         if (req.session.user!= null) {
-            res.render('Home');
+            res.redirect("/Home");
             res.end();
         }else{
         connection.query('SELECT * FROM cestado',(err,result)=>{
             if(err){
                 console.log(err);
-                
+
             }
             res.render('registro',{estados:result});
         });
@@ -157,36 +164,32 @@ module.exports = app => {
 
     app.post('/registro',(req,res)=>{
         if (req.session.user!= null) {
-            res.render('Home');
-            res.end();
+          res.redirect("/Home");
+          res.end();
         }else{
             modulos.agregarUsuario(req,res);
         }
     });
 
     app.get('/salir',(req,res)=>{
-        console.log("Salir");
-
       req.session.destroy();
 
       res.writeHead(301,{'Location':'index'});
       res.end();
     });
 
-    
+
     //----------------------Rutas medicos------------------------
-   
+
     app.get('/pacientes',(req,res)=>{
-        console.log("asdasdadasdasdasdas");
-        
         if (req.session.user!= null) {
             let userobj = req.session.user;
-            console.log(userobj.id_tid);
             if (userobj.id_tid==1) {
                 res.render("pacientes",{
                     user:userobj,
-                    pacientes: req.session.pacientes
-                });   
+                    pacientes: req.session.pacientes,
+                    citas: req.session.citas
+                });
             }else{
                 res.redirect("/Home");
             }
@@ -194,6 +197,39 @@ module.exports = app => {
             res.writeHead(301,{'Location':'login'});
             res.end();
         }
+    });
+
+    app.get('/paciente',(req,res)=>{
+      if (req.session.user!= null) {
+        if (req.session.user.id_tid==1) {
+          let pac = req.query.p;
+          let cont = false;
+          for (var i = 0; i < req.session.pacientes.length; i++) {
+            if (req.session.pacientes[i].id_pac==parseInt(pac)){
+              cont = true;
+            }
+          }
+          if (cont) {
+            doctores.obtenerPacienteById(pac,function(p){
+              let paciente = p;
+              paciente.push(req.session.citas);
+              console.log(paciente);
+              res.render("paciente",{
+              paciente : p
+              });
+            });
+          }else{
+              res.redirect("/pacientes");
+              res.end();
+          }
+        }else {
+          res.redirect("/Home");
+          res.end();
+        }
+      }else{
+        res.redirect("/login");
+        res.end();
+      }
     });
 
     app.get('/chat',(req,res)=>{

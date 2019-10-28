@@ -17,7 +17,7 @@
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <!-- font-awesome-icons -->
-<link href="css/font-awesome.css" rel="stylesheet"> 
+<link href="css/font-awesome.css" rel="stylesheet">
 
 </head>
 <body>
@@ -31,23 +31,23 @@
                 <nav class="gn-menu-wrapper">
                     <div class="gn-scroller scrollbar1">
                         <ul class="gn-menu agile_menu_drop">
-                            <li><a href="Home.html"> <i class="fa fa-home"></i> Inicio</a></li>
+                            <li><a href="Home"> <i class="fa fa-home"></i> Inicio</a></li>
                             <li>
-                                <a href="#"><i class="fa fa-stethoscope" aria-hidden="true"></i> Pacientes <i class="fa fa-angle-down" aria-hidden="true"></i></a> 
+                                <a href="#"><i class="fa fa-stethoscope" aria-hidden="true"></i> Pacientes <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                 <ul class="gn-submenu">
-                                    <li class="mini_list_agile"><a href="Tratameintos.html"><i class="fa fa-caret-right" aria-hidden="true"></i> Tratamientos</a></li>
-                                    <li class="mini_list_w3"><a href="Diagnosticos.html"> <i class="fa fa-caret-right" aria-hidden="true"></i> Diagnosticos</a></li>
-                                    <li class="mini_list_w3"><a href="citas.html"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
+                                    <li class="mini_list_agile"><a href="Tratameintos"><i class="fa fa-caret-right" aria-hidden="true"></i> Tratamientos</a></li>
+                                    <li class="mini_list_w3"><a href="Diagnosticos"> <i class="fa fa-caret-right" aria-hidden="true"></i> Diagnosticos</a></li>
+                                    <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
                                 </ul>
                             </li>
-                            <li><a href="Gastos.html"> <i class="fa fa-money" aria-hidden="true"></i> Gastos</a></li>
-                            <li><a href="chat.html"><i class="fa fa-envelope " aria-hidden="true"></i>Mensajes</a>
+                            <li><a href="Gastos"> <i class="fa fa-money" aria-hidden="true"></i> Gastos</a></li>
+                            <li><a href="chat"><i class="fa fa-envelope " aria-hidden="true"></i>Mensajes</a>
                             </li>
                             <li>
-                                <a ><i class="fa fa-table" aria-hidden="true"></i> Agenda <i class="fa fa-angle-down" aria-hidden="true"></i></a> 
+                                <a ><i class="fa fa-table" aria-hidden="true"></i> Agenda <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                 <ul class="gn-submenu">
-                                    <li class="mini_list_agile"><a href="Calendario.html"><i class="fa fa-caret-right" aria-hidden="true"></i> Calendario</a></li>
-                                    <li class="mini_list_w3"><a href="citas.html"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
+                                    <li class="mini_list_agile"><a href="Calendario"><i class="fa fa-caret-right" aria-hidden="true"></i> Calendario</a></li>
+                                    <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
                                 </ul>
                             </li>
                         </ul>
@@ -55,19 +55,19 @@
                 </nav>
             </li>
             <!-- //nav_agile_w3l -->
-            <li class="second logo"><h1><a href="index.html"><i class="fa fa-graduation-cap" aria-hidden="true"></i>USEDOC </a></h1></li>
+            <li class="second logo"><h1><a href="index"><i class="fa fa-graduation-cap" aria-hidden="true"></i>USEDOC </a></h1></li>
                 <li class="second admin-pic">
                    <ul class="top_dp_agile">
                                 <li class="dropdown profile_details_drop">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                        <div class="profile_img">	
-                                            <span class="prfil-img"><img src="images/admin.png" style="width: 45px;" alt=""> </span> 
-                                        </div>	
+                                        <div class="profile_img">
+                                            <span class="prfil-img"><img src="images/admin.png" style="width: 45px;" alt=""> </span>
+                                        </div>
                                     </a>
                                     <ul class="dropdown-menu drp-mnu">
-                                        <li> <a href="#"><i class="fa fa-cog"></i> Configuracion</a> </li> 
-                                        <li> <a href="#"><i class="fa fa-user"></i> Perfil</a> </li> 
-                                        <li> <a href="#"><i class="fa fa-sign-out"></i> Cerrar sesion</a> </li>
+                                        <li> <a href="#"><i class="fa fa-cog"></i> Configuracion</a> </li>
+                                        <li> <a href="#"><i class="fa fa-user"></i> Perfil</a> </li>
+                                        <li> <a href="salir"><i class="fa fa-sign-out"></i> Cerrar sesion</a> </li>
                                     </ul>
                                 </li>
 
@@ -97,10 +97,10 @@
                         <div class="row">
                             <div class="col-md-5">
                               <h3 class="w3_inner_tittle two">Estado actual</h3>
-                              <div class="col-md-12 socail_grid_agile tra">
+                              <div class="col-md-12 socail_grid_agile <%if(paciente[0].sta_pac==2 || paciente[0].sta_pac==1){%>sintra<%}else{%>tra<%}%>">
                                         <ul class="icon_w3_info">
                                     <li><a href="#" class="wthree_facebook"><i class="fa fa-user" aria-hidden="true"></i></a></li>
-                                    <li>En tratamiento</li>
+                                    <li><%if(paciente[0].sta_pac==2 || paciente[0].sta_pac==1){%>Fuera de tratamiento<%}else{%>En tratamiento<%}%></li>
                                     </ul>
                                     <ul class="icon_w3_social">
                                     <li><i class="fa fa-comment-o" aria-hidden="true"></i></li>
@@ -112,16 +112,38 @@
                                     <img src="images/admin.png" style="width: 100%" alt="">
                                     </div>
                                     <div class="col-md-8 agile_w3l_social_media_text">
-                                    <h4>Jasmin Joe</h4>
-                                    <p>Ultima cita:</p>
-                                    <p>Proxima cita:</p>
-                                    <p><a href="paciente.html" class="btn btn-primary">Ver paciente</a></p>
+                                    <h4><%=paciente[0].nom_pac%></h4>
+																		<%
+																		let c = 0;
+																			 if(paciente[2].length>0){
+																				 for(var i =0;i<paciente[2].length;i++){
+																					 if(paciente[2][i].id_tip==2){
+																						 %>
+																							 <p>Proxima cita:<%=paciente[2][i].dat_cit%></p>
+																						 <%
+																						 c++;
+																					 }else if(paciente[2][i].id_tip==1){
+																						 %>
+																							 <p>Cita anterior<%=paciente[2][i].dat_cit%></p>
+																						 <%
+																						 c++;
+																					 }
+																					 if(c==2){
+																						 break;
+																					 }
+																				 }
+																			 }else{
+																				 %>
+																			 <p>Aún no hay citas programadas</p>
+																				 <%
+																			 }
+																		%>
                                     </div>
-                                
+
                                     <div class="clearfix"></div>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div class="col-md-1"></div>
                             <div class="col-md-6">
@@ -129,12 +151,19 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Total de citas</label>
-                                        <input type="text" disabled readonly value="Numero" class="form-control">
+                                        <input type="text" disabled readonly value="<%
+																				let con = 0;
+																				for(var i=0;i<paciente[2].length;i++){
+																					if(paciente[2].id_pac==paciente[0].id_pac){
+																						con++;
+																					}
+																				}%><%=con%>" class="form-control">
                                     </div>
                                     <div class="form-group">
-                                        <a href="HistorialMedico.html" class="btn btn-success">Ver historial medico del paciente</a>
+                                        <a href="HistorialMedico?p=<%paciente[0].id_pac%>" class="btn btn-success">Ver historial medico del paciente</a>
                                     </div>
                                     <div class="table-responsive-lg">
+																			<label for="">Citas</label>
                                             <table class="table table-hover table-striped" >
                                               <thead class="thead-dark" style="background-color: #FF5E61">
                                                 <tr>
@@ -146,41 +175,39 @@
                                                 </tr>
                                               </thead>
                                               <tbody>
-                                                <tr>
-                                                  <th scope="row">dd/mm/yyyy</th>
-                                                  <td><form action="" method="post"><input type="submit" class="btn btn-default" value="Ver"></form></td>
-                                                  <td>16:00</td>
-                                                  <td><span class="label label-success">Ocurrida</span></td>
-                                                  <td>
-                                                     <a href="cita.html" style="font-size: 20px"><i class="fa fa-trash-o" title="Eliminar cita"></i></a>
-                                                      &nbsp;&nbsp;
-                                                      <a href="cita.html" style="font-size: 20px" title="Editar cita"><i class="fa  fa-file-text"></i></a>&nbsp;&nbsp;
-                                                      <a href="cita.html" style="font-size: 20px" title="Registrar algun costo"><i class="fa fa-money"></i></a>
-                                                  </td>
-                                                </tr>
-                                                <tr>
-                                                  <th scope="row">dd/mm/yyyy</th>
-                                                  <td>
-                                                      <form action="" method="post"><input type="submit" class="btn btn-default" value="Ver"></form>
-                                                  </td>
-                                                  <td>16:00</td>
-                                                  <td><span class="label label-warning">Cancelada</span></td>
-                                                  <td><a href="cita.html" style="font-size: 20px"><i class="fa fa-trash-o" title="Eliminar cita"></i></a>
-                                                      &nbsp;&nbsp;<a href="cita.html" style="font-size: 20px" title="Editar cita"><i class="fa  fa-file-text"></i></a>&nbsp;&nbsp;
-                                                      <a href="cita.html" style="font-size: 20px" title="Registrar algun costo"><i class="fa fa-money"></i></a>
-                                                  </td>
-                                                </tr>
-                                                <tr>
-                                                  <th scope="row">dd/mm/yyyy</th>
-                                                  <td><form action="" method="post"><input type="submit" class="btn btn-default" value="Ver"></form></td>
-                                                  <td>16:00</td>
-                                                  <td><span class="label label-primary">Pendiente</span></td>
-                                                  <td><a href="cita.html" style="font-size: 20px"><i class="fa fa-trash-o" title="Eliminar cita"></i></a>
-                                                      &nbsp;&nbsp;<a href="cita.html" style="font-size: 20px" title="Editar cita"><i class="fa  fa-file-text"></i></a>&nbsp;&nbsp;
-                                                      <a href="cita.html" style="font-size: 20px" title="Registrar algun costo"><i class="fa fa-money"></i></a>
-                                                  </td>
-                                                </tr>
-    
+																								<%if(paciente[2].length>0){
+																										for(var i = 0; i<paciente[2].length;i++){
+																											if(paciente[2][i].id_pac==pacientes[0].id_usr){
+																												%>
+																												<tr>
+				                                                  <th scope="row"><%=paciente[2][i].dat_cit%></th>
+				                                                  <td><a href="cita?c=<%=paciente[2][i].id_cit%>" class="btn btn-default" >Ver</a></td>
+				                                                  <td>16:00</td>
+				                                                  <td><span class="label <%if(paciente[2][i].id_tip==1){%>label-success<%}else if(paciente[2][i].id_tip==2){%>label-primary<%}else if(paciente[2][i].id_tip==3){%>label-warning<%}%>">
+																														<%if(paciente[2][i].id_tip==1){
+																															%>Ocurrida<%
+																														}else if(paciente[2][i].id_tip==2){
+																															%>Pendiente<%
+																														}else if(paciente[2][i].id_tip==3){
+																															%>Cancelada<%
+																														}%></span></td>
+				                                                  <td>
+				                                                     <a href="cita?c=<%=paciente[2][i].id_cit%>" style="font-size: 20px"><i class="fa fa-trash-o" title="Eliminar cita"></i></a>
+				                                                      &nbsp;&nbsp;
+				                                                      <a href="cita?c=<%=paciente[2][i].id_cit%>" style="font-size: 20px" title="Editar cita"><i class="fa  fa-file-text"></i></a>&nbsp;&nbsp;
+				                                                      <a href="cita?c=<%=paciente[2][i].id_cit%>" style="font-size: 20px" title="Registrar algun costo"><i class="fa fa-money"></i></a>
+				                                                  </td>
+				                                                </tr>
+																												<%
+																											}
+																										}
+																								}else{
+																									%>
+																									<tr>
+																										<th scope="row" colspan="5">Este paciente no ha tenido ninguna cita</th>
+																									</tr>
+
+<%																								}%>
                                               </tbody>
                                             </table>
                                         </div>
@@ -188,9 +215,9 @@
                             </div>
                        </div>
                    </div>
-                    
+
                      <div class="clearfix"></div>
-                
+
                 </div>
                 <div class="agile-tables">
                     <div class="w3l-table-info agile_info_shadow">
@@ -205,7 +232,7 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Nombre</th>
-                                                        <th>Fecha</th>                                   
+                                                        <th>Fecha</th>
 
                                                         <th>Estado</th>
                                                         <th>Avance</th>
@@ -217,35 +244,35 @@
                                                     <tr>
                                                         <td>1</td>
                                                         <td>Tratamiento: Enfermedad coronaria</td>
-                                                        <td>Fecha 1</td>                                 
-            
+                                                        <td>Fecha 1</td>
+
                                                         <td><span class="label label-danger">En progreso</span></td>
                                                         <td><span class="badge badge-info">50%</span></td>
-                                                        <td><a href="Tratamiento.html"><i class="fa fa-plus"></i></a></td>
+                                                        <td><a href="Tratamiento"><i class="fa fa-plus"></i></a></td>
                                                     </tr>
                                                     <tr>
                                                         <td>2</td>
                                                         <td>Tratamiento: Enfermedad coronaria</td>
-                                                        <td>Fecha 2</td>                                 
-            
+                                                        <td>Fecha 2</td>
+
                                                         <td><span class="label label-success">Terminado</span></td>
                                                         <td><span class="badge badge-success">100%</span></td>
-                                                        <td><a href="Tratamiento.html"><i class="fa fa-plus"></i></a></td>
+                                                        <td><a href="Tratamiento"><i class="fa fa-plus"></i></a></td>
                                                     </tr>
                                                     <tr>
                                                         <td>3</td>
                                                         <td>Tratamiento: Enfermedad coronaria</td>
-                                                        <td>Fecha 3</td>                                 
-            
+                                                        <td>Fecha 3</td>
+
                                                         <td><span class="label label-warning">En progreso</span></td>
                                                         <td><span class="badge badge-warning">80%</span></td>
-                                                        <td><a href="Tratamiento.html"><i class="fa fa-plus"></i></a></td>
+                                                        <td><a href="Tratamiento"><i class="fa fa-plus"></i></a></td>
                                                     </tr>
-    
+
                                                 </tbody>
                                             </table>
                                         </div>
-                                    </div>	
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                     <form action="">
@@ -264,9 +291,9 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>				 
+                        </div>
                     </div>
-                
+
                 </div>
         </div>
     </div>
@@ -277,22 +304,22 @@
     <div class="container clearfix">
         <div class="copyright-text">
             <p>&copy; Copyright 2019. Todos los derechos reservados por
-              <a href="team.html">SpicySystems</a>
+              <a href="team">SpicySystems</a>
             </p>
         </div>
         <ul class="footer-bottom-link">
             <li>
-              <a href="index.html">Inicio</a>
+              <a href="index">Inicio</a>
             </li>
             <li>
-              <a href="index.html#About">Sobre nosotros</a>
+              <a href="index#About">Sobre nosotros</a>
             </li>
             <li>
-              <a href="contact.html">Contact</a>
+              <a href="contact">Contact</a>
             </li>
         </ul>
     </div>
-</div>	
+</div>
 <!--copy rights end here-->
 <!-- js -->
 
@@ -300,7 +327,7 @@
 
 <script src="js/amcharts.js"></script>
 <script src="js/serial.js"></script>
-<script src="js/export.js"></script>	
+<script src="js/export.js"></script>
 <script src="js/light.js"></script>
 <script src="js/chart1.js"></script>
     <script src="js/Chart.min.js"></script>

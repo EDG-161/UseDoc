@@ -15,7 +15,7 @@ function login(req,res){
                     var user = result[0];
                     if (typeof user !== 'undefined') {
                         console.log("Entro al login");
-                        
+
                         req.session.user = user;
                         res.redirect('/Home');
                     }else{
@@ -206,7 +206,7 @@ function setMedico(req,res){//Este metodo asina medicos a pacientes
             connection.query('SELECT * FROM mdoctores where id_usr = ' + idmed,(ers,ress)=>{
                 if(ers){
                     console.log(ers);
-                    
+
                 }else{
                     if( typeof ress[0] !== "undefined"){
                         connection.query('INSERT INTO mpaciente_medico (id_med, id_pac, id_ran) values ('+idmed+','+id+','+tip+')',(err,result)=>{
@@ -218,8 +218,10 @@ function setMedico(req,res){//Este metodo asina medicos a pacientes
                                     res.render("Home-Paciente",{
                                       user:userobj,
                                       doctores: req.session.doctor,
+                                      rangos: req.session.rangos,
+                                      citas: req.session.citas,
                                       mensaje: tipot
-                                    }); 
+                                    });
                                 });
                             }
                         });
@@ -229,10 +231,12 @@ function setMedico(req,res){//Este metodo asina medicos a pacientes
                             res.render("Home-Paciente",{
                               user:userobj,
                               doctores: req.session.doctor,
+                              rangos: req.session.rangos,
+                              citas: req.session.citas,
                               mensaje: "El codigo no existe"
-                            }); 
+                            });
                         });
-                    } 
+                    }
                 }
             })
         }else{
@@ -240,7 +244,7 @@ function setMedico(req,res){//Este metodo asina medicos a pacientes
         }
     }catch(Errors){
         console.log("error ser Medico        " + Errors );
-        
+
         res.redirect('Home');
     }
 }

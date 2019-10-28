@@ -8,7 +8,11 @@ function obtenerRangos(id,callback){
 		if(!err){
 			if(res.length>0){
 				callback(res);
+			}else{
+				callback([]);
 			}
+		}else{
+			console.log(err);
 		}
 	});
 }
@@ -26,9 +30,12 @@ function obtenerDoctores(id,callback){
 						cad += "id_usr = "+ result[i].id_med + " && ";
 					}
 				}
-				console.log(cad);
+				if (result.length<1) {
+					cad += "id_usr = 0";
+				}
 				connection.query(cad,(er,res)=>{
 					if(er){
+						callback([]);
 						console.log("error " + er);
 					}else{
 						for(var c = 0; c < res.length;c++){
@@ -37,7 +44,6 @@ function obtenerDoctores(id,callback){
 							res[c].apmat_med = aes.decifrar(res[c].apmat_med);
 							res[c].ced_med = aes.decifrar(res[c].ced_med);
 						}
-						console.log(res);
 						callback(res);
 					}
 				});
@@ -127,34 +133,16 @@ function obtenerContacto(id,callback){
 
 function obtenerCitas(id,callback){
 	try{
-		connection.query('SELECT * FROM mpaciente_medico where id_pac='+id,(err,result)=>{
+		connection.query('SELECT * FROM mcitas where id_pac='+id,(err,result)=>{
 			if (!err) {
-				let citas = [];
-				let cad = "SELECT * FROM mcitas where ";
 				for (var i = 0; i < result.length; i++) {
-					if(i == (result.length-1)){
-						cad += "id_pac = "+ result[i].id_pac;
-					}else{
-						cad += "id_pac = "+ result[i].id_pac + " && ";
-					}
+					result[i].des_cit = aes.decifrar(result[i].des_cit);
+					result[i].dat_cit = aes.decifrar(result[i].dat_cit);
 				}
-				console.log(cad);
-				connection.query(cad,(er,res)=>{
-					if(er){
-						console.log("error " + er);
-					}else{
-						for(var c = 0; c < res.length;c++){
-							res[c].id_med = res[c].id_med;
-							res[c].des_cit = aes.decifrar(res[c].des_cit);
-							res[c].dat_cit = aes.decifrar(res[c].dat_cit);
-
-						}
-						console.log(res);
-						callback(res);
-					}
-				});
+				callback(result);
 			}else{
-				console.log("error en obtener datos:  " +err);
+				callback([]);
+				console.log("error en obtener citas:  " +err);
 			}
 		});
 	}catch(error){
@@ -181,7 +169,7 @@ function obtenerHistoriales(id,callback){
 						console.log("error " + er);
 					}else{
 						for(var c = 0; c < res.length;c++){
-							
+
 							res[c].rut_his = aes.decifrar(res[c].rut_his);
 							res[c].fec_his = aes.decifrar(res[c].fec_his);
 
@@ -205,4 +193,3 @@ exports.obtenerDatos = obtenerDatos;
 exports.obtenerContacto = obtenerContacto;
 exports.obtenerHistoriales = obtenerHistoriales;
 exports.obtenerCitas = obtenerCitas;
-
