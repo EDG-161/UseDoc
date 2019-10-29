@@ -1,13 +1,13 @@
 const socket = io();
 function enviarmsg(){
 	socket.emit("chat-message", {
-		mensaje: document.getElementById("message").value,
-		usuario: document.getElementById("user").value,
+		mensaje: document.getElementById("input").value,
 		id: socket.id
 	});
 }
 socket.on("chat-message", function(data){
-	data.usuario = data.usuario.replace('</', '');
+	data.usuario = "Prueba Chat";
+	//data.usuario = data.usuario.replace('</', '');
 	var sanitized = data.mensaje.replace('</', '');
 	sanitized = sanitized.replace('>', '');
 	sanitized = sanitized.replace('<', '');

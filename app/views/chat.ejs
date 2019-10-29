@@ -38,7 +38,7 @@
           align-self: flex-end;
           box-sizing: border-box;
           position: absolute;
-          width: 65%;
+          width: 85%;
         }
 
         #input {
@@ -78,7 +78,7 @@
           margin: 1rem;
           box-sizing: border-box;
           border-radius: 20px;
-          width: 70%;
+          width: 50%;
           margin-left: auto;
           margin-bottom: 0;
         }
@@ -90,15 +90,15 @@
           margin: 1rem;
           box-sizing: border-box;
           border-radius: 20px;
-          width: 70%;
+          width: 50%;
           margin-bottom: 0;
         }
         .button{
           width: 100%;
           padding: 1rem;
           border: none;
-          border: 2px solid #87cca7;
-          background: #87cca7;
+          border: 2px solid #5984BA;
+          background: #5984BA;
           color: rgb(0, 0, 0);
           font-size: 1rem;
           -webkit-transition: 2000ms ease;
@@ -107,6 +107,9 @@
 
         }
         .button:hover{
+          width: 100%;
+          border: 2px solid #7ED9ED;
+          border-radius: 15px;
           background: #7ED9ED;
           -webkit-transition: 2000ms ease;
           -o-transition: 2000ms ease;
@@ -141,7 +144,7 @@
                                 <li>
                                     <a href="pacientes"><i class="fa fa-stethoscope" aria-hidden="true"></i> Pacientes <i class="fa fa-angle-down" aria-hidden="true"></i></a>
                                     <ul class="gn-submenu">
-                                        <li class="mini_list_agile"><a href="Tratameintos"><i class="fa fa-caret-right" aria-hidden="true"></i> Tratamientos</a></li>
+                                        <li class="mini_list_agile"><a href="Tratamientos"><i class="fa fa-caret-right" aria-hidden="true"></i> Tratamientos</a></li>
                                         <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Diagnosticos</a></li>
                                         <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
                                     </ul>
@@ -199,10 +202,10 @@
         <div class="mensajes-container" id="msgs">
         </div>
         <div class="input-chat">
-          <script src="/socket.io/socket.io"></script>
+          <script src="/socket.io/socket.io.js"></script>
           <script src="js/logicachat.js" charset="utf-8"></script>
           <input type="text" id="input" placeholder="Escriba un Mensaje...">
-          <input type="button" onclick="enviarmsg()" class="button" value="Enviar">
+          <input type="button" onclick="enviarmsg()" class="button" value="Enviar" style="width: 100%">
         </div>
       </div>
       
