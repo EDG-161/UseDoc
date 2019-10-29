@@ -19,23 +19,11 @@
           justify-content: center;
           align-items: center;
           background-color: #61BFD4;
-        }
-
-        .user-list {
-          box-sizing: border-box;
-          width: 30%;
-          background-color: white;
-          border: 4px solid rgb(189, 189, 189);
-          border-radius: 10px;
-          height: 90vh;
-          max-height: 90vh;
-          overflow: scroll;
-          padding: 1rem;
-          color: rgb(80, 80, 80);
+          padding: 90px 100px;
         }
 
         .text-container {
-          width: 65%;
+          width: 100%;
           box-sizing: border-box;
           margin-right: 1rem;
           background-color: white;
@@ -60,7 +48,7 @@
         }
 
         #input {
-          width: 95%;
+          width: 100%;
           padding: 1rem;
           border: none;
           border: 2px solid #87cca7;
@@ -110,6 +98,26 @@
           border-radius: 20px;
           width: 70%;
           margin-bottom: 0;
+        }
+        .button{
+          width: 100%;
+          padding: 1rem;
+          border: none;
+          border: 2px solid #87cca7;
+          background: #87cca7;
+          color: rgb(0, 0, 0);
+          font-size: 1rem;
+          -webkit-transition: 2000ms ease;
+          -o-transition: 2000ms ease;
+          transition: 900ms ease;
+
+        }
+        .button:hover{
+          background: #7ED9ED;
+          -webkit-transition: 2000ms ease;
+          -o-transition: 2000ms ease;
+          transition: 900ms ease;
+
         }
 
     </style>
@@ -192,19 +200,18 @@
             <!-- //nav -->
     
         </div>
-    <div class="main-container" style="padding-top: 90px;">
+    <div class="main-container">
       <div class="text-container">
-        <div class="mensajes-container">
+        <div class="mensajes-container" id="msgs">
         </div>
         <div class="input-chat">
-          <input type="text" id="input" placeholder="Mensaje..." onkeypress="enviarMensaje(event)">
+          <script src="/socket.io/socket.io"></script>
+          <script src="js/logicachat.js" charset="utf-8"></script>
+          <input type="text" id="input" placeholder="Escriba un Mensaje...">
+          <input type="button" onclick="enviarmsg()" class="button" value="Enviar">
         </div>
       </div>
-      <div class="user-list">
-        <h3>Lista de usuarios:</h3>
-        <hr class="divider">
-        <ol id="lista-users"></ol>
-      </div>
+      
     </div>
     <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 

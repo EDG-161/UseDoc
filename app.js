@@ -31,6 +31,19 @@ app.use(function(req, res, next) {
 //  return res.status(500).render('404');
 //});
 // Start server
-app.listen(app.get('port'), () => {
+const server = app.listen(app.get('port'), () => {
     console.log('Server on port', app.get('port'));
 });
+
+//Sockets para el chat
+const socket = require("socket.io"); 
+const io = socket(server);
+//websockets
+io.on("connection", (socket)=>{
+	console.log("New connection", socket.id);
+
+	socket.on("chat-message", (data)=>{
+		io.sockets.emit("chat-message", data);
+	});
+});
+
