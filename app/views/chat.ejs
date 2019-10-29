@@ -4,12 +4,6 @@
     <meta charset="utf-8">
     <title>Chat</title>
     <style>
-      * {
-          margin: 0;
-          padding: 0;
-          font-family: sans-serif;
-        }
-
         .main-container {
           width: 100%;
           height: 100vh;
@@ -182,20 +176,20 @@
                                             <li> <a href="salir"><i class="fa fa-sign-out"></i> Cerrar sesion</a> </li>
                                         </ul>
                                     </li>
-    
+
                         </ul>
                 </li>
-    
-    
+
+
                 <li class="second w3l_search">
-    
+
                         <form action="#" method="post">
                             <input type="search" name="search" placeholder="Busca pacientes" required="">
                             <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
                         </form>
-    
+
                 </li>
-    
+
             </ul>
             <!-- //nav -->
     
@@ -219,52 +213,17 @@
     <script src="js/serial.js"></script>
     <script src="js/export.js"></script>
     <script src="js/light.js"></script>
-    <script src="js/chart1.js"></script>
         <script src="js/Chart.min.js"></script>
     <script src="js/modernizr.custom.js"></script>
-    
+
     <script src="js/classie.js"></script>
     <script src="js/gnmenu.js"></script>
     <script>
         new gnMenu( document.getElementById( 'gn-menu' ) );
     </script>
     <!-- script-for-menu -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-    <script>
-        var ctx = document.getElementById('hipa').getContext('2d');
-        var myLineChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['mm/yy', 'mm2/yy', 'mm3/yy', 'mm4/yy', 'mm5/yy', 'mm6yy', 'mm7/yy'],
-                datasets: [{
-                    label: 'Pacientes',
-                    backgroundColor: '#87CCA7',
-                    borderColor: '#87CCA7',
-                    data: [0, 10, 5, 2, 20, 30, 45]
-                }]
-            },
-            options: {}
-        });
-        var ctx = document.getElementById('higa').getContext('2d');
-        var myLineChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['mm/yy', 'mm2/yy', 'mm3/yy', 'mm4/yy', 'mm5/yy', 'mm6yy', 'mm7/yy'],
-                datasets: [{
-                    label: 'Ingrsos',
-                    backgroundColor: '#FF5E61',
-                    borderColor: '#FF5E61',
-                    data: [500, 550, 490, 300, 450, 200, 500],
-                    "fill":false,
-                    "lineTension":0.1
-                }]
-            },
-            options: {}
-        });
-    </script>
     <script src="js/bars.js"></script>
-    <script src="js/scripts.js"></script>
-    
+
     <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
     <!--
     <script src="/js/jq.js" charset="utf-8"></script>
