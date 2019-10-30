@@ -213,11 +213,13 @@ module.exports = app => {
           if (cont) {
             doctores.obtenerPacienteById(pac,function(p){
               let paciente = p;
-              paciente.push(req.session.citas);
-              console.log(paciente);
-              res.render("paciente",{
-              paciente : p,
-              mensaje:men
+              doctores.obtenerCitas(req.session.user.id_usr,function(citas){
+                req.session.citas = citas;
+                paciente.push(req.session.citas);
+                res.render("paciente",{
+                paciente : paciente,
+                mensaje:men
+                });
               });
             });
           }else{
@@ -238,18 +240,91 @@ module.exports = app => {
         res.render('chat');
     });
 
-    app.post('/agregarCita',(req,res)=>{
-        const { id } = req.body;
-        const { dat } = req.body;
-        const { des } = req.body;
-        var num = /^([0-9])+$/;
-        if(num.test(id) && des.length<=300){
-            var fecha = new Date(dat);
-            var descripcion = des;
-        }else if(num.test(id) && des>300){
-            res.redirect('/paciente?p='+id + '&men=La descripcion debe ser de 300 caracteres de largo o menos');
+    app.get('/citas',(req,res)=>{
+      if (req.session.user!= null) {
+          let userobj = req.session.user;
+          if (userobj.id_tid==1) {
+              doctores.obtenerPacientes(userobj.id_usr,function(pac){
+                  req.session.pacientes = pac;
+                  doctores.obtenerCitas(userobj.id_usr,function(citas){
+                    req.session.citas = citas;
+                    res.render("citas",{
+                        user:userobj,
+                        pacientes:req.session.pacientes,
+                        citas: req.session.citas
+                    });
+                  });
+              });
+          }else{
+              res.redirect("/Home");
+          }
+
+      }else{
+          res.writeHead(301,{'Location':'login'});
+          res.end();
+      }
+    });
+
+    app.get('/cita',(req,res)=>{
+      var id = req.query.c;
+      if (req.session.user!=null) {
+        if (id.length>32&&id.length<210) {
+          var c = id.substring(16,17);
+          var citas = req.session.citas;
+          var ct;
+          var com = false;
+          for (var i = 0; i < citas.length; i++) {
+            if (citas[i].id_cit==c) {
+              com = true;
+              ct = citas[i];
+            }
+          }
+          if (!com) {
+            res.redirect("/citas");
+          }else{
+            res.render('cita',{
+              cita : ct,
+              pacientes:req.session.pacientes
+            });
+          }
         }else{
-            res.redirect('/pacientes');
+          console.log("my¿yt largo  " + id.length);
+          res.redirect("/citas");
+          res.end();
+        }
+      }else{
+        res.redirect("/login");
+        res.end();
+      }
+    });
+
+    app.post('/agregarCita',(req,res)=>{
+        if (req.session.user!= null) {
+          if (req.session.user.id_tid==1) {
+            const { id } = req.body;
+            const { dat } = req.body;
+            const { des } = req.body;
+            const { hor } = req.body;
+            var num = /^([0-9])+$/;
+            console.log(id + "    " + des);
+            if(num.test(id) && des.length<=300){
+                var fecha = new Date(dat);
+                var descripcion = des;
+                console.log("entro");
+                doctores.agendarCita(req,res,id,dat,des,hor);
+            }else if(num.test(id) && des>300){
+                res.redirect('/paciente?p='+id + '&men=La descripcion debe ser de 300 caracteres de largo o menos');
+            }else{
+              console.log("No entro");
+                res.redirect('/pacientes');
+            }
+          }else {
+            res.redirect("/Home");
+            res.end();
+          }
+        }else{
+          res.redirect("/login");
+          res.end();
         }
 
     });

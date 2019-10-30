@@ -19,38 +19,45 @@ function obtenerRangos(id,callback){
 
 function obtenerDoctores(id,callback){
 	try{
-		connection.query('SELECT * FROM mpaciente_medico where id_pac='+id,(err,result)=>{
-			if (!err) {
-				let doctores = [];
-				let cad = "SELECT * FROM mdoctores where ";
-				for (var i = 0; i < result.length; i++) {
-					if(i == (result.length-1)){
-						cad += "id_usr = "+ result[i].id_med;
-					}else{
-						cad += "id_usr = "+ result[i].id_med + " && ";
-					}
-				}
-				if (result.length<1) {
-					cad += "id_usr = 0";
-				}
-				connection.query(cad,(er,res)=>{
-					if(er){
-						callback([]);
-						console.log("error " + er);
-					}else{
-						for(var c = 0; c < res.length;c++){
-							res[c].name_med = aes.decifrar(res[c].name_med);
-							res[c].appat_med = aes.decifrar(res[c].appat_med);
-							res[c].apmat_med = aes.decifrar(res[c].apmat_med);
-							res[c].ced_med = aes.decifrar(res[c].ced_med);
+		connection.query("SELECT * FROM mpacientes where id_usr = "+id,(er1,re1)=>{
+			console.log("paci  " + "SELECT * FROM mpacientes where id_usr = "+id);
+			connection.query('SELECT * FROM mpaciente_medico where id_pac='+re1[0].id_pac,(err,result)=>{
+				console.log("mp 	" + 'SELECT * FROM mpaciente_medico where id_pac='+re1[0].id_pac);
+				if (!err) {
+					let doctores = [];
+					let cad = "SELECT * FROM mdoctores where ";
+					for (var i = 0; i < result.length; i++) {
+						if(i == (result.length-1)){
+							cad += "id_med = "+ result[i].id_med;
+						}else{
+							cad += "id_med = "+ result[i].id_med + " && ";
 						}
-						callback(res);
 					}
-				});
-			}else{
-				console.log("error en obtener doctores:  " +err);
-			}
+					if (result.length<1) {
+						cad += "id_med = 0";
+					}
+					connection.query(cad,(er,res)=>{
+						if(er){
+							callback([]);
+							console.log("error " + er);
+						}else{
+
+							for(var c = 0; c < res.length;c++){
+								res[c].name_med = aes.decifrar(res[c].name_med);
+								res[c].appat_med = aes.decifrar(res[c].appat_med);
+								res[c].apmat_med = aes.decifrar(res[c].apmat_med);
+								res[c].ced_med = aes.decifrar(res[c].ced_med);
+							}
+							console.log(res);
+							callback(res);
+						}
+					});
+				}else{
+					console.log("error en obtener doctores:  " +err);
+				}
+			});
 		});
+
 	}catch(error){
 		console.log("Error obtener doctores");
 	}
@@ -133,17 +140,23 @@ function obtenerContacto(id,callback){
 
 function obtenerCitas(id,callback){
 	try{
-		connection.query('SELECT * FROM mcitas where id_pac='+id,(err,result)=>{
-			if (!err) {
-				for (var i = 0; i < result.length; i++) {
-					result[i].des_cit = aes.decifrar(result[i].des_cit);
-					result[i].dat_cit = aes.decifrar(result[i].dat_cit);
+		connection.query("SELECT * FROM mpacientes WHERE id_usr= "+id,(er1,re1)=>{
+			console.log(re1);
+			connection.query('SELECT * FROM mcitas where id_pac='+re1[0].id_pac,(err,result)=>{
+				if (!err) {
+					console.log('SELECT * FROM mcitas where id_pac='+id);
+					for (var i = 0; i < result.length; i++) {
+						result[i].des_cit = aes.decifrar(result[i].des_cit);
+						result[i].dat_cit = aes.decifrar(result[i].dat_cit);
+						result[i].hor_cit = aes.decifrar(result[i].hor_cit);
+					}
+					console.log(result);
+					callback(result);
+				}else{
+					callback([]);
+					console.log("error en obtener citas:  " +err);
 				}
-				callback(result);
-			}else{
-				callback([]);
-				console.log("error en obtener citas:  " +err);
-			}
+			});
 		});
 	}catch(error){
 		console.log("Error obtener datos");

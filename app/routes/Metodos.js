@@ -209,21 +209,23 @@ function setMedico(req,res){//Este metodo asina medicos a pacientes
 
                 }else{
                     if( typeof ress[0] !== "undefined"){
-                        connection.query('INSERT INTO mpaciente_medico (id_med, id_pac, id_ran) values ('+idmed+','+id+','+tip+')',(err,result)=>{
-                            if(err){
-                                console.log("Error insercion setMedico      " + err);
-                            }else{
-                                pacientes.obtenerDoctores(userobj.id_usr,function(doctores){
-                                    req.session.doctor = doctores;
-                                    res.render("Home-Paciente",{
-                                      user:userobj,
-                                      doctores: req.session.doctor,
-                                      rangos: req.session.rangos,
-                                      citas: req.session.citas,
-                                      mensaje: tipot
-                                    });
-                                });
-                            }
+                        connection.query("select * FROM mpacientes where id_usr="+id,(er1,re1)=>{
+                          connection.query('INSERT INTO mpaciente_medico (id_med, id_pac, id_ran) values ('+ress[0].id_med+','+re1[0].id_pac+','+tip+')',(err,result)=>{
+                              if(err){
+                                  console.log("Error insercion setMedico      " + err);
+                              }else{
+                                  pacientes.obtenerDoctores(userobj.id_usr,function(doctores){
+                                      req.session.doctor = doctores;
+                                      res.render("Home-Paciente",{
+                                        user:userobj,
+                                        doctores: req.session.doctor,
+                                        rangos: req.session.rangos,
+                                        citas: req.session.citas,
+                                        mensaje: tipot
+                                      });
+                                  });
+                              }
+                          });
                         });
                     }else{
                         pacientes.obtenerDoctores(userobj.id_usr,function(doctores){
