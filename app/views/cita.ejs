@@ -93,88 +93,69 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <div class="clearfix"></div>
     <div class="inner_content">
         <div class="inner_content_w3_agile_info">
-            <h2 class="w3_inner_tittle two" style="margin-bottom: 30px;">Monitoreo de tratamientos</h2>
+            <h2 class="w3_inner_tittle two" style="margin-bottom: 30px;">Monitorear cita</h2>
                <div class="w3l-table-info agile_info_shadow">
                    <div class="container">
                         <div class="row">
                             <div class="col-md-5">
-                              <h3 class="w3_inner_tittle two">Estadisticas de tratamientos</h3>
-                               <canvas id="bartra"></canvas>
-                               <script>
-                                new Chart(document.getElementById("bartra"),
-                                          {
-                                    "type":"horizontalBar",
-                                    "data":{
-                                        "labels":[
-                                            "Tratamiento 1","Tratamiento 2","Tratamiento 3","Tratamiento 4","Tratamiento 5"
-                                        ],
-                                        "datasets":[
-                                            {"label":"Pacientes tratados",
-                                             "data":[65,59,80,81,56,55,40],
-                                             "fill":false,
-                                             "backgroundColor":[
-                                                 "#61BFD4",
-                                                 "#5984BA",
-                                                 "#7EDBED",
-                                                 "#87CCA7",
-                                                 "#FF5E61",
-                                                 ],
+                                <%
+                                var pn;
+                                for(var i=0;i<pacientes.length;i++){
+                                  if (pacientes[i].id_pac==cita.id_pac) {
+                                    pn = pacientes[i];
+                                    %>
 
-                                             "borderWidth":1
-                                            }]
-                                    },
-                                    "options":{
-                                        "scales":{
-                                            "xAxes":[
-                                                {"ticks":
-                                                 {"beginAtZero":true}
-                                                }]
-                                        }
-                                    }
-                                });
-                                </script>
-                                <div class="form-group">
-                                   <select name="" id="" class="form-control" style="height: auto">
-                                        <option value="">Tratamiento 1</option>
-                                        <option value="">Tratamiento 2</option>
-                                        <option value="">Tratamiento 3</option>
-                                        <option value="">Tratamiento 4</option>
-                                        <option value="">Tratamiento 5</option>
-                                    </select>
-                                </div>
+
+                                    <div class="col-md-12 socail_grid_agile <%if(pacientes[0].sta_pac==2 || pacientes[0].sta_pac==1){%>sintra<%}else{%>tra<%}%>">
+                                      <ul class="icon_w3_info">
+                                        <li><a href="#" class="wthree_facebook"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                                        <li><%if(pacientes[0].sta_pac==2 || pacientes[0].sta_pac==1){%>Fuera de tratamiento<%}else{%>En tratamiento<%}%></li>
+                                      </ul>
+                                      <ul class="icon_w3_social">
+                                        <li><i class="fa fa-comment-o" aria-hidden="true"></i></li>
+                                        <li><i class="fa fa-user" aria-hidden="true"></i></li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                        <div class="bottom_info_social">
+                                      <div class="col-md-4 agile_w3l_social_media_text_img">
+                                        <img src="images/admin.png" style="width: 100%" alt="">
+                                      </div>
+                                      <div class="col-md-8 agile_w3l_social_media_text">
+                                        <h4><%=pacientes[i].nom_pac%></h4>
+                                        <p><a href="paciente?p=<%=pacientes[i].id_pac%>" class="btn btn-primary">Ver paciente</a></p>
+                                      </div>
+
+                                        <div class="clearfix"></div>
+                                        </div>
+
+                                    </div>
+                                    <%
+                                  }
+                                }%>
                             </div>
                             <div class="col-md-1"></div>
-                            <div class="col-md-6">
-                              <h3 class="w3_inner_tittle two">Historial tratamiento 1</h3>
-                               <canvas id="tentra"></canvas>
-                               <script>
-                                new Chart(document.getElementById("tentra"),
-                                          {
-                                    "type":"line",
-                                    "data":{
-                                        "labels":[
-                                            "Mes","Mes 2","Mes 3","Mes 4","Mes 5"
-                                        ],
-                                        "datasets":[
-                                            {"label":"Pacientes tratados",
-                                             "data":[65,59,80,81,56,55,40],
-                                             "fill":false,
-                                             "backgroundColor":'#FF5E61',
-                                             borderColor: '#FF5E61',
-                                             "borderWidth":2,
-                                             "lineTension":0.1
-                                            }]
-                                    },
-                                    "options":{
-                                        "scales":{
-                                            "xAxes":[
-                                                {"ticks":
-                                                 {"beginAtZero":true}
-                                                }]
-                                        }
-                                    }
-                                });
-                                </script>
+                            <div class="col-md-5">
+                              <h3 class="w3_inner_tittle two">Informacion de la cita</h3>
+                                <div class="form-group">
+                                  <label for="fecha">Fecha de la cita</label>
+                                  <input type="text" class="form-control" name="fecha" disabled value="<%=cita.dat_cit%>">
+                                </div>
+                                <div class="form-group">
+                                  <label for="nombre">Nombre del paciente</label>
+                                  <input type="text" class="form-control" name="nombre" disabled value="<%=pn.nom_pac+" "+pn.appat_pac%>">
+                                </div>
+                                <div class="form-group">
+                                  <label for="hora">Hora programada</label>
+                                  <input type="text" name="hora" class="form-control" disabled value="<%=cita.hor_cit%>">
+                                </div>
+                                <div class="form-group">
+                                  <label for="estado">Estado de la cita</label>
+                                  <input type="text" name="estado" class="form-control" disabled value="<%if(cita.id_tip==1){%>Finalizada<%}else if(cita.id_tip==2){%>Pendiente<%}else if(cita.id_tip==3){%>Cancelada<%}%>">
+                                </div>
+                                <div class="form-group">
+                                  <label for="Descripcion">Descripcion</label>
+                                  <input type="text" name="Descripcion" class="form-control" disabled value="<%=cita.des_cit%>">
+                                </div>
                             </div>
                        </div>
                    </div>

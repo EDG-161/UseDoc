@@ -4,51 +4,57 @@ const connection = dbConnection();
 const aes = require('./aes');
 
 function obtenerPacientes(id, callback){
-    connection.query('SELECT * FROM mpaciente_medico where id_med = '+ id,(err,res)=>{
-        if(err){
-            console.log("Error obtenerPacientes     " + err);
-        }else{
-            let cad = "SELECT * FROM mpacientes where ";
+    connection.query("SELECT * FROM mdoctores where id_usr="+id,(er1,re1)=>{
+      connection.query('SELECT * FROM mpaciente_medico where id_med = '+ re1[0].id_med,(err,res)=>{
+          if(err){
+              console.log("Error obtenerPacientes     " + err);
+          }else{
+              let cad = "SELECT * FROM mpacientes where ";
 
-            for(var i = 0; i<res.length; i++){
-                if(i == (res.length-1)){
-                    cad += "id_usr = " + res[i].id_pac;
-                }else{
-                    cad += "id_usr = " + res[i].id_pac + " && ";
-                }
-            }
-
-            connection.query(cad,(er,resu)=>{
-                if(!er){
-                    for(var i = 0; i<resu.length ; i++){
-                        resu[i].nom_pac = aes.decifrar(resu[i].nom_pac);
-                        resu[i].appat_pac = aes.decifrar(resu[i].appat_pac);
-                        resu[i].apmat_pac = aes.decifrar(resu[i].apmat_pac);
-                    }
-                    callback(resu);
-                }else{
-                    console.log("No hay pacientes")
-                    callback([]);
-                }
-            });
-        }
+              for(var i = 0; i<res.length; i++){
+                  if(i == (res.length-1)){
+                      cad += "id_pac = " + res[i].id_pac;
+                  }else{
+                      cad += "id_pac = " + res[i].id_pac + " && ";
+                  }
+              }
+              connection.query(cad,(er,resu)=>{
+                  if(!er){
+                      for(var i = 0; i<resu.length ; i++){
+                          resu[i].nom_pac = aes.decifrar(resu[i].nom_pac);
+                          resu[i].appat_pac = aes.decifrar(resu[i].appat_pac);
+                          resu[i].apmat_pac = aes.decifrar(resu[i].apmat_pac);
+                      }
+                      callback(resu);
+                  }else{
+                      console.log("No hay pacientes")
+                      callback([]);
+                  }
+              });
+          }
+      });
     });
+
 }
 
 function obtenerCitas(id,callback){
 	try{
-		connection.query('SELECT * FROM mcitas where id_pac='+id,(err,result)=>{
-			if (!err) {
-        for (var i = 0; i < result.length; i++) {
-					result[i].des_cit = aes.decifrar(result[i].des_cit);
-					result[i].dat_cit = aes.decifrar(result[i].dat_cit);
-				}
-				callback(result);
-			}else{
-				callback([]);
-				console.log("error en obtener citas:  " +err);
-			}
-		});
+		connection.query("SELECT * from mdoctores WHERE id_usr="+id,(er1,re1)=>{
+      connection.query('SELECT * FROM mcitas where id_med='+re1[0].id_med,(err,result)=>{
+  			if (!err) {
+          console.log('SELECT * FROM mcitas where id_med='+re1[0].id_med);
+          for (var i = 0; i < result.length; i++) {
+  					result[i].des_cit = aes.decifrar(result[i].des_cit);
+  					result[i].dat_cit = aes.decifrar(result[i].dat_cit);
+            result[i].hor_cit = aes.decifrar(result[i].hor_cit);
+  				}
+  				callback(result);
+  			}else{
+  				callback([]);
+  				console.log("error en obtener citas:  " +err);
+  			}
+  		});
+    });
 	}catch(error){
 		console.log("Error obtener datos");
 	}
@@ -72,6 +78,7 @@ function obtenerPacienteById(id, callback){
               r[0].col_dat = aes.decifrar(r[0].col_dat);
               r[0].codpost_dat = aes.decifrar(r[0].codpost_dat);
               let respuesta = [res[0],r[0]];
+              console.log(respuesta);
               callback(respuesta);
             }else{
               callback([]);
@@ -87,10 +94,22 @@ function obtenerPacienteById(id, callback){
   });
 }
 
-function agendarCita(req,res,id,date,des){
-  connection.query('INSERT INTO mcitas (id_pac,id_med,des_cit,dat_cit,id_tip)');
+function agendarCita(req,res,id,date,des,hor){
+  connection.query("SELECT * FROM mdoctores where id_usr="+req.session.user.id_usr,(er1,re1)=>{
+    connection.query("INSERT INTO mcitas (id_pac,id_med,des_cit,dat_cit,id_tip,hor_cit) values("+id+","+re1[0].id_med+",'"+aes.cifrar(des)+"','"+aes.cifrar(date)+"',2,'"+aes.cifrar(hor)+"')",(er,re)=>{
+      if (!er) {
+        console.log("INSERT INTO mcitas (id_pac,id_med,des_cit,dat_cit,id_tip) values("+id+","+re1[0].id_med+",'"+aes.cifrar(des)+"','"+aes.cifrar(date)+"',2)");
+        res.redirect('/paciente?p='+id+'&men=Cita agendada');
+      }else{
+        console.log("INSERT INTO mcitas (id_pac,id_med,des_cit,dat_cit,id_tip) values("+id+","+re1[0].id_med+",'"+aes.cifrar(des)+"','"+aes.cifrar(date)+"',2)");
+        console.log("error agendar    "+ er );
+        res.redirect('/paciente?p='+id+'&men=Algo ocurrio vuelve a intentar');
+      }
+    });
+  });
 }
 
 exports.obtenerCitas = obtenerCitas;
 exports.obtenerPacientes = obtenerPacientes;
 exports.obtenerPacienteById = obtenerPacienteById;
+exports.agendarCita = agendarCita;
