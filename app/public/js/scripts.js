@@ -1,3 +1,5 @@
+
+
 function validar(){
     var email,pass,pass1,name,appat,apmat,gender,street,num,numi,col,cod,del,state,phone,type,ced;
     email = document.getElementsByName("email");
@@ -20,7 +22,7 @@ function validar(){
     //Correo
     var emailval = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3,4})+$/;
     if(emailval.test(email) || email.length > 100){
-        
+
     }else{
         mensaje = "Direccion de Correo no valida";
         return false;
@@ -34,7 +36,7 @@ function validar(){
         for(var i = 0; i <pass.length;i++){
             if(pass.charAt(i) == " "){
                 cont = false;
-                break; 
+                break;
             }else{}
         }
         if(passval.test(pass)){
@@ -153,7 +155,3 @@ function validar(){
         }
     }
 }
-
-                     
-     
-  

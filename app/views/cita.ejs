@@ -20,6 +20,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <!-- font-awesome-icons -->
 <link href="css/font-awesome.css" rel="stylesheet">
+<script src="js/scripts.js"></script>
 
 </head>
 <body>
@@ -163,41 +164,40 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                      <div class="clearfix"></div>
 
                 </div>
+                <script type="text/javascript">
+                  var f = 1;
+                  var c =1;
+                  function cancelar(){
+                      document.getElementById('can_btn').style.display = "none";
+                      document.getElementById('fin_btn').style.display = "block";
+                      document.getElementById('can_block').style.display = "block";
+                      document.getElementById('fin_block').style.display = "none";
+
+                    }
+
+                  function finalizar(){
+                      document.getElementById('can_btn').style.display = "block";
+                      document.getElementById('fin_btn').style.display = "none";
+                      document.getElementById('can_block').style.display = "none";
+                      document.getElementById('fin_block').style.display = "block";
+                  }
+                </script>
                 <div class="agile-tables">
                     <div class="w3l-table-info agile_info_shadow">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-8">
-                                <h3 style="margin-bottom: 30px">Todas los tratamientos</h3>
-                                    <div class="table-responsive-lg">
-                                        <table class="table table-hover table-striped" >
-                                          <thead class="thead-dark" style="background-color: #FF5E61">
-                                            <tr>
-                                              <th scope="col">Tratamiento</th>
-                                              <th scope="col">Paciente</th>
-                                              <th scope="col">Costo (Opcional)</th>
-                                              <th scope="col">Dscripcion</th>
-                                            </tr>
-                                          </thead>
-                                          <tbody>
-                                            <tr>
-                                              <th scope="row">Tratamiento</th>
-                                              <td><form action="" method="post"><input type="submit" class="btn btn-default" value="Mark"></form></td>
-                                              <td>$costo</td>
-
-                                              <td>
-                                                 <a href="cita" style="font-size: 20px"><i class="fa fa-trash-o" title="Eliminar cita"></i></a>
-                                                  &nbsp;&nbsp;
-                                                  <a href="cita" style="font-size: 20px" title="Editar cita"><i class="fa  fa-file-text"></i></a>&nbsp;&nbsp;
-                                                  <a href="cita" style="font-size: 20px" title="Registrar algun costo"><i class="fa fa-money"></i></a>
-                                              </td>
-                                            </tr>
-
-                                          </tbody>
-                                        </table>
-                                    </div>
+                                <div class="col-md-3">
+                                  <div class="form-group">
+                                    <input type="button" id="can_btn" class="btn btn-danger btn-sm btn-block" value="Cancelar" onclick="cancelar()">
+                                  </div>
+                                  <div class="form-group">
+                                    <input type="button" id="fin_btn" class="btn btn-warning btn-sm btn-block" value="Finalizar" onclick="finalizar()">
+                                  </div>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-1">
+
+                                </div>
+                                <div class="col-md-8" id="fin_block" style="display:none">
                                     <form action="">
                                       <div class="form-group">
                                        <label for="">Ver tratamientos</label>
@@ -231,6 +231,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                        <div class="form-group">
                                            <input type="text" value="$Costo" disabled readonly class="form-control">
                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-md-8" id="can_block" style="display:none">
+                                    <form action="cancelarCita">
+                                      <div class="form-group">
+                                        <input type="text" class="form-control" name="tes" placeholder="Ingresa algún motivo">
+                                      </div>
+                                      <div class="form-group">
+                                        <input type="submit" class="btn btn-warning" name="tes" value="Cancelar">
+                                      </div>
                                     </form>
                                 </div>
                             </div>
@@ -284,7 +294,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- script-for-menu -->
 
 <script src="js/bars.js"></script>
-<script src="js/scripts.js"></script>
+
 
 <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
 
