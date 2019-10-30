@@ -12,10 +12,10 @@ socket.on("chat-message", function(data){
 	sanitized = sanitized.replace('>', '');
 	sanitized = sanitized.replace('<', '');
 	if (data.id == socket.id) {
-		var msj = '<div class="local-message"><strong>'+data.usuario+':</strong><p>'+sanitized+'</p></div>';
+		var msj = '<div class="local-message" disabled><strong>'+data.usuario+':</strong><p>'+sanitized+'</p></div>';
 		document.getElementById("msgs").innerHTML += msj;
 	} else {
-		var msj = '<div class="remote-message"><strong>'+data.usuario+':</strong><p>'+sanitized+'</p></div>';
+		var msj = '<div class="remote-message" disabled><strong>'+data.usuario+':</strong><p>'+sanitized+'</p></div>';
 		document.getElementById("msgs").innerHTML += msj;
 	}
 });
