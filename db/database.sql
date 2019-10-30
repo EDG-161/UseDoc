@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.16, for Win64 (x86_64)
 --
 -- Host: localhost    Database: usedoc_db
 -- ------------------------------------------------------
--- Server version	5.7.17-log
+-- Server version	5.7.26-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+ SET NAMES utf8 ;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -21,7 +21,7 @@
 
 DROP TABLE IF EXISTS `cestado`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `cestado` (
   `id_sta` int(11) NOT NULL AUTO_INCREMENT,
   `name_sta` varchar(100) DEFAULT NULL,
@@ -45,7 +45,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `contacto`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `contacto` (
   `id_con` int(11) NOT NULL AUTO_INCREMENT,
   `rut_con` varchar(350) NOT NULL,
@@ -72,7 +72,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `crangos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `crangos` (
   `id_ran` int(11) NOT NULL AUTO_INCREMENT,
   `des_ran` varchar(45) NOT NULL,
@@ -96,7 +96,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `csexo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `csexo` (
   `id_sex` int(11) NOT NULL AUTO_INCREMENT,
   `nom_sex` varchar(15) NOT NULL,
@@ -120,7 +120,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ctipos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ctipos` (
   `id_tip` int(11) NOT NULL AUTO_INCREMENT,
   `des_tip` varchar(45) NOT NULL,
@@ -144,7 +144,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `ctipousuario`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `ctipousuario` (
   `id_tid` int(11) NOT NULL AUTO_INCREMENT,
   `des_tid` varchar(45) NOT NULL,
@@ -168,7 +168,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `diagnostico`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `diagnostico` (
   `id_dig` int(11) NOT NULL AUTO_INCREMENT,
   `id_enf` int(11) NOT NULL,
@@ -193,30 +193,22 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `mcitas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `mcitas` (
   `id_cit` int(11) NOT NULL AUTO_INCREMENT,
   `id_pac` int(11) NOT NULL,
   `id_med` int(11) NOT NULL,
   `des_cit` varchar(500) NOT NULL,
   `dat_cit` varchar(500) NOT NULL,
+  `hor_cit` varchar(45) NOT NULL DEFAULT '14:00',
   `id_tip` int(11) NOT NULL,
   PRIMARY KEY (`id_cit`),
   KEY `id_pac` (`id_pac`),
   KEY `id_med` (`id_med`),
   KEY `id_tip_idx` (`id_tip`),
   CONSTRAINT `id_tip` FOREIGN KEY (`id_tip`) REFERENCES `ctipos` (`id_tip`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `mcitas`
---
-
-LOCK TABLES `mcitas` WRITE;
-/*!40000 ALTER TABLE `mcitas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mcitas` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `mdatos`
@@ -224,34 +216,24 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `mdatos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `mdatos` (
   `id_dat` int(11) NOT NULL AUTO_INCREMENT,
   `id_usr` int(11) NOT NULL,
   `id_sex` int(11) NOT NULL,
-  `tel_dat` varchar(30) NOT NULL,
+  `tel_dat` varchar(100) NOT NULL,
   `numext_dat` varchar(100) NOT NULL,
   `numint_dat` varchar(100) DEFAULT NULL,
   `calle_dat` varchar(180) NOT NULL,
-  `del_dat` varchar(100) DEFAULT NULL,
-  `id_sta` varchar(100) NOT NULL,
+  `del_dat` varchar(100) NOT NULL,
+  `id_sta` int(11) NOT NULL,
   `col_dat` varchar(180) NOT NULL,
-  `codpost_dat` varchar(30) NOT NULL,
+  `codpost_dat` varchar(100) NOT NULL,
   PRIMARY KEY (`id_dat`),
   KEY `id_usr` (`id_usr`),
   KEY `id_sex` (`id_sex`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `mdatos`
---
-
-LOCK TABLES `mdatos` WRITE;
-/*!40000 ALTER TABLE `mdatos` DISABLE KEYS */;
-INSERT INTO `mdatos` VALUES (1,5,1,'2d5bbe0fb001a00e0206','2d','20','5b0fe452e016a0','560ffd5de45ae8575f17','19','540fa853e458fb5e5017c9','2d5dbf0fb1'),(2,6,1,'2d5bbe0fb001a00e0206','2d','20','5b0fe452e016a0','560ffd5de45ae8575f17','15','540fa853e458fb5e5017c9','2d5dbf0fb1');
-/*!40000 ALTER TABLE `mdatos` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `mdoctores`
@@ -259,7 +241,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `mdoctores`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `mdoctores` (
   `id_med` int(11) NOT NULL AUTO_INCREMENT,
   `name_med` varchar(50) NOT NULL,
@@ -269,18 +251,8 @@ CREATE TABLE `mdoctores` (
   `id_usr` int(11) NOT NULL,
   PRIMARY KEY (`id_med`),
   KEY `id_usr` (`id_usr`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `mdoctores`
---
-
-LOCK TABLES `mdoctores` WRITE;
-/*!40000 ALTER TABLE `mdoctores` DISABLE KEYS */;
-INSERT INTO `mdoctores` VALUES (1,'5c01eb4aea44','791eed52e95ffc59','791eed52e95ffc5955','295cbb0ab000af0e',6);
-/*!40000 ALTER TABLE `mdoctores` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `mhistoriales`
@@ -288,7 +260,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `mhistoriales`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `mhistoriales` (
   `id_his` int(11) NOT NULL AUTO_INCREMENT,
   `rut_his` varchar(400) NOT NULL,
@@ -314,7 +286,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `mpaciente_medico`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `mpaciente_medico` (
   `id_pm` int(11) NOT NULL AUTO_INCREMENT,
   `id_med` int(11) NOT NULL,
@@ -328,42 +300,23 @@ CREATE TABLE `mpaciente_medico` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `mpaciente_medico`
---
-
-LOCK TABLES `mpaciente_medico` WRITE;
-/*!40000 ALTER TABLE `mpaciente_medico` DISABLE KEYS */;
-INSERT INTO `mpaciente_medico` VALUES (2,6,5,1),(3,6,5,1);
-/*!40000 ALTER TABLE `mpaciente_medico` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `mpacientes`
 --
 
 DROP TABLE IF EXISTS `mpacientes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `mpacientes` (
   `id_pac` int(11) NOT NULL AUTO_INCREMENT,
   `nom_pac` varchar(50) NOT NULL,
   `appat_pac` varchar(50) NOT NULL,
   `apmat_pac` varchar(50) NOT NULL,
   `id_usr` int(11) NOT NULL,
+  `sta_pac` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_pac`),
   KEY `id_usr` (`id_usr`)
 ) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `mpacientes`
---
-
-LOCK TABLES `mpacientes` WRITE;
-/*!40000 ALTER TABLE `mpacientes` DISABLE KEYS */;
-INSERT INTO `mpacientes` VALUES (9,'5d0afd5ff752f7','5902ea57eb59','5f0ffa5dec57',5);
-/*!40000 ALTER TABLE `mpacientes` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `mpadecimiento`
@@ -371,7 +324,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `mpadecimiento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `mpadecimiento` (
   `id_enf` int(11) NOT NULL AUTO_INCREMENT,
   `des_enf` varchar(350) NOT NULL,
@@ -394,7 +347,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `mseguimiento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `mseguimiento` (
   `id_seg` int(11) NOT NULL AUTO_INCREMENT,
   `id_pac` int(11) NOT NULL,
@@ -426,7 +379,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `musuarios`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `musuarios` (
   `id_usr` int(11) NOT NULL AUTO_INCREMENT,
   `email_usr` varchar(120) NOT NULL,
@@ -434,18 +387,8 @@ CREATE TABLE `musuarios` (
   `reg_usr` varchar(200) NOT NULL,
   `id_tid` int(11) NOT NULL,
   PRIMARY KEY (`id_usr`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `musuarios`
---
-
-LOCK TABLES `musuarios` WRITE;
-/*!40000 ALTER TABLE `musuarios` DISABLE KEYS */;
-INSERT INTO `musuarios` VALUES (5,'7d0afd5fe207ae07715097487102680231fb','5601e551f753aa04020fcf1f2a5c76','2c41b111b706a90f',2),(6,'7c01eb4aea44d8515c569345360d290c','5601e551f753aa04020fcf1f2a5c76','2c41b111b706a90f',1);
-/*!40000 ALTER TABLE `musuarios` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `tratamientos`
@@ -453,7 +396,7 @@ UNLOCK TABLES;
 
 DROP TABLE IF EXISTS `tratamientos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+ SET character_set_client = utf8mb4 ;
 CREATE TABLE `tratamientos` (
   `id_tra` int(11) NOT NULL AUTO_INCREMENT,
   `des_tra` varchar(1000) NOT NULL,
@@ -481,4 +424,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-24 15:54:48
+-- Dump completed on 2019-10-30 10:36:42
