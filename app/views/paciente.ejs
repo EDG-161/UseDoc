@@ -164,8 +164,8 @@
                                     </div>
                                     <div class="table-responsive-lg">
 																			<label for="">Citas</label>
-                                            <table class="table table-hover table-striped" >
-                                              <thead class="thead-dark" style="background-color: #FF5E61">
+                                        <table class="table table-hover table-striped" >
+                                            <thead class="thead-dark" style="background-color: #FF5E61">
                                                 <tr>
                                                   <th scope="col">Fecha</th>
                                                   <th scope="col">Ver</th>
@@ -173,8 +173,8 @@
                                                   <th scope="col">Estado</th>
                                                   <th scope="col">Acciones</th>
                                                 </tr>
-                                              </thead>
-                                              <tbody>
+                                            </thead>
+                                            <tbody>
 																								<%if(paciente[2].length>0){
 																										for(var i = 0; i<paciente[2].length;i++){
 																											if(paciente[2][i].id_pac==pacientes[0].id_usr){
@@ -208,9 +208,47 @@
 																									</tr>
 
 <%																								}%>
-                                              </tbody>
-                                            </table>
-                                        </div>
+                                              <tr>
+                                                  <th colspan="5">
+                                                    <script>
+                                                        var state = 1;
+                                                        function cam(){
+                                                            if(state==1){
+                                                                document.getElementById('b').innerHTML = "Ocultar";
+                                                                document.getElementById('agrCita').style.display = "block";
+                                                                state =2;
+                                                            }else{
+                                                                document.getElementById('b').innerHTML = "Agregar cita";
+                                                                document.getElementById('agrCita').style.display = "none";
+                                                                state = 1;
+                                                            }
+                                                        }    
+                                                    </script>
+                                                      <div class="form-group">
+                                                          <button class="btn btn-primary" id="b" onclick="cam()">
+                                                            Agregar nueva cita
+                                                        </button>
+                                                    </div>
+                                                    <form method="POST" action="agregarCita" id="agrCita" style="display: none">
+                                                        <div class="form-group">
+                                                            <input type="hidden" value="<%=paciente[0].id_pac%>" class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="dat"> Ingresa la fecha en la que sera la cita</label>
+                                                            <input type="date" required name="dat" id="fecha" min="<%let freg=new Date;%><%=freg.getFullYear()+'-'+(freg.getMonth()+1)+'-'+freg.getDate()%>" placeholder="Ingresa la fecha de la cita" class="form-control">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <input type="text" name="des" class="form-control" placeholder="Ingresa una decripcion para la cita" required>
+                                                        </div>
+                                                        <div class="form-cotrol">
+                                                            <input type="submit" class="btn btn-primary" value="Agendar cita">
+                                                        </div>
+                                                    </form>
+                                                  </th>
+                                              </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                        </div>

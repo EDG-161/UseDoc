@@ -203,6 +203,7 @@ module.exports = app => {
       if (req.session.user!= null) {
         if (req.session.user.id_tid==1) {
           let pac = req.query.p;
+          let men = req.query.men;
           let cont = false;
           for (var i = 0; i < req.session.pacientes.length; i++) {
             if (req.session.pacientes[i].id_pac==parseInt(pac)){
@@ -215,7 +216,8 @@ module.exports = app => {
               paciente.push(req.session.citas);
               console.log(paciente);
               res.render("paciente",{
-              paciente : p
+              paciente : p,
+              mensaje:men
               });
             });
           }else{
@@ -236,4 +238,19 @@ module.exports = app => {
         res.render('chat');
     });
 
+    app.post('/agregarCita',(req,res)=>{
+        const { id } = req.body;
+        const { dat } = req.body;
+        const { des } = req.body;
+        var num = /^([0-9])+$/;
+        if(num.test(id) && des.length<=300){
+            var fecha = new Date(dat);
+            var descripcion = des;
+        }else if(num.test(id) && des>300){
+            res.redirect('/paciente?p='+id + '&men=La descripcion debe ser de 300 caracteres de largo o menos');
+        }else{
+            res.redirect('/pacientes');
+        }
+
+    });
 }

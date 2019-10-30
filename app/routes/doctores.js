@@ -87,6 +87,10 @@ function obtenerPacienteById(id, callback){
   });
 }
 
+function agendarCita(req,res,id,date,des){
+  connection.query('INSERT INTO mcitas (id_pac,id_med,des_cit,dat_cit,id_tip)');
+}
+
 exports.obtenerCitas = obtenerCitas;
 exports.obtenerPacientes = obtenerPacientes;
 exports.obtenerPacienteById = obtenerPacienteById;
