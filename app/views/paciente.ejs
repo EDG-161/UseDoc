@@ -11,11 +11,13 @@
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/component.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/export.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 <link href="css/flipclock.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/circles.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 <!-- font-awesome-icons -->
 <link href="css/font-awesome.css" rel="stylesheet">
 
@@ -361,6 +363,7 @@
 <!--copy rights end here-->
 <!-- js -->
 
+
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 
 <script src="js/amcharts.js"></script>
@@ -382,7 +385,14 @@
 <script src="js/scripts.js"></script>
 
 <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<%if(typeof mensaje !== "undefined"){
+    %>
+    <script>
+        toastr.info("<%=mensaje%>","Info");
+    </script>
+    <%
+}%>
 
 </body>
 </html>
