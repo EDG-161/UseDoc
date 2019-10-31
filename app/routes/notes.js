@@ -32,42 +32,46 @@ module.exports = app => {
     });
 
     app.get('/Home',(req,res)=>{
-        if (req.session.user!= null) {
-            let userobj = req.session.user;
-            if (userobj.id_tid==1) {
-                doctores.obtenerPacientes(userobj.id_usr,function(pac){
-                    req.session.pacientes = pac;
-                    doctores.obtenerCitas(userobj.id_usr,function(citas){
-                      req.session.citas = citas;
-                      res.render("Home",{
-                          user:userobj,
-                          pacientes:req.session.pacientes,
-                          citas: req.session.citas
+        try {
+          if (req.session.user!= null) {
+              let userobj = req.session.user;
+              if (userobj.id_tid==1) {
+                  doctores.obtenerPacientes(userobj.id_usr,function(pac){
+                      req.session.pacientes = pac;
+                      doctores.obtenerCitas(userobj.id_usr,function(citas){
+                        req.session.citas = citas;
+                        res.render("Home",{
+                            user:userobj,
+                            pacientes:req.session.pacientes,
+                            citas: req.session.citas
+                        });
                       });
-                    });
-                });
-            }else{
-                pacientes.obtenerDoctores(userobj.id_usr,function(doctores){
-
-                  req.session.doctor = doctores;
-                  pacientes.obtenerRangos(userobj.id_usr,function(rangos){
-                    req.session.rangos = rangos;
-                    pacientes.obtenerCitas(userobj.id_usr, function(citas){
-                      req.session.citas = citas;
-                      res.render("Home-Paciente",{
-                          user:userobj,
-                          doctores: req.session.doctor,
-                          rangos: req.session.rangos,
-                          citas: req.session.citas
+                  });
+              }else{
+                  pacientes.obtenerDoctores(userobj.id_usr,function(doctores){
+                    req.session.doctor = doctores;
+                    pacientes.obtenerRangos(userobj.id_usr,function(rangos){
+                      req.session.rangos = rangos;
+                      pacientes.obtenerCitas(userobj.id_usr, function(citas){
+                        req.session.citas = citas;
+                        res.render("Home-Paciente",{
+                            user:userobj,
+                            doctores: req.session.doctor,
+                            rangos: req.session.rangos,
+                            citas: req.session.citas
+                        });
                       });
                     });
                   });
-                });
-            }
+              }
 
-        }else{
-            res.writeHead(301,{'Location':'login'});
-            res.end();
+          }else{
+              res.writeHead(301,{'Location':'login'});
+              res.end();
+          }
+        } catch (e) {
+            console.log("-----------------------error Home ------------");
+            console.log(e);
         }
     })
 
@@ -328,4 +332,31 @@ module.exports = app => {
         }
 
     });
+
+    app.get('/agendarCita',(req,res)=>{
+      if (req.session.user!=null) {
+        if (req.session.user.id_tid==2) {
+          if (typeof req.query.i!== "undefined") {
+            var id_med = req.query.i.substring(req.query.i.length-1,req.query.i.length);
+            pacientes.obtenerPacienteById(req.session.user.id_usr,function(paciente){
+              pacientes.obtenerMedicoById(id_med,function(citas){
+                res.render('agendarCita',{
+                  medico: citas[0],
+                  citas: citas[1],
+                  paciente: paciente[0]
+                });
+              });
+            });
+          }else{
+            console.log(req.query.i);
+            req.end();
+          }
+        }else{
+          res.redirect('/Home');
+        }
+      }else {
+        res.redirect('login');
+      }
+    });
+
 }

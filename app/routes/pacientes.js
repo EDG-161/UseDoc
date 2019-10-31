@@ -4,7 +4,7 @@ const connection = dbConnection();
 const aes = require('./aes');
 
 function obtenerRangos(id,callback){
-	connection.query('Select * from mpaciente where id_usr= '+ id,(er1,re1)=>{
+	connection.query('Select * from mpacientes where id_usr= '+ id,(er1,re1)=>{
 		connection.query('select * from mpaciente_medico where id_pac='+re1[0].id_pac,(err,res)=>{
 			if(!err){
 				if(res.length>0){
@@ -200,6 +200,69 @@ function obtenerHistoriales(id,callback){
 	}
 }
 
+function obtenerMedicoById (id,callback){
+	connection.query('SELECT * from mdoctores where id_med='+id,(err,res)=>{
+		if (!err) {
+			connection.query('SELECT * from mcitas where id_med = '+res[0].id_med,(er,re)=>{
+				if (!er) {
+					for (var i = 0; i < re.length; i++) {
+						re[i].des_cit = aes.decifrar(re[i].des_cit);
+						re[i].dat_cit = aes.decifrar(re[i].dat_cit);
+						re[i].hor_cit = aes.decifrar(re[i].hor_cit);
+					}
+					res[0].name_med = aes.decifrar(res[0].name_med);
+					res[0].appat_med = aes.decifrar(res[0].appat_med);
+					res[0].apmat_med = aes.decifrar(res[0].apmat_med);
+					res[0].ced_med = aes.decifrar(res[0].ced_med);
+					callback([res[0].re]);
+				}else{
+					console.log("Error obtenerMedicoById1  " + er);
+					callback([]);
+				}
+			});
+		}else{
+			console.log("Error obtenerMedicoById  " + err);
+			callback([]);
+		}
+	})
+}
+
+function obtenerPacienteById(id, callback){
+  connection.query('Select * from mpacientes where id_usr=' + id,(err,res)=>{
+    if (!err) {
+      if (typeof res[0].nom_pac!=="undefined") {
+        res[0].nom_pac = aes.decifrar(res[0].nom_pac);
+        res[0].appat_pac = aes.decifrar(res[0].appat_pac);
+        res[0].apmat_pac = aes.decifrar(res[0].apmat_pac);
+        connection.query('SELECT * FROM mdatos where id_usr = '+res[0].id_usr,(e,r)=>{
+          if (!err) {
+            if (typeof r[0].id_usr !== "undefined") {
+              r[0].tel_dat = aes.decifrar(r[0].tel_dat);
+              r[0].numext_dat = aes.decifrar(r[0].numext_dat);
+              r[0].numint_dat = aes.decifrar(r[0].numint_dat);
+              r[0].calle_dat = aes.decifrar(r[0].calle_dat)  ;
+              r[0].del_dat = aes.decifrar(r[0].del_dat);
+              r[0].col_dat = aes.decifrar(r[0].col_dat);
+              r[0].codpost_dat = aes.decifrar(r[0].codpost_dat);
+              let respuesta = [res[0],r[0]];
+              console.log(respuesta);
+              callback(respuesta);
+            }else{
+              callback([]);
+            }
+          }else{
+            callback([]);
+          }
+        });
+      }else{
+        callback([]);
+      }
+    }
+  });
+}
+
+exports.obtenerPacienteById = obtenerPacienteById;
+exports.obtenerMedicoById = obtenerMedicoById;
 exports.obtenerDoctores = obtenerDoctores;
 exports.obtenerRangos = obtenerRangos;
 exports.obtenerDatos = obtenerDatos;

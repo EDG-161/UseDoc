@@ -15,7 +15,7 @@
 <link href="css/circles.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
-
+<link rel="stylesheet" href="css/monthly.css">
 <!-- font-awesome-icons -->
 <link href="css/font-awesome.css" rel="stylesheet">
 
@@ -77,43 +77,24 @@
     </div>
     <div class="clearfix"></div>
     <div class="inner_content">
-        <div class="inner_content_w3_agile_info"  style="height: 70vh">
-            <h2 style="margin-bottom: 30px;">Inicio </h2>
-                <div class="agile-tables">
-                    <div class="w3l-table-info agile_info_shadow">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-6">
-                                    <form action="agregarMedico" method="POST">
-                                        <div class="form-group">
-                                            <input name="cod" type="text" class="form-control" placeholder="Ingresa el codigo del medico">
-                                        </div>
-                                        <div class="form-group">
-                                            <select name="tip" id="" class="form-control" style="height: auto">
-                                                <%if(principal==1){
-                                                    %>
-                                                    <option value="1">Principal</option>
-                                                    <option value="2">Auxiliar</option>
-                                                    <%
-                                                }else{
-                                                    %>
-                                                    <option value="2">Auxiliar</option>
-                                                    <%
-                                                }%>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="submit" class="btn btn-success" value="Agregar nuevo medico">
-                                        </div>
-                                    </form>
-                                </div>
-                                <div class="col-md-3"></div>
-                            </div>
-                        </div>
-                    </div>
+        <div class="inner_content_w3_agile_info"  >
+					<h2 class="w3_inner_tittle">Calendar</h2>
 
-                </div>
+						<!-- /calendar -->
+
+								<div class="agile-calendar-grid">
+									<div class="page_w3ls_cal agile_info_shadow">
+
+										<div class="w3l-calendar-left">
+											<div class="calendar-heading">
+
+											</div>
+											<div class="monthly" id="mycalendar"></div>
+										</div>
+
+										<div class="clearfix"> </div>
+									</div>
+									</div>
         </div>
     </div>
 </div>
@@ -159,23 +140,35 @@
     </script>
 <!-- script-for-menu -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-<script>
+<script type="text/javascript" src="js/monthly.js"></script>
+<script type="text/javascript">
+	$(window).load( function() {
 
-    var ctx = document.getElementById('hici').getContext('2d');
-    var myLineChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['mm/yy', 'mm2/yy', 'mm3/yy', 'mm4/yy', 'mm5/yy', 'mm6yy', 'mm7/yy'],
-            datasets: [{
-                label: 'Numero de citas',
-                backgroundColor: '#87CCA7',
-                borderColor: '#87CCA7',
-                data: [0, 10, 5, 2, 20, 30, 45]
-            }]
-        },
-        options: {}
-    });
+		$('#mycalendar').monthly({
+			mode: 'event',
 
+		});
+
+		$('#mycalendar2').monthly({
+			mode: 'picker',
+			target: '#mytarget',
+			setWidth: '250px',
+			startHidden: true,
+			showTrigger: '#mytarget',
+			stylePast: true,
+			disablePast: true
+		});
+
+	switch(window.location.protocol) {
+	case 'http:':
+	case 'https:':
+	// running on a server, should be good.
+	break;
+	case 'file:':
+	alert('Just a heads-up, events will not work when run locally.');
+	}
+
+	});
 </script>
 <script src="js/bars.js"></script>
 <script src="js/scripts.js"></script>

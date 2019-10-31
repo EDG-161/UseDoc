@@ -90,7 +90,7 @@
                     <div class="w3l-table-info agile_info_shadow">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-5">
                                 <h3 class="w3_inner_tittle two" style="margin-bottom: 30px">Datos del paciete</h3>
                                     <div class="table-responsive-lg">
                                         <table class="table table-hover table-striped" >
@@ -120,12 +120,14 @@
                                         <a class="btn btn-default" style="text-decoration: none; padding: 10px;">Ver historial medico</a>
                                     </div>
                                 </div>
-                                <div class="col-md-1"></div>
-                                <div class="col-md-4">
-                                <%if(doctores.length>0){
+                                <div class="col-md-2"></div>
+                                <div class="col-md-5">
+                                <%
+																console.log(doctores.length);
+																if(doctores.length>0){
                                     for(var c = 0; c<doctores.length; c++){
                                         for(var a = 0; a<rangos.length; a++){
-                                            if(doctores[c].id_usr == rangos[a].id_med){
+                                            if(doctores[c].id_med == rangos[a].id_med){
                                                 if(rangos[a].id_ran==1){
                                                     %>
                                                     <div class="profile_bg_agile ">
@@ -140,13 +142,15 @@
                                                                      <h3>Citas en este mes</h3>
                                                                      <h4>1</h4>
                                                                  </div>
-                                                                 <div class="profile-ser-grids ">
-                                                                     
-                                                                 </div>
                                                                  <div class="clearfix"> </div>
                                                              </div>
                                                              <div class="w3l_social_icons w3l_social_icons1">
-                                                                 <a href="#" class="button btn-success" style="padding: 10px">
+																															 <a class="button btn-success" style="padding:15px" href="agendarCita?i=<%
+																															var str = '';
+																															var ref = 'abcdefghijklmnñopqrstuvwxyz{}´+,-()!°|%¨*[]_:;';
+																															for (var i=0; i<150; i++){
+																															str += ref.charAt(Math.floor(Math.random()*ref.length));
+																															}%><%=str%><%=doctores[c].id_med%>" aria-expanded="true">
                                                                      <i class="fa fa-phone" aria-hidden="true"></i>
                                                                      Agendar cita
                                                                  </a>
@@ -154,7 +158,6 @@
                                                          </div>
                                                        </div>
                                                     <%
-                                                    break;
                                                 }
                                             }
                                         }
@@ -164,6 +167,7 @@
                                 <%
                                 }else{
                                     %>
+
                                     <div class="profile_bg_agile ">
                                     <div class="profile-pic wthree">
                                             <h2>Medicos</h2>
@@ -186,7 +190,7 @@
                                     </div>
                                     <%
                                 }%>
-
+																<br><br>
                                 <div class="table-responsive-lg">
                                     <h4>Medicos auxiliares</h4>
                                     <table class="table table-hover table-striped" >
@@ -197,7 +201,7 @@
                                           <th scope="row">Agendar</th>
                                         </tr>
                                     <%
-                                    for(var m =0;m<doctores.length;i++){
+                                    for(var m =0;m<doctores.length;m++){
                                         for(var r=0;r<rangos.length;r++){
                                             if(doctores[m].id_med==rangos[r].id_med){
                                                 if(rangos[r].id_ran==2){
@@ -206,7 +210,13 @@
                                                         <td><%=doctores[m].name_med%></td>
                                                         <td><%=doctores[m].ced_med%></td>
                                                         <td>
-                                                            <a href="agendarCita?i=<%=doctores[m].id_med%>" aria-expanded="true">
+                                                            <a href="agendarCita?i=<%
+																														var str = '';
+																														var ref = 'abcdefghijklmnñopqrstuvwxyz{}´+,-()!°|%¨*[]_:;';
+																														for (var i=0; i<50; i++)
+																														{
+																														str += ref.charAt(Math.floor(Math.random()*ref.length));
+																													}%><%=str%><%=doctores[m].id_med%>" aria-expanded="true">
                                                                 <span class="badge badge-success">Agendar cita</span>
                                                             </a>
                                                         </td>
@@ -219,7 +229,7 @@
                                     %>
                                         </tbody>
                                     </table>
-                                </div> 
+                                </div>
                                     <div class="table-responsive-lg">
                                         <table class="table table-hover table-striped" >
 
