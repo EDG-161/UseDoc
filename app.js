@@ -39,10 +39,19 @@ const server = app.listen(app.get('port'), () => {
 const socket = require("socket.io"); 
 const io = socket(server);
 //websockets
+var conexiones = [];
 io.on("connection", (socket)=>{
-	console.log("New connection", socket.id);
+    socket.on("conectado",(arreglo)=>{
+        conexiones.push([socket.id,arreglo[0],arreglo[1]]);
+    })
 
 	socket.on("chat-message", (data)=>{
+        for(var i = 0; conexiones.length;i++){
+            if(conexiones[i][1]==data[0]&&conexiones[i][2]==data[1]){
+                sd.agregar(idpac,idmed,mens);
+                io.sockets.socket(conexiones[i][0]).emit("chat-message",sd.agregar(idpac,idmed,mens));
+            }
+        }
 		io.sockets.emit("chat-message", data);
 	});
 });
