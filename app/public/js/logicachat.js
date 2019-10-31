@@ -3,6 +3,8 @@ function enviarmsg(){
 	socket.emit("chat-message", {
 		idpac: ,
 		idmed: ,
+		idchat: ,
+		tipuser: ,s
 		mensaje: document.getElementById("input").value,
 		id: socket.id
 	});
