@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
+const json = require("./app/routes/metodosJSON");
 
 const app = express();
 session = require('express-session');
@@ -41,13 +42,13 @@ const io = socket(server);
 //websockets
 var conexiones = [];
 io.on("connection", (socket)=>{
-    socket.on("conectado",(arreglo)=>{
-        conexiones.push([socket.id,arreglo[0],arreglo[1]]);
+    socket.on("conectado",(usuarios)=>{
+        conexiones.push([socket.id,usuarios[0],usuarios[1]]);//usuarios[0] = id_pac  usuarios[1] = id_med
     })
 
 	socket.on("chat-message", (data)=>{
         for(var i = 0; conexiones.length;i++){
-            if(conexiones[i][1]==data[0]&&conexiones[i][2]==data[1]){
+            if(conexiones[i][1]==data.idpac&&conexiones[i][2]==data.idmed){
                 sd.agregar(idpac,idmed,mens);
                 io.sockets.socket(conexiones[i][0]).emit("chat-message",sd.agregar(idpac,idmed,mens));
             }
