@@ -49,8 +49,8 @@ io.on("connection", (socket)=>{
 	socket.on("chat-message", (data)=>{
         for(var i = 0; conexiones.length;i++){
             if(conexiones[i][1]==data.idpac&&conexiones[i][2]==data.idmed){
-                sd.agregar(idpac,idmed,mens);
-                io.sockets.socket(conexiones[i][0]).emit("chat-message",sd.agregar(idpac,idmed,mens));
+                json.escribirJSON(data.idpac,data.idmed,data.idchat,data.tipuser,data.mensaje);
+                io.sockets.socket(conexiones[i][0]).emit("chat-message",json.escribirJSON(data.idpac,data.idmed,data.idchat,data.tipuser,data.mensaje));
             }
         }
 		io.sockets.emit("chat-message", data);
