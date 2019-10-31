@@ -123,8 +123,8 @@
                                 <div class="col-md-2"></div>
                                 <div class="col-md-5">
                                 <%
-																console.log(doctores.length);
-																if(doctores.length>0){
+                                    console.log(doctores.length);
+                                    if(doctores.length>0){
                                     for(var c = 0; c<doctores.length; c++){
                                         for(var a = 0; a<rangos.length; a++){
                                             if(doctores[c].id_med == rangos[a].id_med){
@@ -145,12 +145,12 @@
                                                                  <div class="clearfix"> </div>
                                                              </div>
                                                              <div class="w3l_social_icons w3l_social_icons1">
-																															 <a class="button btn-success" style="padding:15px" href="agendarCita?i=<%
-																															var str = '';
-																															var ref = 'abcdefghijklmnñopqrstuvwxyz{}´+,-()!°|%¨*[]_:;';
-																															for (var i=0; i<150; i++){
-																															str += ref.charAt(Math.floor(Math.random()*ref.length));
-																															}%><%=str%><%=doctores[c].id_med%>" aria-expanded="true">
+                                                                    <a class="button btn-success" style="padding:15px" href="agendarCita?i=<%
+                                                                    var str = '';
+                                                                    var ref = 'abcdefghijklmnñopqrstuvwxyz{}´+,-()!°|%¨*[]_:;';
+                                                                    for (var i=0; i<550; i++){
+                                                                    str += ref.charAt(Math.floor(Math.random()*ref.length));
+                                                                    }%><%=str%><%=doctores[c].id_med%>" aria-expanded="true">
                                                                      <i class="fa fa-phone" aria-hidden="true"></i>
                                                                      Agendar cita
                                                                  </a>

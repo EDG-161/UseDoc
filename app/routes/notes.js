@@ -73,7 +73,7 @@ module.exports = app => {
             console.log("-----------------------error Home ------------");
             console.log(e);
         }
-    })
+    });
 
     app.get('/agregarMedico',(req,res)=>{
         try{

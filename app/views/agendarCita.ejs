@@ -78,26 +78,91 @@
     <div class="clearfix"></div>
     <div class="inner_content">
         <div class="inner_content_w3_agile_info"  >
-					<h2 class="w3_inner_tittle">Calendar</h2>
+            <h2 class="w3_inner_tittle">Calendar</h2>
+        <!-- /calendar -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="agile-calendar-grid">
+                        <div class="page_w3ls_cal agile_info_shadow">
+        
+                            <div class="w3l-calendar-left">
+                                <div class="calendar-heading">
+                                </div>
+                                <div class="monthly" id="mycalendar">
+                                    <div class="monthly-header">
+                                        <div class="monthly-header-title">Oct 2019</div>
+                                        <a class="monthly-prev" href="#"></a>
+                                        <a class="monthly-next" href="#"></a>
+                                    </div>
+                                    <div class="monthly-day-title-wrap">
+                                        <div>Sun</div>
+                                        <div>Mon</div>
+                                        <div>Tue</div>
+                                        <div>Wed</div>
+                                        <div>Thu</div>
+                                        <div>Fri</div>
+                                        <div>Sat</div>
+                                    </div>
+                                    <div class="monthly-day-wrap">
+                                        <div class="monthly-week">
+                                            <div class="m-d monthly-day-blank">
+                                                <div class="monthly-day-number">
+                                                    
+                                                </div></div><div class="m-d monthly-day-blank">
+                                                    <div class="monthly-day-number">
+        
+                                                    </div>
+                                                </div>
+                                                <a class="m-d monthly-day monthly-day-event" href="#" data-number="1">
+                                                    <div class="monthly-day-number">1</div>
+                                                    <div class="monthly-indicator-wrap">
+        
+                                                    </div>
+                                                </a>
+                                                <a class="m-d monthly-day monthly-day-event" href="#" data-number="2">
+                                                    <div class="monthly-day-number">2</div><div class="monthly-indicator-wrap">
+        
+                                                    </div>
+                                                </a>
+                                                <a class="m-d monthly-day monthly-day-event" href="#" data-number="3">
+                                                <div class="monthly-day-number">3</div>
+                                                <div class="monthly-indicator-wrap">
+        
+                                                </div></a>
+                                                <a class="m-d monthly-day monthly-day-event" href="#" data-number="4">
+                                                    <div class="monthly-day-number">4</div><div class="monthly-indicator-wrap">
+                                                        
+                                                    </div>
+                                                </a>
+                                                <a class="m-d monthly-day monthly-day-event" href="#" data-number="5">
+                                                    <div class="monthly-day-number">5</div>
+                                                    <div class="monthly-indicator-wrap"></div>
+                                                </a>
+                                            </div>
+                                    </div>
+                                </div>
+        
+                            <div class="clearfix"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form">
+                        <form action="">
+                            <div class="form-group">
 
-						<!-- /calendar -->
-
-								<div class="agile-calendar-grid">
-									<div class="page_w3ls_cal agile_info_shadow">
-
-										<div class="w3l-calendar-left">
-											<div class="calendar-heading">
-
-											</div>
-											<div class="monthly" id="mycalendar"></div>
-										</div>
-
-										<div class="clearfix"> </div>
-									</div>
-									</div>
+                                <input type="text" value="Nombre del Doctor" class="form-control">
+                                <input type="text" value="Fecha" class="form-control">
+                                <input type="text" value="Hora" class="form-control">
+                                <input type="text" value="" class="form-control">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 <!-- banner -->
 <!--copy rights start here-->
 <div class="copyrights">
@@ -140,36 +205,6 @@
     </script>
 <!-- script-for-menu -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-<script type="text/javascript" src="js/monthly.js"></script>
-<script type="text/javascript">
-	$(window).load( function() {
-
-		$('#mycalendar').monthly({
-			mode: 'event',
-
-		});
-
-		$('#mycalendar2').monthly({
-			mode: 'picker',
-			target: '#mytarget',
-			setWidth: '250px',
-			startHidden: true,
-			showTrigger: '#mytarget',
-			stylePast: true,
-			disablePast: true
-		});
-
-	switch(window.location.protocol) {
-	case 'http:':
-	case 'https:':
-	// running on a server, should be good.
-	break;
-	case 'file:':
-	alert('Just a heads-up, events will not work when run locally.');
-	}
-
-	});
-</script>
 <script src="js/bars.js"></script>
 <script src="js/scripts.js"></script>
 
