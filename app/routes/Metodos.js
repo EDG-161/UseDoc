@@ -10,6 +10,7 @@ function login(req,res){
         const { pass } = req.body;
 
         if (valida.validarLogin(email,pass)) {
+        
             connection.query("SELECT * FROM musuarios WHERE email_usr = '"+ aes.cifrar(email) + "' && pass_usr = '"+ aes.cifrar(pass) + "'",(err,result)=>{
                 if (!err) {
                     var user = result[0];

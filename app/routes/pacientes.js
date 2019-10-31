@@ -214,7 +214,7 @@ function obtenerMedicoById (id,callback){
 					res[0].appat_med = aes.decifrar(res[0].appat_med);
 					res[0].apmat_med = aes.decifrar(res[0].apmat_med);
 					res[0].ced_med = aes.decifrar(res[0].ced_med);
-					callback([res[0].re]);
+					callback([res[0],re]);
 				}else{
 					console.log("Error obtenerMedicoById1  " + er);
 					callback([]);
