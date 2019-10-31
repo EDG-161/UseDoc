@@ -4,25 +4,25 @@ const connection = dbConnection();
 const aes = require('./aes');
 
 function obtenerRangos(id,callback){
-	connection.query('select * from mpaciente_medico where id_pac='+id,(err,res)=>{
-		if(!err){
-			if(res.length>0){
-				callback(res);
+	connection.query('Select * from mpaciente where id_usr= '+ id,(er1,re1)=>{
+		connection.query('select * from mpaciente_medico where id_pac='+re1[0].id_pac,(err,res)=>{
+			if(!err){
+				if(res.length>0){
+					callback(res);
+				}else{
+					callback([]);
+				}
 			}else{
-				callback([]);
+				console.log(err);
 			}
-		}else{
-			console.log(err);
-		}
+		});
 	});
 }
 
 function obtenerDoctores(id,callback){
 	try{
 		connection.query("SELECT * FROM mpacientes where id_usr = "+id,(er1,re1)=>{
-			console.log("paci  " + "SELECT * FROM mpacientes where id_usr = "+id);
 			connection.query('SELECT * FROM mpaciente_medico where id_pac='+re1[0].id_pac,(err,result)=>{
-				console.log("mp 	" + 'SELECT * FROM mpaciente_medico where id_pac='+re1[0].id_pac);
 				if (!err) {
 					let doctores = [];
 					let cad = "SELECT * FROM mdoctores where ";
