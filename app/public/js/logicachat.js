@@ -1,6 +1,8 @@
 const socket = io();
 function enviarmsg(){
 	socket.emit("chat-message", {
+		idpac: ,
+		idmed: ,
 		mensaje: document.getElementById("input").value,
 		id: socket.id
 	});
