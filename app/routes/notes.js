@@ -17,7 +17,9 @@ module.exports = app => {
     });
 
     app.get('/salir',(req,res)=>{
-      res.render('add-note');
+      console.log("----------------------------Salir------------------------------");
+      req.session.user = null;
+      res.redirect('index');
     });
 
     app.get('/index', (req, res) => {
