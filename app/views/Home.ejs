@@ -15,19 +15,13 @@
 <link href="css/circles.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 <!-- font-awesome-icons -->
 <link href="css/font-awesome.css" rel="stylesheet">
 
 </head>
 <body>
-        <%
-        if(typeof mensaje !== "undefined"){
-           %>
-        
-           <script>alert("<%=mensaje%>");</script>
-           <%
-        }%>
 <!-- banner -->
 <div class="wthree_agile_admin_info">
     <div class="w3_agileits_top_nav">
@@ -98,8 +92,165 @@
     <div class="clearfix"></div>
     <div class="inner_content">
         <div class="inner_content_w3_agile_info">
-            <h2 style="margin-bottom: 30px;">Inicio </h2>
-            <h4>Codigo de medico:  <%=((user.id_usr+95158)*2)%></h4>
+            <h2 style="margin-bottom: 30px;" class="w3_inner_tittle two">Inicio </h2>
+            <h3 class="w3_inner_tittle two">Codigo de medico:  <%=((user.id_usr+95158)*2)%></h3>
+						<div class="agile-tables" style="margin-top: 30px">
+							<div class="w3l-table-info agile_info_shadow">
+								<div class="container">
+									<div class="row" id="mostrar">
+										<h3 class="w3_inner_tittle two">Horario de trabajo</h3>
+										<%if(typeof horario[0] !== "undefined"){
+											%>
+											<div class="col-md-8">
+
+												<table class="table table-striped table-hover" style="box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);">
+													<thead>
+												    <tr>
+												      <th scope="col">Día de trabajo</th>
+												      <th scope="col">Horario</th>
+												    </tr>
+												  </thead>
+												  <tbody>
+															<%
+															for(var i=0;i<horario[0].di_hor.length;i++){
+																switch (horario[0].di_hor.charAt(i)) {
+																	case '1':
+																		%>
+																		<tr>
+																		<td>Lunes</td>
+															      <td><strong><%=horario[0].hi_hor%>-<%=horario[0].hf_hor%></strong></td>
+																		</tr>
+																		<%
+																		break;
+																	case '2':
+																	%>
+																	<tr>
+																	<td>Martes</td>
+																	<td><strong><%=horario[0].hi_hor%>-<%=horario[0].hf_hor%></strong></td>
+																	</tr>
+																	<%
+																		break;
+																	case '3':
+																	%>
+																	<tr>
+																	<td>Miércoles</td>
+																	<td><strong><%=horario[0].hi_hor%>-<%=horario[0].hf_hor%></strong></td>
+																	</tr>
+																	<%
+																		break;
+																	case '4':
+																	%>
+																	<tr>
+																	<td>Jueves</td>
+																	<td><strong><%=horario[0].hi_hor%>-<%=horario[0].hf_hor%></strong></td>
+																	</tr>
+																	<%
+																		break;
+																	case '5':
+																	%>
+																	<tr>
+																	<td>Viernes</td>
+																	<td><strong><%=horario[0].hi_hor%>-<%=horario[0].hf_hor%></strong></td>
+																	</tr>
+																	<%
+																		break;
+																	case '6':
+																	%>
+																	<tr>
+																	<td>Sabado</td>
+																	<td><strong><%=horario[0].hi_hor%>-<%=horario[0].hf_hor%></strong></td>
+																	</tr>
+																	<%
+																		break;
+																	case '7':
+																	%>
+																	<tr>
+																	<td>Domingo</td>
+																	<td><strong><%=horario[0].hi_hor%>-<%=horario[0].hf_hor%></strong></td>
+																	</tr>
+																	<%
+																		break;
+																}
+															}
+															%>
+												  </tbody>
+												</table>
+											</div>
+											<div class="col-md-4">
+												<h4 style="margin:20px;">Tiempo promedio por cita</h4>
+												<div class="form-group">
+													<input type="text" disabled class="form-control" value="<%=horario[0].tiem_hor%>">
+												</div>
+												<div class="form-group">
+													<input type="button" class="btn btn-success" onclick="mostrar()" value="Editar horario">
+												</div>
+											</div>
+											<%
+										}else{
+											%>
+											<div class="col-md-3" > <h4 class="w3_inner_tittle two">Aún no has establecido tu horario de trabajo,
+												 establecelo para que tus pacientes puedan agendar citas</h4> </div>
+											<form class="" action="registrarHorario" id="form_horario" method="post">
+											<div class="col-md-3">
+												<div class="form_group">
+													<label for="dias">Selecciona tus días de trabajo</label>
+													<div class="row">
+														<div class="col-md-6">
+															<div class="checkbox">
+																<label><input type="checkbox" id="d0" name="L">Lunes</label>
+															</div>
+															<div class="checkbox">
+																<label><input type="checkbox" id="d1" name="M">Martes</label>
+															</div>
+															<div class="checkbox">
+																<label><input type="checkbox" id="d2" name="N">Miércoles</label>
+															</div>
+															<div class="checkbox">
+																<label>
+																	<input type="checkbox" id="d3" name="J">Jueves
+																</label>
+															</div>
+														</div>
+														<div class="col-md-6">
+															<div class="checkbox">
+																<label><input type="checkbox" id="d4" name="V">Viernes</label>
+															</div>
+															<div class="checkbox">
+																<label><input type="checkbox" id="d5" name="S">Sabado</label>
+															</div>
+															<div class="checkbox">
+																<label><input type="checkbox" id="d6" name="D">Domingo</label>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-md-2">
+												<div class="form_group">
+													<label for="">Ingresa tu hora de entrada</label>
+													<input type="time" required id="hi" name="hi" class="form-control">
+												</div>
+												<div class="form_group">
+													<label for="">Ingresa tu hora de salida</label>
+													<input type="time" required id="hf" name="hf" class="form-control">
+												</div>
+											</div>
+											<div class="col-md-2">
+												<div class="form-group">
+													<label for="th">Ingresa el tiempo estimado para una cita</label>
+													<input name="th" required id="th" type="time" min="00:00" max="02:00" class="form-control">
+												</div>
+												<div class="form-group">
+													<input type="submit" class="btn btn-primary" value="Registrar horario">
+												</div>
+											</div>
+											</form>
+											<%
+										}%>
+									</div>
+								</div>
+							</div>
+						</div>
                 <div class="agile-tables">
                     <div class="w3l-table-info agile_info_shadow">
                         <div class="container">
@@ -299,12 +450,19 @@
 <!-- js -->
 
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
-
+<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<%if(typeof mensaje !== "undefined"){
+    %>
+    <script>
+        toastr.info("<%=mensaje%>","Info");
+    </script>
+    <%
+}%>
 <script src="js/amcharts.js"></script>
 <script src="js/serial.js"></script>
 <script src="js/export.js"></script>
 <script src="js/light.js"></script>
-<script src="js/chart1.js"></script>
     <script src="js/Chart.min.js"></script>
 <script src="js/modernizr.custom.js"></script>
 
@@ -349,8 +507,9 @@
 </script>
 <script src="js/bars.js"></script>
 <script src="js/scripts.js"></script>
+<script src="js/regHorario.js"></script>
 
-<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+
 
 
 </body>

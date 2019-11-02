@@ -44,7 +44,9 @@ function obtenerCitas(id,callback){
   			if (!err) {
           console.log('SELECT * FROM mcitas where id_med='+re1[0].id_med);
           for (var i = 0; i < result.length; i++) {
-  					result[i].des_cit = aes.decifrar(result[i].des_cit);
+  					if (result[i].des_cit!="Sin descripcion") {
+              result[i].des_cit = aes.decifrar(result[i].des_cit);
+            }
   					result[i].dat_cit = aes.decifrar(result[i].dat_cit);
             result[i].hor_cit = aes.decifrar(result[i].hor_cit);
   				}
@@ -94,6 +96,31 @@ function obtenerPacienteById(id, callback){
   });
 }
 
+function obtenerHorario(id,callback){
+  connection.query('SELECT * FROM mdoctores WHERE id_usr='+id, (err,result)=>{
+    if (!err) {
+      connection.query('SELECT * FROM mhorario_medico WHERE id_med='+result[0].id_med,(er,resu)=>{
+        if (!er) {
+          if (resu.length>0) {
+            resu[0].hi_hor = aes.decifrar(resu[0].hi_hor);
+            resu[0].hf_hor = aes.decifrar(resu[0].hf_hor);
+            resu[0].tiem_hor = aes.decifrar(resu[0].tiem_hor);
+            resu[0].di_hor = aes.decifrar(resu[0].di_hor);
+            callback(resu);
+          }else{
+            callback(resu);
+          }
+        }else {
+          console.log("Error obtenerHorario 1   "+ er);
+        }
+      });
+    }else{
+      console.log("Error obtenerHorario    " + err);
+      callback([]);
+    }
+  });
+}
+
 function agendarCita(req,res,id,date,des,hor){
   connection.query("SELECT * FROM mdoctores where id_usr="+req.session.user.id_usr,(er1,re1)=>{
     connection.query("INSERT INTO mcitas (id_pac,id_med,des_cit,dat_cit,id_tip,hor_cit) values("+id+","+re1[0].id_med+",'"+aes.cifrar(des)+"','"+aes.cifrar(date)+"',2,'"+aes.cifrar(hor)+"')",(er,re)=>{
@@ -109,7 +136,171 @@ function agendarCita(req,res,id,date,des,hor){
   });
 }
 
+function registrarHorario(req,res) {
+  const { L } = req.body;
+  const { M } = req.body;
+  const { N } = req.body;
+  const { J } = req.body;
+  const { V } = req.body;
+  const { S } = req.body;
+  const { D } = req.body;
+  const { hi } = req.body;
+  const { hf } = req.body;
+  const { th } = req.body;
+  let dias = "";
+  if (typeof L != "undefined") {
+    dias+="1";
+  }
+  if (typeof M != "undefined") {
+    dias+="2";
+  }
+  if (typeof N != "undefined") {
+    dias+="3";
+  }
+  if (typeof J != "undefined") {
+    dias+="4";
+  }
+  if (typeof V != "undefined") {
+    dias+="5";
+  }
+  if (typeof S != "undefined") {
+    dias+="6";
+  }
+  if (typeof D != "undefined") {
+    dias+="7";
+  }
+  if (dias.length>0) {
+    let hv = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    let thv = /^[0][0-1]:[0-5][0-9]$/
+    if (hv.test(hi)&&hv.test(hf)&&hv.test(th)) {
+      if (hi<hf) {
+        if (hv.test(th)) {
+          if (th>="00:10"&&th<="02:00") {
+            connection.query('SELECT * FROM mdoctores WHERE id_usr='+req.session.user.id_usr,(err,result)=>{
+              if (!err) {
+                connection.query("INSERT INTO mhorario_medico (id_med, hi_hor, hf_hor, tiem_hor, di_hor) values ("+result[0].id_med+",'"+aes.cifrar(hi)+"','"+aes.cifrar(hf)+"','"+aes.cifrar(th)+"','"+aes.cifrar(dias)+"')",(er,resu)=>{
+                  if (!er) {
+                    res.redirect('/Home?men=Horario establecido exitosamente');
+                    res.end();
+                  }else{
+                    console.log("error registrarHorario1:   " + err);
+                    res.redirect('/Home?men=Algo ocurrio');
+                    res.end();
+                  }
+                });
+              }else{
+                console.log("error registrarHorario:   " + err);
+                res.redirect('/Home?men=Algo ocurrio');
+                res.end();
+              }
+            });
+          }else{
+            res.redirect('/Home?men=El tiempo promedio de cita debe ser de entre 10min y 2 hrs');
+            res.end();
+          }
+        }else{
+          res.redirect('/Home?men=El tiempo promedio de cita no es valido');
+          res.end();
+        }
+      }else{
+        res.redirect('/Home?men=La hora de salida debe ser mayor a la de entrada');
+        res.end();
+      }
+    }else{
+      res.redirect('/Home?men=Ingresa horas validas');
+      res.end();
+    }
+  }else{
+    res.redirect('/Home?men=Debes seleccionar al menos un día de trabajo');
+    res.end();
+  }
+}
+
+function editarHorario(req,res) {
+  const { L } = req.body;
+  const { M } = req.body;
+  const { N } = req.body;
+  const { J } = req.body;
+  const { V } = req.body;
+  const { S } = req.body;
+  const { D } = req.body;
+  const { hi } = req.body;
+  const { hf } = req.body;
+  const { th } = req.body;
+  let dias = "";
+  if (typeof L != "undefined") {
+    dias+="1";
+  }
+  if (typeof M != "undefined") {
+    dias+="2";
+  }
+  if (typeof N != "undefined") {
+    dias+="3";
+  }
+  if (typeof J != "undefined") {
+    dias+="4";
+  }
+  if (typeof V != "undefined") {
+    dias+="5";
+  }
+  if (typeof S != "undefined") {
+    dias+="6";
+  }
+  if (typeof D != "undefined") {
+    dias+="7";
+  }
+  if (dias.length>0) {
+    let hv = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    let thv = /^[0][0-1]:[0-5][0-9]$/
+    if (hv.test(hi)&&hv.test(hf)&&hv.test(th)) {
+      if (hi<hf) {
+        if (hv.test(th)) {
+          if (th>="00:10"&&th<="02:00") {
+            connection.query('SELECT * FROM mdoctores WHERE id_usr='+req.session.user.id_usr,(err,result)=>{
+              if (!err) {
+                connection.query("Update mhorario_medico  set hi_hor = '"+aes.cifrar(hi)+"', hf_hor='"+aes.cifrar(hf)+"', tiem_hor='"+aes.cifrar(th)+"', di_hor='"+aes.cifrar(dias)+"' WHERE id_med="+result[0].id_med,(er,resu)=>{
+                  console.log("Update mhorario_medico  set hi_hor = '"+aes.cifrar(hi)+", hf_hor='"+aes.cifrar(hf)+"', tiem_hor='"+aes.cifrar(th)+"', di_hor='"+aes.cifrar(dias)+"' WHERE id_med="+result[0].id_med);
+                  if (!er) {
+                    res.redirect('/Home?men=Horario editado exitosamente');
+                    res.end();
+                  }else{
+                    console.log("error registrarHorario1:   " + err);
+                    res.redirect('/Home?men=Algo ocurrio');
+                    res.end();
+                  }
+                });
+              }else{
+                console.log("error registrarHorario:   " + err);
+                res.redirect('/Home?men=Algo ocurrio');
+                res.end();
+              }
+            });
+          }else{
+            res.redirect('/Home?men=El tiempo promedio de cita debe ser de entre 10min y 2 hrs');
+            res.end();
+          }
+        }else{
+          res.redirect('/Home?men=El tiempo promedio de cita no es valido');
+          res.end();
+        }
+      }else{
+        res.redirect('/Home?men=La hora de salida debe ser mayor a la de entrada');
+        res.end();
+      }
+    }else{
+      res.redirect('/Home?men=Ingresa horas validas');
+      res.end();
+    }
+  }else{
+    res.redirect('/Home?men=Debes seleccionar al menos un día de trabajo');
+    res.end();
+  }
+}
+
+exports.editarHorario = editarHorario;
+exports.registrarHorario = registrarHorario;
 exports.obtenerCitas = obtenerCitas;
 exports.obtenerPacientes = obtenerPacientes;
 exports.obtenerPacienteById = obtenerPacienteById;
 exports.agendarCita = agendarCita;
+exports.obtenerHorario = obtenerHorario;

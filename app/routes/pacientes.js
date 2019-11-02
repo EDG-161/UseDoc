@@ -144,13 +144,15 @@ function obtenerCitas(id,callback){
 			console.log(re1);
 			connection.query('SELECT * FROM mcitas where id_pac='+re1[0].id_pac,(err,result)=>{
 				if (!err) {
-					console.log('SELECT * FROM mcitas where id_pac='+id);
-					for (var i = 0; i < result.length; i++) {
-						result[i].des_cit = aes.decifrar(result[i].des_cit);
-						result[i].dat_cit = aes.decifrar(result[i].dat_cit);
-						result[i].hor_cit = aes.decifrar(result[i].hor_cit);
+					if (result.length>0) {
+						for (var i = 0; i < result.length; i++) {
+							if (result[i].des_cit!="Sin descripcion") {
+								result[i].des_cit = aes.decifrar(result[i].des_cit);
+							}
+							result[i].dat_cit = aes.decifrar(result[i].dat_cit);
+							result[i].hor_cit = aes.decifrar(result[i].hor_cit);
+						}
 					}
-					console.log(result);
 					callback(result);
 				}else{
 					callback([]);
@@ -206,7 +208,9 @@ function obtenerMedicoById (id,callback){
 			connection.query('SELECT * from mcitas where id_med = '+res[0].id_med,(er,re)=>{
 				if (!er) {
 					for (var i = 0; i < re.length; i++) {
-						re[i].des_cit = aes.decifrar(re[i].des_cit);
+						if (re[i].des_cit!="Sin descripcion") {
+							re[i].des_cit = aes.decifrar(re[i].des_cit);
+						}
 						re[i].dat_cit = aes.decifrar(re[i].dat_cit);
 						re[i].hor_cit = aes.decifrar(re[i].hor_cit);
 					}
@@ -245,7 +249,6 @@ function obtenerPacienteById(id, callback){
               r[0].col_dat = aes.decifrar(r[0].col_dat);
               r[0].codpost_dat = aes.decifrar(r[0].codpost_dat);
               let respuesta = [res[0],r[0]];
-              console.log(respuesta);
               callback(respuesta);
             }else{
               callback([]);
@@ -261,6 +264,25 @@ function obtenerPacienteById(id, callback){
   });
 }
 
+function obtenerHorario(id,callback){
+  connection.query('SELECT * FROM mhorario_medico WHERE id_med='+id,(er,resu)=>{
+    if (!er) {
+      if (resu.length>0) {
+        resu[0].hi_hor = aes.decifrar(resu[0].hi_hor);
+        resu[0].hf_hor = aes.decifrar(resu[0].hf_hor);
+        resu[0].tiem_hor = aes.decifrar(resu[0].tiem_hor);
+        resu[0].di_hor = aes.decifrar(resu[0].di_hor);
+        callback(resu);
+      }else{
+        callback(resu);
+      }
+    }else {
+      console.log("Error obtenerHorariopaci1   "+ er);
+    }
+  });
+}
+
+exports.obtenerHorario = obtenerHorario;
 exports.obtenerPacienteById = obtenerPacienteById;
 exports.obtenerMedicoById = obtenerMedicoById;
 exports.obtenerDoctores = obtenerDoctores;

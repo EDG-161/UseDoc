@@ -2,6 +2,7 @@ const dbConnection = require('../../config/dbconnection');
 let pacientes = require('./pacientes');
 let doctores = require('./doctores');
 var modulos =  require('./Metodos');
+const aes = require('./aes');
 
 module.exports = app => {
     const connection = dbConnection();
@@ -14,6 +15,11 @@ module.exports = app => {
         res.render('index');
         }
     });
+
+    app.get('/salir',(req,res)=>{
+      res.render('add-note');
+    });
+
     app.get('/index', (req, res) => {
         if (req.session.user!= null) {
             res.writeHead(301,{'Location':'Home'});
@@ -35,15 +41,21 @@ module.exports = app => {
         try {
           if (req.session.user!= null) {
               let userobj = req.session.user;
+              let men = req.query.men;
               if (userobj.id_tid==1) {
                   doctores.obtenerPacientes(userobj.id_usr,function(pac){
                       req.session.pacientes = pac;
                       doctores.obtenerCitas(userobj.id_usr,function(citas){
                         req.session.citas = citas;
-                        res.render("Home",{
-                            user:userobj,
-                            pacientes:req.session.pacientes,
-                            citas: req.session.citas
+                        doctores.obtenerHorario(userobj.id_usr, function(h){
+                          req.session.horario = h;
+                          res.render("Home",{
+                              user:userobj,
+                              pacientes:req.session.pacientes,
+                              citas: req.session.citas,
+                              horario: h,
+                              mensaje:men
+                          });
                         });
                       });
                   });
@@ -58,7 +70,8 @@ module.exports = app => {
                             user:userobj,
                             doctores: req.session.doctor,
                             rangos: req.session.rangos,
-                            citas: req.session.citas
+                            citas: req.session.citas,
+                            mensaje:men
                         });
                       });
                     });
@@ -175,15 +188,36 @@ module.exports = app => {
         }
     });
 
-    app.get('/salir',(req,res)=>{
-      req.session.destroy();
 
-      res.writeHead(301,{'Location':'index'});
-      res.end();
-    });
 
 
     //----------------------Rutas medicos------------------------
+
+    app.post('/registrarHorario',(req,res)=>{
+      if (req.session.user!=null) {
+        if (req.session.user.id_tid==1) {
+          doctores.registrarHorario(req,res);
+        }else{
+          res.redirect('/Home');
+        }
+      }else{
+        res.redirect('/login');
+        res.end();
+      }
+    });
+
+    app.post('/editarHorario',(req,res)=>{
+      if (req.session.user!=null) {
+        if (req.session.user.id_tid==1) {
+          doctores.editarHorario(req,res);
+        }else{
+          res.redirect('/Home');
+        }
+      }else{
+        res.redirect('/login');
+        res.end();
+      }
+    });
 
     app.get('/pacientes',(req,res)=>{
         if (req.session.user!= null) {
@@ -302,27 +336,89 @@ module.exports = app => {
       }
     });
 
-    app.post('/agregarCita',(req,res)=>{
+    app.post('/agendarCita',(req,res)=>{
         if (req.session.user!= null) {
-          if (req.session.user.id_tid==1) {
+          if (req.session.user.id_tid==2) {
             const { id } = req.body;
-            const { dat } = req.body;
-            const { des } = req.body;
-            const { hor } = req.body;
+            const { fe } = req.body;
+            const { ho } = req.body;
             var num = /^([0-9])+$/;
-            console.log(id + "    " + des);
-            if(num.test(id) && des.length<=300){
-                var fecha = new Date(dat);
-                var descripcion = des;
-                console.log("entro");
-                doctores.agendarCita(req,res,id,dat,des,hor);
-            }else if(num.test(id) && des>300){
-                res.redirect('/paciente?p='+id + '&men=La descripcion debe ser de 300 caracteres de largo o menos');
+            if (typeof id !== "undefined") {
+              if(num.test(id)){
+                var vadFech = /^(?:(?:(?:0?[1-9]|1\d|2[0-8])[-](?:0?[1-9]|1[0-2])|(?:29|30)[-](?:0?[13-9]|1[0-2])|31[-](?:0?[13578]|1[02]))[-](?:0{2,3}[1-9]|0{1,2}[1-9]\d|0?[1-9]\d{2}|[1-9]\d{3})|29[-]0?2[-](?:\d{1,2}(?:0[48]|[2468][048]|[13579][26])|(?:0?[48]|[13579][26]|[2468][048])00))$/;
+                var fec = fe;
+                let hv = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+                let hora = ho;
+                var str = '';
+                var ref = 'abcdefghijklmnñopqrstuvwxyz1234567890{}´+,-()!°|%¨*[]_:;';
+                for (var i=0; i<550; i++){
+                  str += ref.charAt(Math.floor(Math.random()*ref.length));
+                }
+                console.log(fe + "   "+ ho  );
+                if (vadFech.test(fec)) {
+                  if (hv.test(hora)) {
+                    pacientes.obtenerMedicoById(id,(citas)=>{
+                      var verificador = true;
+                      for(var i = 0;i<citas[1].length;i++){
+                        console.log( "cita   " + citas[1][i]);
+                        var fecha1 = citas[1][i].dat_cit.split('-');
+              					var fecha2 = fec.split('-');
+              					if(hora==citas[1][i].hor_cit&&((new Date(fecha1[2],(fecha1[1]-1),fecha1[0])).getTime())==((new Date(fecha2[2],(fecha2[1]-1),fecha2[0])).getTime())) {
+              						verificador = false;
+              					}
+                      }
+                      if(verificador){
+                        if ((new Date(fec).getTime)>= (new Date()).getTime) {
+                          connection.query('SELECT * FROM mpacientes where id_usr='+req.session.user.id_usr,(err,result)=>{
+                            if (!err) {
+                              if (result.length>0) {
+                                connection.query("INSERT INTO mcitas (id_pac, id_med, dat_cit, hor_cit, id_tip) values ("+result[0].id_pac+","+id+" , '"+aes.cifrar(fec)+"', '"+aes.cifrar(hora)+"', 2)",(er,ress)=>{
+                                  if (!er) {
+                                    res.redirect("agendarCita?i="+str+id+"&men=Cita registrada exitosamente");
+                                    res.end();
+                                  }else{
+                                    res.redirect("agendarCita?i="+str+id+"&men=Algo ha ocurrido");
+                                    res.end();
+                                  }
+                                });
+                              }else{
+                                res.redirect("/Home");
+                                res.end();
+                              }
+                            }else{
+                              res.redirect("/Home");
+                              res.end();
+                            }
+                          });
+                        }else {
+                          res.redirect("agendarCita?i="+str+id+"&men=La fecha ya ha pasado");
+                          res.end();
+                        }
+                      }else{
+                        res.redirect("agendarCita?i="+str+id+"&men=El horario esta ocupado");
+                        res.end();
+                      }
+                    });
+                  }else{
+                    res.redirect("agendarCita?i="+str+id+"&men=La fecha no es valida");
+                    res.end();
+                  }
+                }else{
+                  res.redirect("agendarCita?i="+str+id+"&men=La fecha no es valida");
+                  res.end();
+                }
+              }else{
+                console.log("Id no numero");
+                res.redirect("/Home");
+                res.end();
+              }
             }else{
-              console.log("No entro");
-                res.redirect('/pacientes');
+              console.log("no id");
+              res.redirect("/Home");
+              res.end();
             }
           }else {
+            console.log("Es medico");
             res.redirect("/Home");
             res.end();
           }
@@ -340,16 +436,44 @@ module.exports = app => {
             var id_med = req.query.i.substring(req.query.i.length-1,req.query.i.length);
             pacientes.obtenerPacienteById(req.session.user.id_usr,function(paciente){
               pacientes.obtenerMedicoById(id_med,function(citas){
-                res.render('agendarCita',{
-                  medico: citas[0],
-                  citas: citas[1],
-                  paciente: paciente[0]
+                pacientes.obtenerHorario(id_med,function(horario){
+                  if (typeof req.query.s !== "undefined") {
+                    if (parseInt(req.query.s)==2 || parseInt(req.query.s) == 3) {
+                      res.render('agendarCita',{
+                        medico: citas[0],
+                        citas: citas[1],
+                        paciente: paciente[0],
+                        horario,
+                        se : parseInt(req.query.s),
+                        mensaje : req.query.men
+                      });
+                    }else{
+                      res.render('agendarCita',{
+                        medico: citas[0],
+                        citas: citas[1],
+                        paciente: paciente[0],
+                        horario,
+                        se : 1,
+                        mensaje : req.query.men
+                      });
+                    }
+                  }else{
+                    res.render('agendarCita',{
+                      medico: citas[0],
+                      citas: citas[1],
+                      paciente: paciente[0],
+                      horario,
+                      se : 1,
+                      mensaje : req.query.men
+                    });
+                  }
                 });
               });
             });
           }else{
             console.log(req.query.i);
-            req.end();
+            res.redirect('Home');
+            res.end();
           }
         }else{
           res.redirect('/Home');

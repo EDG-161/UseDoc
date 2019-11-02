@@ -16,22 +16,54 @@
 <link href="css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <link rel="stylesheet" href="css/monthly.css">
-<!-- font-awesome-icons -->
 <link href="css/font-awesome.css" rel="stylesheet">
-
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 <body>
 <!-- banner -->
 <%
-for (var i = 0; i < (citas.length-1); i++) {
-	var f1 = new Date(citas[i]);
-	var f2 = new Date(citas[i+1]);
-	if (f2.getTime()>f1.getTime()) {
-		var citat = citas[i+1];
-		citas[i+1] = citas[i];
-		citas[i] = citat;
+
+function sumarHoras(hora){
+	var horas;
+	var minutos;
+	var cont = 0;
+	for (var i = 0; i < hora.length; i++) {
+		if (hora.charAt(i)==':') {
+			cont = i;
+		}
 	}
+	horas = parseInt(hora.substring(0,cont));
+	minutos = parseInt(hora.substring((cont+1),hora.length));
+	for (var i = 0; i < horario[0].tiem_hor.length; i++) {
+		if (horario[0].tiem_hor.charAt(i)==':') {
+			cont = i;
+		}
+	}
+	var horas2 = parseInt(horario[0].tiem_hor.substring(0,cont));
+	var minutos2 = parseInt(horario[0].tiem_hor.substring((cont+1),hora.length));
+	var tmh = (horas + horas2)+":00";
+	if ((horas+horas2)>9) {
+		tmh = (horas + horas2)+":00"
+	}else{
+		tmh = "0"+(horas + horas2)+":00"
+	}
+		horas += horas2;
+		minutos += minutos2;
+		if (minutos>59) {
+			minutos-= 60;
+			horas += 1;
+		}
+
+	if (horas<10) {
+		horas = "0"+horas;
+	}
+	if (minutos<10) {
+		minutos = "0"+minutos;
+	}
+	return (horas+":"+minutos);
 }
+
+
 %>
 <div class="wthree_agile_admin_info">
     <div class="w3_agileits_top_nav">
@@ -88,7 +120,7 @@ for (var i = 0; i < (citas.length-1); i++) {
     <div class="clearfix"></div>
     <div class="inner_content">
         <div class="inner_content_w3_agile_info"  >
-            <h2 class="w3_inner_tittle">Medico <%=medico.name_med%></h2>
+            <h2 class="w3_inner_tittle">Medico: <%=medico.name_med%> <%=medico.appat_med%> <%=medico.apmat_med%></h2>
         <!-- /calendar -->
             <div class="row">
                 <div class="col-md-6">
@@ -100,62 +132,196 @@ for (var i = 0; i < (citas.length-1); i++) {
                                 </div>
                                 <div class="monthly" id="mycalendar">
                                     <div class="monthly-header">
-                                        <div class="monthly-header-title">Calendario de citas</div>
-                                        <a class="monthly-prev" href="#"></a>
-                                        <a class="monthly-next" href="#"></a>
+																			<%
+																			if (se==1) {
+																				%>
+																				<div class="monthly-header-title">Calendario de citas <%var semana = Date.parse(new Date());semana =(new Date(semana-(86400000*((new Date()).getDay()-1))))%><%=semana.getDate()%>/<%=(semana.getMonth()+1)%>/<%=semana.getYear()%></div>
+																				<%
+																			}else{
+																				%>
+																				<div class="monthly-header-title">Calendario de citas <%var semana = Date.parse(new Date());semana =(new Date(semana-(86400000*((new Date()).getDay()-1))+(86400000*(7*(se-1)))))%><%=semana.getDate()%>/<%=(semana.getMonth()+1)%>/<%=semana.getYear()%></div>
+																				<%
+																			}
+																			%>
+                                        <a class="monthly-prev"  href="agendarCita?i=<%
+																				var str = '';
+																				var ref = 'abcdefghijklmnñopqrstuvwxyz1234567890{}´+,-()!°|%¨*[]_:;';
+																				for (var i=0; i<550; i++){
+																				str += ref.charAt(Math.floor(Math.random()*ref.length));
+																			}%><%=str%><%=medico.id_med%>&s=<%=(se-1)%>"></a>
+                                        <a class="monthly-next" href="agendarCita?i=<%
+																				var str = '';
+																				var ref = 'abcdefghijklmnñopqrstuvwxyz1234567890{}´+,-()!°|%¨*[]_:;';
+																				for (var i=0; i<550; i++){
+																				str += ref.charAt(Math.floor(Math.random()*ref.length));
+																			}%><%=str%><%=medico.id_med%>&s=<%=(se+1)%>"></a>
                                     </div>
-                                    <%
-                                    
-                                    var fi =new Date(citas[c]);
-                                    for(var c = (citas.length-1) ;c>=0 ;c++){
-                                    }
-                                    %>
-                                    <div class="monthly-day-title-wrap">
-                                        <div>Sun</div>
-                                        <div>Mon</div>
-                                        <div>Tue</div>
-                                        <div>Wed</div>
-                                        <div>Thu</div>
-                                        <div>Fri</div>
-                                        <div>Sat</div>
-                                    </div>
-                                    <div class="monthly-day-wrap">
-                                        <div class="monthly-week">
-                                            <div class="m-d monthly-day-blank">
-                                                <div class="monthly-day-number">
+																		<%
+																		if (horario.length>0) {
+																			%>
+																			<div class="monthly-day-title-wrap">
+																				<%
+																				for (var i = 0; i < horario[0].di_hor.length; i++) {
+																					switch (horario[0].di_hor.charAt(i)) {
+																						case '1':
+																						%>
+																						<div>Lunes</div>
+																						<%
+																							break;
+																						case '2':
+																						%>
+																						<div>Martes</div>
+																						<%
+																							break;
+																						case '3':
+																						%>
+																						<div>Miércoles</div>
+																						<%
+																							break;
+																						case '4':
+																						%>
+																						<div>Jueves</div>
+																						<%
+																							break;
+																						case '5':
+																						%>
+																						<div>Viernes</div>
+																						<%
+																							break;
+																						case '6':
+																						%>
+																						<div>Sabado</div>
+																						<%
+																							break;
+																						case '7':
+																						%>
+																						<div>Domingo</div>
+																						<%
+																							break;
+																					}
+																				}
+																				%>
+	                                    </div>
+	                                    <div class="monthly-day-wrap">
+																						<%
+																						var vef = true;
+																						var h = horario[0].hi_hor;
+																						while (vef) {
+																							%>
+																							<div class="monthly-week">
+																							<%
+																							if (se==1) {
+																								for (var i = 0; i < horario[0].di_hor.length; i++) {
+																									var dia = (new Date()).getDay();
+																									if (dia==0) {
+																										dia=7
+																									}
+																									if (parseInt(horario[0].di_hor.charAt(i))>(dia)) {
+																										var verificador = true;
+																										var fecha = new Date(semana.getTime()+((horario[0].di_hor.charAt(i)-1)*86400000));
+																										for (var ci = 0; ci < citas.length; ci++) {
+																											var fecha1 = citas[ci].dat_cit.split('-');
+																											var fecha2 = (fecha.getDate()+"-"+(fecha.getMonth()+1)+"-"+fecha.getFullYear()).split('-')
+																											if(h==citas[ci].hor_cit&&((new Date(fecha1[2],(fecha1[1]-1),fecha1[0])).getTime())==((new Date(fecha2[2],(fecha2[1]-1),fecha2[0])).getTime())) {
+																												verificador = false;
+																											}
+																										}
+																										if (verificador) {
+																											%>
+																											<a class="m-d monthly-day monthly-day-event" onclick="cambiar('<%=h%>','<%=new Date(semana.getTime()+((horario[0].di_hor.charAt(i)-1)*86400000))%>')" href="#" data-number="1">
+																													<div class="monthly-day-number"><%=h%></div>
+																													<div class="monthly-indicator-wrap">
 
-                                                </div></div><div class="m-d monthly-day-blank">
-                                                    <div class="monthly-day-number">
+																													</div>
+																											</a>
+																											<%
+																										}else{
+																											%>
+																											<div class="m-d monthly-day monthly-day-event" href="#" data-number="1">
+																													<div class="monthly-day-number"><%=h%>No disponible</div>
+																													<div class="monthly-indicator-wrap">
 
-                                                    </div>
-                                                </div>
-                                                <a class="m-d monthly-day monthly-day-event" href="#" data-number="1">
-                                                    <div class="monthly-day-number">1</div>
-                                                    <div class="monthly-indicator-wrap">
+																													</div>
+																											</div>
+																											<%
+																										}
+																									}else{
+																										%>
+																										<div class="m-d monthly-day monthly-day-event" href="#" data-number="1">
+																												<div class="monthly-day-number"><%=h%>Fecha pasada</div>
+																												<div class="monthly-indicator-wrap">
 
-                                                    </div>
-                                                </a>
-                                                <a class="m-d monthly-day monthly-day-event" href="#" data-number="2">
-                                                    <div class="monthly-day-number">2</div><div class="monthly-indicator-wrap">
+																												</div>
+																										</div>
+																										<%
+																									}
+																								}
+																							}else{
+																								for (var i = 0; i < horario[0].di_hor.length; i++) {
+																									var dia = (new Date()).getDay();
 
-                                                    </div>
-                                                </a>
-                                                <a class="m-d monthly-day monthly-day-event" href="#" data-number="3">
-                                                <div class="monthly-day-number">3</div>
-                                                <div class="monthly-indicator-wrap">
+																									if (true) {
+																										var verificador = true;
+																										var fecha = new Date(semana.getTime()+((horario[0].di_hor.charAt(i)-1)*86400000));
+																										for (var ci = 0; ci < citas.length; ci++) {
+																											var fecha1 = citas[ci].dat_cit.split('-');
+																											var fecha2 = (fecha.getDate()+"-"+(fecha.getMonth()+1)+"-"+fecha.getFullYear()).split('-')
+																											if(h==citas[ci].hor_cit&&((new Date(fecha1[2],(fecha1[1]-1),fecha1[0])).getTime())==((new Date(fecha2[2],(fecha2[1]-1),fecha2[0])).getTime())) {
+																												verificador = false;
+																											}
+																										}
+																										if (verificador) {
+																											%>
+																											<a class="m-d monthly-day monthly-day-event" onclick="cambiar('<%=h%>','<%=new Date(semana.getTime()+((horario[0].di_hor.charAt(i)-1)*86400000))%>')" href="#" data-number="1">
+																													<div class="monthly-day-number"><%=h%></div>
+																													<div class="monthly-indicator-wrap">
 
-                                                </div></a>
-                                                <a class="m-d monthly-day monthly-day-event" href="#" data-number="4">
-                                                    <div class="monthly-day-number">4</div><div class="monthly-indicator-wrap">
+																													</div>
+																											</a>
+																											<%
+																										}else{
+																											%>
+																											<div class="m-d monthly-day monthly-day-event" href="#" data-number="1">
+																													<div class="monthly-day-number"><%=h%>No disponible</div>
+																													<div class="monthly-indicator-wrap">
 
-                                                    </div>
-                                                </a>
-                                                <a class="m-d monthly-day monthly-day-event" href="#" data-number="5">
-                                                    <div class="monthly-day-number">5</div>
-                                                    <div class="monthly-indicator-wrap"></div>
-                                                </a>
-                                            </div>
-                                    </div>
+																													</div>
+																											</div>
+																											<%
+																										}
+																									}else{
+																										%>
+																										<div class="m-d monthly-day monthly-day-event" href="#" data-number="1">
+																												<div class="monthly-day-number"><%=h%>Fecha pasada</div>
+																												<div class="monthly-indicator-wrap">
+
+																												</div>
+																										</div>
+																										<%
+																									}
+																								}
+																							}
+
+																							h = sumarHoras(h);
+																							if (h>=horario[0].hf_hor) {
+																								vef = false;
+																							}
+																							%>
+																							</div>
+																							<%
+																						}
+																						%>
+	                                    </div>
+																			<%
+																		}else{
+																			%>
+																			<div class="monthly-day-title-wrap">
+																				El medico aún no tiene un horario establecido, por lo que no puedes agendar una cita
+	                                    </div>
+																			<%
+																		}
+																		%>
+
                                 </div>
 
                             <div class="clearfix"> </div>
@@ -165,21 +331,25 @@ for (var i = 0; i < (citas.length-1); i++) {
                 </div>
                 <div class="col-md-6">
                     <div class="form">
-                        <form action="">
+                        <form action="agendarCita" method="post" id="form_agc">
 														<div class="form-group">
 															<h2>Agendar nueva cita</h2>
 														</div>
                             <div class="form-group">
-                                <input type="text" value="Nombre del Doctor" class="form-control">
+															<label for="">Medico</label>
+															<input type="hidden" name="id" value="<%=medico.id_med%>">
+                                <input type="text" id="nom" disabled value="<%=medico.name_med%> <%=medico.appat_med%> <%=medico.apmat_med%>" class="form-control">
                             </div>
 														<div class="form-group">
-                                <input type="text" value="Fecha" class="form-control">
+															<label for="">Fecha</label>
+                                <input type="text" id="fe" name="fe" readonly value="Fecha" class="form-control">
                             </div>
 														<div class="form-group">
-                                <input type="text" value="Hora" class="form-control">
+															<label for="">Hora</label>
+                                <input type="text" id="ho" name="ho" readonly value="Hora" class="form-control">
                             </div>
 														<div class="form-group">
-                                <input type="text" value="" class="form-control">
+                                <input type="submit" id="enviar" value="Agendar cita" class="btn btn-primary">
                             </div>
 
                         </form>
@@ -214,6 +384,7 @@ for (var i = 0; i < (citas.length-1); i++) {
 <!-- js -->
 
 <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
 
 <script src="js/amcharts.js"></script>
 <script src="js/serial.js"></script>
@@ -231,10 +402,76 @@ for (var i = 0; i < (citas.length-1); i++) {
 <!-- script-for-menu -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="js/bars.js"></script>
-<script src="js/scripts.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<%if(typeof mensaje !== "undefined"){
+    %>
+    <script>
+        toastr.info("<%=mensaje%>","Info");
+    </script>
+    <%
+}
 
-<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+%>
+<script>
 
+	toastr.info("Para agendar una cita has clic en los cuadros disponibles!","Info",{
+	  "closeButton": true,
+	  "debug": false,
+	  "newestOnTop": false,
+	  "progressBar": true,
+	  "positionClass": "toast-top-left",
+	  "preventDuplicates": false,
+	  "onclick": null,
+	  "showDuration": "1000",
+	  "hideDuration": "1000",
+	  "timeOut": "5000",
+	  "extendedTimeOut": "1000",
+	  "showEasing": "swing",
+	  "hideEasing": "linear",
+	  "showMethod": "fadeIn",
+	  "hideMethod": "fadeOut"
+	});
+	function cambiar(hora,fecha){
+		var f = new Date(fecha);
+		$('#fe').val(f.getDate()+"-"+(f.getMonth()+1)+"-"+f.getFullYear());
+		$('#ho').val(hora);
+	}
 
+	$('#form_agc').submit((e)=>{
+		var vadFech = /^(?:(?:(?:0?[1-9]|1\d|2[0-8])[-](?:0?[1-9]|1[0-2])|(?:29|30)[-](?:0?[13-9]|1[0-2])|31[-](?:0?[13578]|1[02]))[-](?:0{2,3}[1-9]|0{1,2}[1-9]\d|0?[1-9]\d{2}|[1-9]\d{3})|29[-]0?2[-](?:\d{1,2}(?:0[48]|[2468][048]|[13579][26])|(?:0?[48]|[13579][26]|[2468][048])00))$/;
+		var fec = $('#fe').val();
+		let hv = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+		let hora = $('#ho').val();
+		var citasArrglo = [<%
+		for (var i = 0; i < (citas.length-1); i++) {
+			%>['<%=citas[i].hor_cit%>','<%=citas[i].dat_cit%>'],<%;
+		}%>['<%=citas[citas.length-1].hor_cit%>','<%=citas[citas.length-1].dat_cit%>']];
+		if (vadFech.test(fec)) {
+			if (hv.test(hora)) {
+				var verificador = true;
+				for(var i = 0;i<citasArrglo.length;i++){
+					var fecha1 = citasArrglo[i][1].split('-');
+					var fecha2 = fec.split('-');
+					if(hora==citasArrglo[i][0]&&((new Date(fecha1[2],(fecha1[1]-1),fecha1[0])).getTime())==((new Date(fecha2[2],(fecha2[1]-1),fecha2[0])).getTime())) {
+						verificador = false;
+					}
+				}
+				if(verificador){
+
+				}else{
+					e.preventDefault();
+					toastr.error("El horario esta ocupado","Error");
+				}
+			}else{
+				e.preventDefault();
+					toastr.error("La fecha no es valida","Error");
+			}
+		}else{
+			e.preventDefault();
+			toastr.error("La fecha no es valida","Error");
+		}
+	});
+
+</script>
 </body>
 </html>

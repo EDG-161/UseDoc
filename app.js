@@ -7,7 +7,7 @@ const json = require("./app/routes/metodosJSON");
 const app = express();
 session = require('express-session');
 app.use(session({
-    secret: '2C44-4D44-WppQ38S',
+    secret: '2C44-4D44-Wasdwedf8S',
     resave: true,
     saveUninitialized: true
 }));
@@ -37,7 +37,7 @@ const server = app.listen(app.get('port'), () => {
 });
 
 //Sockets para el chat
-const socket = require("socket.io"); 
+const socket = require("socket.io");
 const io = socket(server);
 //websockets
 var conexiones = [];
@@ -56,4 +56,3 @@ io.on("connection", (socket)=>{
 		io.sockets.emit("chat-message", data);
 	});
 });
-
