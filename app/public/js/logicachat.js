@@ -1,15 +1,33 @@
 const socket = io();
-function enviarmsg(){
+const dbConnection = require('../../config/dbconnection');
+const connection = dbConnection();
+const aes = require('./aes');
+function enviar(req){
+	let msg = document.getElementById("input").value;
+	let tipo = req.session.user.id_tid;
+	let id1,id2;
+	if(tipo == 1){
+		id2 = req.session.user.id_usr;
+		enviarmsg(id1,id2,idc,tipo,msg);
+	}else{
+		id1 = req.session.user.id_user;
+		enviarmsg(id1,id2,idc,tipo,msg);
+	}
+
+}
+function enviarmsg(pac,med,chat,tip,msg){
 	socket.emit("chat-message", {
-		idpac: ,
-		idmed: ,
-		idchat: ,
-		tipuser: ,s
-		mensaje: document.getElementById("input").value,
+		//req.session.user.id_user
+		idpac: pac,
+		idmed: med,
+		idchat: chat,
+		tipuser: tip,
+		mensaje: msg,
 		id: socket.id
 	});
 }
 socket.on("chat-message", function(data){
+	
 	data.usuario = "Prueba Chat";
 	//data.usuario = data.usuario.replace('</', '');
 	var sanitized = data.mensaje.replace('</', '');
