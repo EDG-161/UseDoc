@@ -27,7 +27,6 @@ function verify(req,res){
     let tipo = req.session.user.id_tid;
 	let id1,id2,idc;
 	if(tipo == 1){
-        document.get
 		id2 = req.session.user.id_usr;
 		connection.query("SELECT id_pm WHERE id_med = "+id2+" AND id_pac="+id1+"", (err,result)=>{
 			if(!err){
@@ -45,18 +44,25 @@ function verify(req,res){
         }
 		
 	}else{
-		id1 = req.session.user.id_user;
+		id1 = req.session.user.id_usr;
 		connection.query("SELECT id_pm WHERE id_med = "+id2+" AND id_pac="+id1+"", (err,result)=>{
 			if(!err){
 				idc = result;
 			}else{
 				console.log("Error: "+err);
 			}
-		});
-		enviarmsg(id1,id2,idc,tipo,msg);
+        });
+        let arch = "p"+id1+"m"+id2+"c"+idc+".json";
+        if(!path.exists(arch)){
+            crearJSON(id1,id2,idc);
+            res.redirect("/chat");
+        }else{
+            res.redirect("/chat");
+        }
 	}
 
 }
 exports.crearJSON = crearJSON;
 exports.escribirJSON = escribirJSON;
+exports.verificarJSON = verify;
 

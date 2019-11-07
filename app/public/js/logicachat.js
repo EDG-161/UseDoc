@@ -1,7 +1,8 @@
 const socket = io();
 const dbConnection = require('../../config/dbconnection');
 const connection = dbConnection();
-function enviar(req,res){
+const json = require("../../routes/metodosJSON");
+function guardar(req,res){
 	let msg = document.getElementById("input").value;
 	let tipo = req.session.user.id_tid;
 	let id1,id2,idc;
@@ -14,7 +15,7 @@ function enviar(req,res){
 				console.log("Error: "+err);
 			}
 		});
-		enviarmsg(id1,id2,idc,tipo,msg);
+		json.escribirJSON(id1,id2,idc,tipo,msg);
 	}else{
 		id1 = req.session.user.id_user;
 		connection.query("SELECT id_pm WHERE id_med = "+id2+" AND id_pac="+id1+"", (err,result)=>{
@@ -24,7 +25,7 @@ function enviar(req,res){
 				console.log("Error: "+err);
 			}
 		});
-		enviarmsg(id1,id2,idc,tipo,msg);
+		json.escribirJSON(id1,id2,idc,tipo,msg);
 	}
 
 }
