@@ -21,9 +21,9 @@ app.set('views', path.join(__dirname, 'app/views'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:false}));
 
-app.use(formidable.parse({
-  keepExtension:true
-}));
+//app.use(formidable.parse({
+//  keepExtension:true
+//}));
 
 require('./app/routes/notes')(app);
 app.use(express.static(__dirname + '/app/public'));

@@ -102,17 +102,17 @@ function agregarUsuario(req,res){
                                          res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
                                       });
                                   }else{
-                                    connection.query('INSERT INTO mdatos (id_usr, id_sex, tel_dat, numext_dat, numint_dat, calle_dat, del_dat, id_sta, col_dat, codpost_dat) values('+id+', '+sex+', "'+aes.cifrar(tel)+'", "'+aes.cifrar(nume)+'", "'+aes.cifrar(numi)+'", "'+aes.cifrar(calle)+'", "'+aes.cifrar(mun)+'", "'+est+'","'+aes.cifrar(col)+'","'+aes.cifrar(cod)+'")',(err,result)=>{
+                                    /*connection.query('INSERT INTO mdatos (id_usr, id_sex, tel_dat, numext_dat, numint_dat, calle_dat, del_dat, id_sta, col_dat, codpost_dat) values('+id+', '+sex+', "'+aes.cifrar(tel)+'", "'+aes.cifrar(nume)+'", "'+aes.cifrar(numi)+'", "'+aes.cifrar(calle)+'", "'+aes.cifrar(mun)+'", "'+est+'","'+aes.cifrar(col)+'","'+aes.cifrar(cod)+'")',(err,result)=>{
                                       if (err){
                                         console.log(err);
                                           connection.query('SELECT * FROM cestado',(err,result1)=>{
                                              res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
                                           });
-                                      }else{
+                                      }else{*/
                                           res.render('login',{mensaje:"Ahora inicia sesion"});
                                           res.end();
-                                      }
-                                  });
+                                      //}
+                                  //});
                                   }
                               });
 
@@ -125,17 +125,17 @@ function agregarUsuario(req,res){
                                          res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
                                       });
                                   }else{
-                                    connection.query('INSERT INTO mdatos (id_usr, id_sex, tel_dat, numext_dat, numint_dat, calle_dat, del_dat, id_sta, col_dat, codpost_dat) values('+id+', '+sex+', "'+aes.cifrar(tel)+'", "'+aes.cifrar(nume)+'", "'+aes.cifrar(numi)+'", "'+aes.cifrar(calle)+'", "'+aes.cifrar(mun)+'", "'+est+'","'+aes.cifrar(col)+'","'+aes.cifrar(cod)+'")',(err,result)=>{
+                                    /*connection.query('INSERT INTO mdatos (id_usr, id_sex, tel_dat, numext_dat, numint_dat, calle_dat, del_dat, id_sta, col_dat, codpost_dat) values('+id+', '+sex+', "'+aes.cifrar(tel)+'", "'+aes.cifrar(nume)+'", "'+aes.cifrar(numi)+'", "'+aes.cifrar(calle)+'", "'+aes.cifrar(mun)+'", "'+est+'","'+aes.cifrar(col)+'","'+aes.cifrar(cod)+'")',(err,result)=>{
                                       if (err){
                                         console.log(err);
                                           connection.query('SELECT * FROM cestado',(err,result1)=>{
                                              res.render('registro',{estados:result1,mensaje:"Algo ha ocurrido"});
                                           });
-                                      }else{
+                                      }else{*/
                                           res.render('login',{mensaje:"Ahora inicia sesion"});
                                           res.end();
-                                      }
-                                    });
+                                      //}
+                                    //});
                                   }
                               });
 

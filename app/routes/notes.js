@@ -485,4 +485,14 @@ module.exports = app => {
       }
     });
 
+    app.get('/perfil',(req,res)=>{
+      if(req.session.user=!null){
+        var men = req.query.men;
+        res.render('perfil',{
+          user : req.session.user,
+          mensaaje : men
+        });
+      }
+    });
+
 }
