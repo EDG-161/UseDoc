@@ -23,7 +23,38 @@ function escribirJSON(idpac,idmed,idchat,tipusr, msg){
     }
     
 }
-function verify(idpac,idmed){
+function verify(req,res){
+    let tipo = req.session.user.id_tid;
+	let id1,id2,idc;
+	if(tipo == 1){
+        document.get
+		id2 = req.session.user.id_usr;
+		connection.query("SELECT id_pm WHERE id_med = "+id2+" AND id_pac="+id1+"", (err,result)=>{
+			if(!err){
+				idc = result;
+			}else{
+				console.log("Error: "+err);
+			}
+        });
+        let arch = "p"+id1+"m"+id2+"c"+idc+".json";
+        if(!path.exists(arch)){
+            crearJSON(id1,id2,idc);
+            res.redirect("/chat");
+        }else{
+            res.redirect("/chat");
+        }
+		
+	}else{
+		id1 = req.session.user.id_user;
+		connection.query("SELECT id_pm WHERE id_med = "+id2+" AND id_pac="+id1+"", (err,result)=>{
+			if(!err){
+				idc = result;
+			}else{
+				console.log("Error: "+err);
+			}
+		});
+		enviarmsg(id1,id2,idc,tipo,msg);
+	}
 
 }
 exports.crearJSON = crearJSON;

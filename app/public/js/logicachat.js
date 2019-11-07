@@ -1,7 +1,7 @@
 const socket = io();
 const dbConnection = require('../../config/dbconnection');
 const connection = dbConnection();
-function enviar(req){
+function enviar(req,res){
 	let msg = document.getElementById("input").value;
 	let tipo = req.session.user.id_tid;
 	let id1,id2,idc;
