@@ -1,16 +1,29 @@
 const socket = io();
 const dbConnection = require('../../config/dbconnection');
 const connection = dbConnection();
-const aes = require('./aes');
 function enviar(req){
 	let msg = document.getElementById("input").value;
 	let tipo = req.session.user.id_tid;
-	let id1,id2;
+	let id1,id2,idc;
 	if(tipo == 1){
 		id2 = req.session.user.id_usr;
+		connection.query("SELECT id_pm WHERE id_med = "+id2+" AND id_pac="+id1+"", (err,result)=>{
+			if(!err){
+				idc = result;
+			}else{
+				console.log("Error: "+err);
+			}
+		});
 		enviarmsg(id1,id2,idc,tipo,msg);
 	}else{
 		id1 = req.session.user.id_user;
+		connection.query("SELECT id_pm WHERE id_med = "+id2+" AND id_pac="+id1+"", (err,result)=>{
+			if(!err){
+				idc = result;
+			}else{
+				console.log("Error: "+err);
+			}
+		});
 		enviarmsg(id1,id2,idc,tipo,msg);
 	}
 

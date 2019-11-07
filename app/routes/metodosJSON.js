@@ -23,6 +23,9 @@ function escribirJSON(idpac,idmed,idchat,tipusr, msg){
     }
     
 }
+function verify(idpac,idmed){
+
+}
 exports.crearJSON = crearJSON;
 exports.escribirJSON = escribirJSON;
 
