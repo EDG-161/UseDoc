@@ -444,7 +444,7 @@ function sumarHoras(hora){
 		let hora = $('#ho').val();
 		var citasArrglo = [<%
 		for (var i = 0; i < (citas.length-1); i++) {
-			%>['<%=citas[i].hor_cit%>','<%=citas[i].dat_cit%>'],<%;
+			%>['<%=citas[i].hor_cit%>','<%=citas[i].dat_cit%>'],<%
 		}%>['<%=citas[citas.length-1].hor_cit%>','<%=citas[citas.length-1].dat_cit%>']];
 		if (vadFech.test(fec)) {
 			if (hv.test(hora)) {
