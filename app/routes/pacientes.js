@@ -22,6 +22,7 @@ function obtenerRangos(id,callback){
 function obtenerDoctores(id,callback){
 	try{
 		connection.query("SELECT * FROM mpacientes where id_usr = "+id,(er1,re1)=>{
+			console.log(id)
 			connection.query('SELECT * FROM mpaciente_medico where id_pac='+re1[0].id_pac,(err,result)=>{
 				if (!err) {
 					let doctores = [];

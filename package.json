@@ -2,8 +2,9 @@
   "name": "mysql-conection",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
+    "start" : "nodemon app.js",
     "dev": "nodemon app.js",
     "test": "mocha"
   },
@@ -23,6 +24,6 @@
   },
   "devDependencies": {
     "mocha": "^6.2.2",
-    "nodemon": "^1.19.2"
+    "nodemon": "^1.19.4"
   }
 }
