@@ -3,7 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const json = require("./app/routes/metodosJSON");
-const formidable = require("express-formidable");
+const formidable = require("express-form-data");
 
 const app = express();
 session = require('express-session');
@@ -21,9 +21,9 @@ app.set('views', path.join(__dirname, 'app/views'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:false}));
 
-//app.use(formidable.parse({
-//  keepExtension:true
-//}));
+app.use(formidable.parse({
+  keepExtension:true
+}));
 
 require('./app/routes/notes')(app);
 app.use(express.static(__dirname + '/app/public'));
