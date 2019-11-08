@@ -7,10 +7,12 @@
     <meta charset="utf-8">
 
     <!-- //custom-theme -->
+    <link rel="icon" type="image/png" href="images/icon.png" />
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/component.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- font-awesome-icons -->
     <link href="css/font-awesome.css" rel="stylesheet">
 </head>
@@ -39,15 +41,9 @@
         <div class="inner_content_w3_agile_info">
             <div class="registration admin_agile" >
                <div class="signin-form profile admin" style="width: 80vw">
-                   <%
-                   if(!(typeof mensaje === "undefined")){
-                       %>
-                       <script>alert('<%=mensaje%>');</script>
-                       <%
-                   }%>
                     <h2>Registrar cuenta</h2>
                     <div class="login-form">
-                        <form action="Registro" method="post">
+                        <form action="Registro" id="reg-form" method="post">
                             <div class="row">
                                 <div class="col-md-3"></div>
                                 <div class="col-md-6">
@@ -129,7 +125,15 @@
             }
         });
     </script>
-    <script src="../public/js/scripts.js"></script>
+    <script src="js/scripts.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <%if(typeof mensaje !== "undefined"){
+        %>
+        <script>
+            toastr.info("<%=mensaje%>","Info");
+        </script>
+        <%
+    }%>
 
     <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
 

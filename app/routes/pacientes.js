@@ -5,58 +5,73 @@ const aes = require('./aes');
 
 function obtenerRangos(id,callback){
 	connection.query('Select * from mpacientes where id_usr= '+ id,(er1,re1)=>{
-		connection.query('select * from mpaciente_medico where id_pac='+re1[0].id_pac,(err,res)=>{
-			if(!err){
-				if(res.length>0){
-					callback(res);
-				}else{
-					callback([]);
-				}
+		if(!er1){
+			if(re1.length>0){
+				connection.query('select * from mpaciente_medico where id_pac='+re1[0].id_pac,(err,res)=>{
+					if(!err){
+						if(res.length>0){
+							callback(res);
+						}else{
+							callback([]);
+						}
+					}else{
+						console.log(err);
+					}
+				});
 			}else{
-				console.log(err);
+				callback([]);
 			}
-		});
+		}else{
+			callback([]);
+		}
 	});
 }
 
 function obtenerDoctores(id,callback){
 	try{
 		connection.query("SELECT * FROM mpacientes where id_usr = "+id,(er1,re1)=>{
-			console.log(id)
-			connection.query('SELECT * FROM mpaciente_medico where id_pac='+re1[0].id_pac,(err,result)=>{
-				if (!err) {
-					let doctores = [];
-					let cad = "SELECT * FROM mdoctores where ";
-					for (var i = 0; i < result.length; i++) {
-						if(i == (result.length-1)){
-							cad += "id_med = "+ result[i].id_med;
-						}else{
-							cad += "id_med = "+ result[i].id_med + " && ";
-						}
-					}
-					if (result.length<1) {
-						cad += "id_med = 0";
-					}
-					connection.query(cad,(er,res)=>{
-						if(er){
-							callback([]);
-							console.log("error " + er);
-						}else{
-
-							for(var c = 0; c < res.length;c++){
-								res[c].name_med = aes.decifrar(res[c].name_med);
-								res[c].appat_med = aes.decifrar(res[c].appat_med);
-								res[c].apmat_med = aes.decifrar(res[c].apmat_med);
-								res[c].ced_med = aes.decifrar(res[c].ced_med);
+			if(!er1){
+				if(re1.length>0){
+					connection.query('SELECT * FROM mpaciente_medico where id_pac='+re1[0].id_pac,(err,result)=>{
+						if (!err) {
+							let doctores = [];
+							let cad = "SELECT * FROM mdoctores where ";
+							for (var i = 0; i < result.length; i++) {
+								if(i == (result.length-1)){
+									cad += "id_med = "+ result[i].id_med;
+								}else{
+									cad += "id_med = "+ result[i].id_med + " && ";
+								}
 							}
-							console.log(res);
-							callback(res);
+							if (result.length<1) {
+								cad += "id_med = 0";
+							}
+							connection.query(cad,(er,res)=>{
+								if(er){
+									callback([]);
+									console.log("error " + er);
+								}else{
+		
+									for(var c = 0; c < res.length;c++){
+										res[c].name_med = aes.decifrar(res[c].name_med);
+										res[c].appat_med = aes.decifrar(res[c].appat_med);
+										res[c].apmat_med = aes.decifrar(res[c].apmat_med);
+										res[c].ced_med = aes.decifrar(res[c].ced_med);
+									}
+									console.log(res);
+									callback(res);
+								}
+							});
+						}else{
+							console.log("error en obtener doctores:  " +err);
 						}
 					});
 				}else{
-					console.log("error en obtener doctores:  " +err);
+					callback([]);
 				}
-			});
+			}else{
+				callback([]);
+			}
 		});
 
 	}catch(error){
@@ -142,24 +157,31 @@ function obtenerContacto(id,callback){
 function obtenerCitas(id,callback){
 	try{
 		connection.query("SELECT * FROM mpacientes WHERE id_usr= "+id,(er1,re1)=>{
-			console.log(re1);
-			connection.query('SELECT * FROM mcitas where id_pac='+re1[0].id_pac,(err,result)=>{
-				if (!err) {
-					if (result.length>0) {
-						for (var i = 0; i < result.length; i++) {
-							if (result[i].des_cit!="Sin descripcion") {
-								result[i].des_cit = aes.decifrar(result[i].des_cit);
+			if(!er1){
+				if(re1.length>0){
+					connection.query('SELECT * FROM mcitas where id_pac='+re1[0].id_pac,(err,result)=>{
+						if (!err) {
+							if (result.length>0) {
+								for (var i = 0; i < result.length; i++) {
+									if (result[i].des_cit!="Sin descripcion") {
+										result[i].des_cit = aes.decifrar(result[i].des_cit);
+									}
+									result[i].dat_cit = aes.decifrar(result[i].dat_cit);
+									result[i].hor_cit = aes.decifrar(result[i].hor_cit);
+								}
 							}
-							result[i].dat_cit = aes.decifrar(result[i].dat_cit);
-							result[i].hor_cit = aes.decifrar(result[i].hor_cit);
+							callback(result);
+						}else{
+							callback([]);
+							console.log("error en obtener citas:  " +err);
 						}
-					}
-					callback(result);
+					});
 				}else{
 					callback([]);
-					console.log("error en obtener citas:  " +err);
 				}
-			});
+			}else{
+				callback([]);
+			}
 		});
 	}catch(error){
 		console.log("Error obtener datos");

@@ -10,6 +10,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 		function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //custom-theme -->
+<link rel="icon" type="image/png" href="images/icon.png" />
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/component.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/export.css" rel="stylesheet" type="text/css" media="all" />
@@ -17,6 +18,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="css/circles.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 <!-- font-awesome-icons -->
 <link href="css/font-awesome.css" rel="stylesheet">
@@ -85,27 +87,29 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <li class="dropdown profile_details_drop">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                         <div class="profile_img">
+                                        <%
+                                        if( user.img_usr!=null){
+                                            %>
+                                            <span class="prfil-img"><img src="images/profiles/<%=user.img_usr%>" style="width: 45px;" alt=""> </span>
+                                        <% 
+                                        }else{
+                                            %>
                                             <span class="prfil-img"><img src="images/admin.png" style="width: 45px;" alt=""> </span>
+                                        <%
+                                        }
+                                        %>
                                         </div>
                                     </a>
                                     <ul class="dropdown-menu drp-mnu">
                                         <li> <a href="#"><i class="fa fa-cog"></i> Configuracion</a> </li>
-                                        <li> <a href="#"><i class="fa fa-user"></i> Perfil</a> </li>
+                                        <li> <a href="perfil"><i class="fa fa-user"></i> Perfil</a> </li>
                                         <li> <a href="salir"><i class="fa fa-sign-out"></i> Cerrar sesion</a> </li>
                                     </ul>
                                 </li>
 
                     </ul>
             </li>
-
-
             <li class="second w3l_search">
-
-                    <form action="#" method="post">
-                        <input type="search" name="search" placeholder="Busca pacientes" required="">
-                        <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                    </form>
-
             </li>
 
         </ul>
@@ -120,7 +124,31 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                <div class="w3l-table-info agile_info_shadow">
                    <div class="container">
                         <div class="row">
-                            
+                            <div class="col-md-4">
+                                <%
+                                    if( user.img_usr!=null){
+                                        %>
+                                        <img src="images/profiles/<%=user.img_usr%>" alt="" class="img-responsive rounded img-fluid">
+                                        <label for="">Imagen de perfil</label>
+                                        <div class="form-group">
+                                            <button class="btn btn-primary">Editar Imagen</button>
+                                        </div>
+                                        <% 
+                                    }else{
+                                        %>
+                                        <h3 class="w3_inner_tittle two" >Aún no tienes imagen de perfil. ¡Agregala!</h3>
+                                        <img src="images/admin.png" alt="" class="img-responsive rounded img-fluid">
+                                        <form action="imageProfile" method="POST" id="img-form" enctype="multipart/form-data">
+                                            <div class="form-group"><input type="file" name="file" class="form-control" style="height:auto"  accept="image/png, image/jpeg" required></div>
+                                            <div class="form-group"><input type="submit" class="btn" id="img_send"></div>
+                                        </form>
+                                        <%
+                                    }
+                                %>
+                                
+                                
+                            </div>
+                            <div class="col-md-6"></div>
                        </div>
                        <div class="row" style="padding-top: 25px">
                             
@@ -179,7 +207,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/serial.js"></script>
 <script src="js/export.js"></script>
 <script src="js/light.js"></script>
-<script src="js/chart1.js"></script>
+
     <script src="js/Chart.min.js"></script>
 <script src="js/modernizr.custom.js"></script>
 
@@ -192,7 +220,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
 <script src="js/bars.js"></script>
-<script src="js/scripts.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <%if(typeof mensaje !== "undefined"){
+    %>
+    <script>
+        toastr.info("<%=mensaje%>","Info");
+    </script>
+    <%
+}%>
 
 <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
 

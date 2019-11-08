@@ -15,6 +15,7 @@
 <link href="css/circles.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="icon" type="image/png" href="images/icon.png" />
 
 <!-- font-awesome-icons -->
 <link href="css/font-awesome.css" rel="stylesheet">
@@ -53,7 +54,17 @@
                                 <li class="dropdown profile_details_drop">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                         <div class="profile_img">
-                                            <span class="prfil-img"><img src="images/admin.png" style="width: 45px;" alt=""> </span>
+                                                <%
+                                                if( user.img_usr!=null){
+                                                    %>
+                                                    <span class="prfil-img"><img src="images/profiles/<%=user.img_usr%>" style="width: 45px;" alt=""> </span>
+                                                <% 
+                                                }else{
+                                                    %>
+                                                    <span class="prfil-img"><img src="images/admin.png" style="width: 45px;" alt=""> </span>
+                                                <%
+                                                }
+                                                %>
                                         </div>
                                     </a>
                                     <ul class="dropdown-menu drp-mnu">
@@ -148,7 +159,6 @@
 <script src="js/serial.js"></script>
 <script src="js/export.js"></script>
 <script src="js/light.js"></script>
-<script src="js/chart1.js"></script>
     <script src="js/Chart.min.js"></script>
 <script src="js/modernizr.custom.js"></script>
 
@@ -159,26 +169,8 @@
     </script>
 <!-- script-for-menu -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-<script>
 
-    var ctx = document.getElementById('hici').getContext('2d');
-    var myLineChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: ['mm/yy', 'mm2/yy', 'mm3/yy', 'mm4/yy', 'mm5/yy', 'mm6yy', 'mm7/yy'],
-            datasets: [{
-                label: 'Numero de citas',
-                backgroundColor: '#87CCA7',
-                borderColor: '#87CCA7',
-                data: [0, 10, 5, 2, 20, 30, 45]
-            }]
-        },
-        options: {}
-    });
-
-</script>
 <script src="js/bars.js"></script>
-<script src="js/scripts.js"></script>
 
 <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
 

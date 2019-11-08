@@ -43,6 +43,7 @@ module.exports = app => {
         try {
           if (req.session.user!= null) {
               let userobj = req.session.user;
+              
               let men = req.query.men;
               if (userobj.id_tid==1) {
                   doctores.obtenerPacientes(userobj.id_usr,function(pac){
@@ -188,6 +189,48 @@ module.exports = app => {
         }else{
             modulos.agregarUsuario(req,res);
         }
+    });
+
+    app.post('/imageProfile',(req,res)=>{
+      if(req.session.user!=null){
+        var userobj = req.session;
+        console.log(userobj);
+        
+        let imgP = req.files.file;
+        console.log("Tamaño de imagen " + imgP.size);
+        var exte = imgP.name.split('.').pop();
+        console.log("Extencion " + exte);
+        if(imgP.size>15728640){
+          res.redirect('/perfil?men=La imagen debe pesar 15 mb o menos');
+        }else{
+          if(exte == "png"||exte=="jpg"){
+            var user = userobj.user;
+            console.log("user es esto : " + user);
+            
+            var ruta = `${user.id_usr}profilePicture${user.name}.${exte}`;
+            imgP.mv(`./app/public/images/profiles/${ruta}`,err => {
+              if(err){ 
+                console.log("error mv" + err);
+                
+                return res.redirect('/perfil?men=Algo ocurrio vuelve a intentar');
+              }else{
+                connection.query(`update musuarios set img_usr='${ruta}' where id_usr=${user.id_usr}`,(er1,res1)=>{
+                  if(!er1){
+                      return res.redirect('/perfil?men=Cambio de imagen exitoso');
+                  }else{
+                    console.log("error query" + er1);
+                    return res.redirect('/perfil?men=Algo ocurrio vuelve a intentar');
+                  }
+                });
+              }
+            });
+          }else{
+            res.redirect('/perfil?men=La imagen debe ser formato PNG o JPG');
+          }
+        }
+      }else{
+        res.redirect('login?men=Inicia sesion')
+      }
     });
 
 
@@ -501,12 +544,17 @@ module.exports = app => {
     });
 
     app.get('/perfil',(req,res)=>{
-      if(req.session.user=!null){
+      
+      var userobj = req.session; 
+      if(userobj=!null && typeof userobj!== "undefined"){
+        console.log( userobj);
         var men = req.query.men;
         res.render('perfil',{
-          user : req.session.user,
+          user : req.session.user2,
           mensaaje : men
         });
+      }else{
+        res.redirect('login');
       }
     });
 

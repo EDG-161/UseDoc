@@ -8,6 +8,7 @@
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 		function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //custom-theme -->
+<link rel="icon" type="image/png" href="images/icon.png" />
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/component.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/export.css" rel="stylesheet" type="text/css" media="all" />
@@ -98,7 +99,17 @@ function sumarHoras(hora){
                   <li class="dropdown profile_details_drop">
                       <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                           <div class="profile_img">
-                              <span class="prfil-img"><img src="images/admin.png" style="width: 45px;" alt=""> </span>
+								<%
+								if( user.img_usr!=null){
+									%>
+									<span class="prfil-img"><img src="images/profiles/<%=user.img_usr%>" style="width: 45px;" alt=""> </span>
+								<% 
+								}else{
+									%>
+									<span class="prfil-img"><img src="images/admin.png" style="width: 45px;" alt=""> </span>
+								<%
+								}
+								%>
                           </div>
                       </a>
                       <ul class="dropdown-menu drp-mnu">

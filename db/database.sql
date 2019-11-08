@@ -208,7 +208,7 @@ CREATE TABLE `mcitas` (
   KEY `id_med` (`id_med`),
   KEY `id_tip_idx` (`id_tip`),
   CONSTRAINT `id_tip` FOREIGN KEY (`id_tip`) REFERENCES `ctipos` (`id_tip`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -217,7 +217,6 @@ CREATE TABLE `mcitas` (
 
 LOCK TABLES `mcitas` WRITE;
 /*!40000 ALTER TABLE `mcitas` DISABLE KEYS */;
-INSERT INTO `mcitas` VALUES (5,10,7,'Sin descripcion','2b43b90fa804a80708','2856b20eb5',2,'No cancelada'),(6,10,7,'Sin descripcion','2b43b90fa804a80708','295db20eb5',2,'No cancelada'),(7,10,7,'Sin descripcion','2143b90fa804a80708','295eb20eb5',2,'No cancelada'),(12,10,7,'Sin descripcion','295aa50fb41baa06000e','2859b20db5',2,'No cancelada'),(13,10,7,'Sin descripcion','295ca50fb41baa06000e','2859b20db5',2,'No cancelada');
 /*!40000 ALTER TABLE `mcitas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -243,7 +242,7 @@ CREATE TABLE `mdatos` (
   PRIMARY KEY (`id_dat`),
   KEY `id_usr` (`id_usr`),
   KEY `id_sex` (`id_sex`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -252,7 +251,6 @@ CREATE TABLE `mdatos` (
 
 LOCK TABLES `mdatos` WRITE;
 /*!40000 ALTER TABLE `mdatos` DISABLE KEYS */;
-INSERT INTO `mdatos` VALUES (4,12,1,'2d5bbe0fb001a00e0206','2d','20','20','560ffd5de45ae8575f',15,'750fe65ded57b85f58','2d5dbf0fb1'),(5,13,1,'2d5bbe0fb001a00e0206','2d','20','20','560ffd5de45ae8575f',15,'750fe65ded57b85f58','2d5dbf0fb2');
 /*!40000 ALTER TABLE `mdatos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,7 +270,7 @@ CREATE TABLE `mdoctores` (
   `id_usr` int(11) NOT NULL,
   PRIMARY KEY (`id_med`),
   KEY `id_usr` (`id_usr`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -281,7 +279,6 @@ CREATE TABLE `mdoctores` (
 
 LOCK TABLES `mdoctores` WRITE;
 /*!40000 ALTER TABLE `mdoctores` DISABLE KEYS */;
-INSERT INTO `mdoctores` VALUES (7,'5d0afd5ff752f7','5902ea57eb59','5f0ffa5dec57','295cbb0ab000af0e',12);
 /*!40000 ALTER TABLE `mdoctores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -328,7 +325,7 @@ CREATE TABLE `mhorario_medico` (
   PRIMARY KEY (`id_hor`),
   KEY `id_med` (`id_med`),
   CONSTRAINT `mhorario_medico_ibfk_1` FOREIGN KEY (`id_med`) REFERENCES `mdoctores` (`id_med`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -337,7 +334,6 @@ CREATE TABLE `mhorario_medico` (
 
 LOCK TABLES `mhorario_medico` WRITE;
 /*!40000 ALTER TABLE `mhorario_medico` DISABLE KEYS */;
-INSERT INTO `mhorario_medico` VALUES (1,7,'2859b20eb5','295bb20eb5','285eb20db5','295cbb0ab000af');
 /*!40000 ALTER TABLE `mhorario_medico` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -357,7 +353,7 @@ CREATE TABLE `mpaciente_medico` (
   KEY `id_med_idx` (`id_med`),
   KEY `id_pac_idx` (`id_pac`),
   KEY `id_ran_idx` (`id_ran`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -366,7 +362,6 @@ CREATE TABLE `mpaciente_medico` (
 
 LOCK TABLES `mpaciente_medico` WRITE;
 /*!40000 ALTER TABLE `mpaciente_medico` DISABLE KEYS */;
-INSERT INTO `mpaciente_medico` VALUES (4,7,10,1);
 /*!40000 ALTER TABLE `mpaciente_medico` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -386,7 +381,7 @@ CREATE TABLE `mpacientes` (
   `sta_pac` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_pac`),
   KEY `id_usr` (`id_usr`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -395,7 +390,7 @@ CREATE TABLE `mpacientes` (
 
 LOCK TABLES `mpacientes` WRITE;
 /*!40000 ALTER TABLE `mpacientes` DISABLE KEYS */;
-INSERT INTO `mpacientes` VALUES (10,'5d0afd5ff752f7','5902ea57eb59','5f0ffa5dec57',13,1);
+INSERT INTO `mpacientes` VALUES (1,'5d0afd5ff752f7','5902ea57eb59','5f0ffa5dec57',1,1);
 /*!40000 ALTER TABLE `mpacientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -467,8 +462,9 @@ CREATE TABLE `musuarios` (
   `pass_usr` varchar(100) NOT NULL,
   `reg_usr` varchar(200) NOT NULL,
   `id_tid` int(11) NOT NULL,
+  `img_usr` varchar(500) DEFAULT NULL,
   PRIMARY KEY (`id_usr`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -477,7 +473,7 @@ CREATE TABLE `musuarios` (
 
 LOCK TABLES `musuarios` WRITE;
 /*!40000 ALTER TABLE `musuarios` DISABLE KEYS */;
-INSERT INTO `musuarios` VALUES (12,'7d0afd5fe207ae07715097487102680231fb','791dec0fb705d96575','2c41b111b706a90f',1),(13,'680feb57e058ec53715097487102680231fb','791dec0fb705d96555','2c41b111b706a90f',2);
+INSERT INTO `musuarios` VALUES (1,'680feb57e058ec53715097487102680231fb','791dec0fb705d96555','2d41b90eaa04a80708',2,'291efa51e35ff453615e995d6d1c231430f2e708cbf1df88cef27ccc');
 /*!40000 ALTER TABLE `musuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -515,4 +511,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-02 17:57:06
+-- Dump completed on 2019-11-08  9:22:03

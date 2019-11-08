@@ -8,23 +8,18 @@
     <meta charset="utf-8">
 
     <!-- //custom-theme -->
+    <link rel="icon" type="image/png" href="images/icon.png" />
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/component.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- font-awesome-icons -->
     <link href="css/font-awesome.css" rel="stylesheet"> 
 </head>
 
 <body>
 <!-- banner -->
-<%
-if(typeof mensaje !== "undefined"){
-   %>
-
-   <script>alert("<%=mensaje%>");</script>
-   <%
-}%>
 <div class="wthree_agile_admin_info">
 		  <!-- /w3_agileits_top_nav-->
 		  <!-- /nav-->
@@ -56,9 +51,9 @@ if(typeof mensaje !== "undefined"){
                <div class="signin-form profile admin">
                     <h2>iniciar sesion</h2>
                     <div class="login-form">
-                        <form action="login" method="post">
-                            <input type="text" name="email" placeholder="Correo Electronico" required="">
-                            <input type="password" name="pass" placeholder="Contraseña" required="">
+                        <form action="login" id="login-f" method="post">
+                            <input type="text" id="email" name="email" placeholder="Correo Electronico" required="">
+                            <input type="password" id="pass" name="pass" placeholder="Contraseña" required="">
                             <div class="tp">
                                 <input type="submit" value="ENTRAR">
                             </div>
@@ -101,8 +96,16 @@ if(typeof mensaje !== "undefined"){
         });	
     });
     </script>
-    <script src="js/scripts.js"></script>
-
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <%if(typeof mensaje !== "undefined"){
+    %>
+    <script>
+        toastr.info("<%=mensaje%>","Info");
+    </script>
+    <%
+}%>
+    <script src="js/login.js"></script>
     <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
 
 

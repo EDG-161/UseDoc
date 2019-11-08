@@ -15,9 +15,12 @@ function login(req,res){
                 if (!err) {
                     var user = result[0];
                     if (typeof user !== 'undefined') {
-                        console.log("Entro al login");
-
+                        var user2 = user;
+                        user2.email_usr = aes.decifrar(user2.email_usr);
+                        user2.img_usr = aes.decifrar(user2.img_usr);
+                        user2.reg_usr = aes.decifrar(user2.reg_usr);
                         req.session.user = user;
+                        req.session.user2 = user2;
                         res.redirect('/Home');
                     }else{
                         res.render('login',{mensaje:"Contraseña o usuario incorrecto"})
@@ -62,19 +65,12 @@ function agregarUsuario(req,res){
         const { name } = req.body;
         const { appat } = req.body;
         const { apmat } = req.body;
-        const { sex } = req.body;
-        const { calle } = req.body;
-        const { nume } = req.body;
-        const { numi } = req.body;
-        const { col } = req.body;
         const { cod } = req.body;
-        const { mun } = req.body;
-        const { est } = req.body;
         const { tel } = req.body;
         const { tip } = req.body;
         const { ced } = req.body;
 
-        if(valida.validarNombre(name,appat,apmat)&&valida.validarEmail(email)&&valida.validarPassword(pass,pass1)&&valida.validarCodigoP(cod)&&valida.validarTelefono(tel)&&valida.validarCedula(ced,tip)){
+        if(valida.validarNombre(name,appat,apmat)&&valida.validarEmail(email)&&valida.validarPassword(pass,pass1)&&valida.validarCedula(ced,tip)){
             connection.query("SELECT * FROM musuarios WHERE email_usr = '" + aes.cifrar(email)+"'",(er1,res1)=>{
               if (!er1) {
                 if (res1.length>0) {
@@ -154,16 +150,6 @@ function agregarUsuario(req,res){
         }else if(!valida.validarPassword(pass,pass1)){
             connection.query('SELECT * FROM cestado',(err,result)=>{
                 var mensaje =  "La contraseña no es valida";
-                res.render('Registro',{estados:result,mensaje});
-            });
-        }else if(!valida.validarCodigoP(cod)){
-            connection.query('SELECT * FROM cestado',(err,result)=>{
-                var mensaje =  "El codigo postal no es valido";
-                res.render('Registro',{estados:result,mensaje});
-            });
-        }else if(!valida.validarTelefono(tel)){
-            connection.query('SELECT * FROM cestado',(err,result)=>{
-                var mensaje =  "El telefono no es valido";
                 res.render('Registro',{estados:result,mensaje});
             });
         }else if(!valida.validarEmail(email)){

@@ -2,7 +2,7 @@ const dbConnection = require('../../config/dbconnection');
 const connection = dbConnection();
 
 function validarNombre(name,appat,apmat){
-    var nomval = /^[A-Z]+$/i;
+    var nomval = /^[A-Za-z\s]+$/i;
     var cont = true;
     if(!nomval.test(name) || name.length > 20){
       console.log('name');
@@ -18,7 +18,6 @@ function validarNombre(name,appat,apmat){
             }
         }
     }
-    console.log('name l');
     return cont;
 }
 
