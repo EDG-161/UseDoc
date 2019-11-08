@@ -214,7 +214,7 @@ module.exports = app => {
                 
                 return res.redirect('/perfil?men=Algo ocurrio vuelve a intentar');
               }else{
-                connection.query(`update musuarios set img_usr='${ruta}' where id_usr=${user.id_usr}`,(er1,res1)=>{
+                connection.query(`update musuarios set img_usr='${aes.cifrar(ruta)}' where id_usr=${user.id_usr}`,(er1,res1)=>{
                   if(!er1){
                       return res.redirect('/perfil?men=Cambio de imagen exitoso');
                   }else{
@@ -335,7 +335,9 @@ module.exports = app => {
       }else{
         res.redirect("/login");
       }
-        res.render('chat');
+        res.render('chat',{
+          user : req.session.user
+        });
     });
 
     app.get('/citas',(req,res)=>{

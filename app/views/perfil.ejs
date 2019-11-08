@@ -130,9 +130,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         %>
                                         <img src="images/profiles/<%=user.img_usr%>" alt="" class="img-responsive rounded img-fluid">
                                         <label for="">Imagen de perfil</label>
-                                        <div class="form-group">
-                                            <button class="btn btn-primary">Editar Imagen</button>
+                                        <form action="imageProfile" method="POST" id="img-form" enctype="multipart/form-data">
+                                            <div class="form-group"><input type="file" name="file" class="form-control" style="height:auto"  accept="image/png, image/jpeg" required></div>
+                                            <div class="form-group"><button class="btn btn-primary">Editar Imagen</button>
                                         </div>
+                                        </form>
+                                            
                                         <% 
                                     }else{
                                         %>

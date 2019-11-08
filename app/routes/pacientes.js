@@ -263,19 +263,23 @@ function obtenerPacienteById(id, callback){
         res[0].apmat_pac = aes.decifrar(res[0].apmat_pac);
         connection.query('SELECT * FROM mdatos where id_usr = '+res[0].id_usr,(e,r)=>{
           if (!err) {
-            if (typeof r[0].id_usr !== "undefined") {
-              r[0].tel_dat = aes.decifrar(r[0].tel_dat);
-              r[0].numext_dat = aes.decifrar(r[0].numext_dat);
-              r[0].numint_dat = aes.decifrar(r[0].numint_dat);
-              r[0].calle_dat = aes.decifrar(r[0].calle_dat)  ;
-              r[0].del_dat = aes.decifrar(r[0].del_dat);
-              r[0].col_dat = aes.decifrar(r[0].col_dat);
-              r[0].codpost_dat = aes.decifrar(r[0].codpost_dat);
-              let respuesta = [res[0],r[0]];
-              callback(respuesta);
+            if (r.length>0) {
+            	if (typeof r[0].id_usr !== "undefined") {
+		              r[0].tel_dat = aes.decifrar(r[0].tel_dat);
+		              r[0].numext_dat = aes.decifrar(r[0].numext_dat);
+		              r[0].numint_dat = aes.decifrar(r[0].numint_dat);
+		              r[0].calle_dat = aes.decifrar(r[0].calle_dat)  ;
+		              r[0].del_dat = aes.decifrar(r[0].del_dat);
+		              r[0].col_dat = aes.decifrar(r[0].col_dat);
+		              r[0].codpost_dat = aes.decifrar(r[0].codpost_dat);
+		              let respuesta = [res[0],r[0]];
+		              callback(respuesta);
+		            }else{
+		              callback([]);
+		            }
             }else{
-              callback([]);
-            }
+		              callback([]);
+		            }
           }else{
             callback([]);
           }
