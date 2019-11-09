@@ -198,7 +198,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 																						<td><%=citas[o].hor_cit%></td>
 																						<td><span class="label label-primary">Pendiente</span></td>
 																						<td><a href="cita" style="font-size: 20px"><i class="fa fa-trash-o" title="Eliminar cita"></i></a>
-																								&nbsp;&nbsp;<a href="cita?c=dFhq2yMcudbJa4@C<%=citas[o].id_cit%>z49*Nq,_Y8-;nezE&d$]}BWp5)rnHr*brJwP8*ytJS#(!Jb!2D8Ru$QL*akVYEg@}9Tt)iXUWa/kLD/}p,6]<%=citas[o].id_cit%>B3z$j}((;nxdm@=[NWKxfLFPDe]xM)7tVt:Kp8MipP&t@$zbG88i,Jr.nZhBhhW;KA9=V2a#=ec7LL4{NFr#LS*u+VtYeWzgQ{" style="font-size: 20px" title="Editar cita"><i class="fa  fa-file-text"></i></a>&nbsp;&nbsp;
+                                                                                                &nbsp;&nbsp;<a href="cita?c=<%var ref = 'asdaodjvinrubtn8uhvwisvnuiev46164198741619413203061910316';
+                                                                                                var str = '';
+                                                                                                for(var c =0;c<50;c++){
+                                                                                                    str += ref.charAt(Math.floor(Math.random()*ref.length));
+                                                                                                }%><%=str%><%=citas[o].id_cit%>" style="font-size: 20px" title="Editar cita"><i class="fa  fa-file-text"></i></a>&nbsp;&nbsp;
 																								<a href="cita" style="font-size: 20px" title="Registrar algun costo"><i class="fa fa-money"></i></a>
 																						</td>
 																					</tr>
