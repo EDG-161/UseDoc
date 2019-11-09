@@ -454,9 +454,10 @@ function sumarHoras(hora){
 		let hv = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
 		let hora = $('#ho').val();
 		var citasArrglo = [<%
+		if(citas.length > 0){
 		for (var i = 0; i < (citas.length-1); i++) {
 			%>['<%=citas[i].hor_cit%>','<%=citas[i].dat_cit%>'],<%
-		}%>['<%=citas[citas.length-1].hor_cit%>','<%=citas[citas.length-1].dat_cit%>']];
+		}%>['<%=citas[citas.length-1].hor_cit%>','<%=citas[citas.length-1].dat_cit%>']<%}%>];
 		if (vadFech.test(fec)) {
 			if (hv.test(hora)) {
 				var verificador = true;

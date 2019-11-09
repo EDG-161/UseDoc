@@ -145,13 +145,28 @@
                                                         <div class="profile-pic wthree">
                                                              <h2>Medico</h2>
                                                                <img src="images/admin.png" alt="Image">
-                                                               <p><%=doctores[c].name_med%></p>
+                                                               <p><%= doctores[c].id_med + doctores[c].name_med%></p>
                                                          </div>
                                                          <div class="profile-ser">
                                                              <div class="follow-grids-agileits-w3layouts">
                                                                  <div class="profile-ser-grids">
                                                                      <h3>Citas en este mes</h3>
-                                                                     <h4>1</h4>
+                                                                     <%
+                                                                     let vcit = false; 
+                                                                     if(citas.length > 0){
+                                                                         for(var cit = 0; cit < citas.length; cit++){
+                                                                             %>
+                                                                <%if(doctores[c].id_med == citas[cit].id_med){%>
+                                                                        Horario de cita:  <%= citas[cit].hor_cit%>
+                                                                        <%vcit = true;
+                                                                    break;
+                                                                        }
+                                                                    }               
+                                                                }
+                                                                if(!vcit){
+                                                                    %>No hay citas<%
+                                                                }
+                                                                %>
                                                                  </div>
                                                                  <div class="clearfix"> </div>
                                                              </div>
@@ -274,16 +289,30 @@
                                     <tr>
                                       <th scope="col">Fecha</th>
                                       <th scope="col">Hora</th>
+                                      <th scope="col">Doctor</th>
                                       <th scope="col">Descripcion</th>
                                     </tr>
                                   </thead>
                                   <tbody>
+                                        <%
+                                        console.log(doctores.length);
+                                        if(doctores.length>0){
+                                        for(var c = 0; c<doctores.length; c++){
+                                            for(var a = 0; a<rangos.length; a++){
+                                                if(doctores[c].id_med == rangos[a].id_med){
+                                                    if(rangos[a].id_ran==1){
+                                                        %>
                                     <tr>
-                                      <th scope="row">dd/mm/yyyy</th>
+                                      <th scope="row"><%= citas[cit]%></th>
                                       <td>16:00</td>
                                       <td><a href="cita"><i class="fa fa-plus"> Ver mas </i></a></td>
                                     </tr>
 
+                                    <%
+                                }
+                            }
+                        }
+                    %>
                                   </tbody>
                                 </table>
                             </div>

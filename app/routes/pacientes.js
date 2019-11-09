@@ -168,6 +168,10 @@ function obtenerCitas(id,callback){
 									}
 									result[i].dat_cit = aes.decifrar(result[i].dat_cit);
 									result[i].hor_cit = aes.decifrar(result[i].hor_cit);
+									result[i].dat_cit = aes.decifrar(result[i].dat_cit);
+									result[i].id_med = result[i].id_med;
+									result[i].des_ = result[i].des_cit;
+									
 								}
 							}
 							callback(result);
@@ -301,6 +305,7 @@ function obtenerHorario(id,callback){
   connection.query('SELECT * FROM mhorario_medico WHERE id_med='+id,(er,resu)=>{
     if (!er) {
       if (resu.length>0) {
+		
         resu[0].hi_hor = aes.decifrar(resu[0].hi_hor);
         resu[0].hf_hor = aes.decifrar(resu[0].hf_hor);
         resu[0].tiem_hor = aes.decifrar(resu[0].tiem_hor);

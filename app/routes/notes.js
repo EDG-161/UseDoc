@@ -503,6 +503,7 @@ module.exports = app => {
                   if (typeof req.query.s !== "undefined") {
                     if (parseInt(req.query.s)==2 || parseInt(req.query.s) == 3) {
                       res.render('agendarCita',{
+                        user: req.session.user,
                         medico: citas[0],
                         citas: citas[1],
                         paciente: paciente[0],
@@ -512,6 +513,7 @@ module.exports = app => {
                       });
                     }else{
                       res.render('agendarCita',{
+                        user: req.session.user,
                         medico: citas[0],
                         citas: citas[1],
                         paciente: paciente[0],
@@ -522,6 +524,7 @@ module.exports = app => {
                     }
                   }else{
                     res.render('agendarCita',{
+                      user: req.session.user,
                       medico: citas[0],
                       citas: citas[1],
                       paciente: paciente[0],
