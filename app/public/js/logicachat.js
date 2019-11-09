@@ -48,7 +48,7 @@ socket.on("chat-message", function(data){
 	sanitized = sanitized.replace('>', '');
 	sanitized = sanitized.replace('<', '');
 	if (data.id == socket.id) {
-		var msj = '<div class="local-message" disabled><strong>'+data.usuario+':</strong><p>'+sanitized+'</p></div>';
+		var msj = '<div class="local-message" disabled><strong>'+data.usuario+':</strong><p>'+sanitized+'</p><br><img src="images/save.png" class="imgmsg" style="align: right;" onclick="guardar()"></div>';
 		document.getElementById("msgs").innerHTML += msj;
 	} else {
 		var msj = '<div class="remote-message" disabled><strong>'+data.usuario+':</strong><p>'+sanitized+'</p></div>';
