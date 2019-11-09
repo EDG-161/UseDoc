@@ -16,19 +16,14 @@
 <link href="css/circles.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
 <!-- font-awesome-icons -->
 <link href="css/font-awesome.css" rel="stylesheet">
 
 </head>
 <body>
-        <%
-        if(typeof mensaje !== "undefined"){
-           %>
 
-           <script>alert("<%=mensaje%>");</script>
-           <%
-        }%>
 <!-- banner -->
 <div class="wthree_agile_admin_info">
     <div class="w3_agileits_top_nav">
@@ -65,7 +60,7 @@
                                                 if( user.img_usr!=null){
                                                     %>
                                                     <span class="prfil-img"><img src="images/profiles/<%=user.img_usr%>" style="width: 50px; height: 50px;" alt=""> </span>
-                                                <% 
+                                                <%
                                                 }else{
                                                     %>
                                                     <span class="prfil-img"><img src="images/admin.png" style="width:50px" alt=""> </span>
@@ -134,7 +129,6 @@
                                 <div class="col-md-2"></div>
                                 <div class="col-md-5">
                                 <%
-                                    console.log(doctores.length);
                                     if(doctores.length>0){
                                     for(var c = 0; c<doctores.length; c++){
                                         for(var a = 0; a<rangos.length; a++){
@@ -152,7 +146,7 @@
                                                                  <div class="profile-ser-grids">
                                                                      <h3>Citas en este mes</h3>
                                                                      <%
-                                                                     let vcit = false; 
+                                                                     let vcit = false;
                                                                      if(citas.length > 0){
                                                                          for(var cit = 0; cit < citas.length; cit++){
                                                                              %>
@@ -161,7 +155,7 @@
                                                                         <%vcit = true;
                                                                     break;
                                                                         }
-                                                                    }               
+                                                                    }
                                                                 }
                                                                 if(!vcit){
                                                                     %>No hay citas<%
@@ -295,7 +289,6 @@
                                   </thead>
                                   <tbody>
                                         <%
-                                        console.log(doctores.length);
                                         if(doctores.length>0){
                                         for(var c = 0; c<doctores.length; c++){
                                             for(var a = 0; a<rangos.length; a++){
@@ -312,6 +305,8 @@
                                 }
                             }
                         }
+											}
+										}
                     %>
                                   </tbody>
                                 </table>
@@ -445,6 +440,14 @@
 <script>
         new gnMenu( document.getElementById( 'gn-menu' ) );
     </script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<%if(typeof mensaje !== "undefined"){
+    %>
+    <script>
+        toastr.info("<%=mensaje%>","Info");
+    </script>
+    <%
+}%>
 <!-- script-for-menu -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script>

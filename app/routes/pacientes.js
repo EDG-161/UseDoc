@@ -49,16 +49,15 @@ function obtenerDoctores(id,callback){
 							connection.query(cad,(er,res)=>{
 								if(er){
 									callback([]);
-									console.log("error " + er);
+									console.log("error " + er);	
 								}else{
-		
+
 									for(var c = 0; c < res.length;c++){
 										res[c].name_med = aes.decifrar(res[c].name_med);
 										res[c].appat_med = aes.decifrar(res[c].appat_med);
 										res[c].apmat_med = aes.decifrar(res[c].apmat_med);
 										res[c].ced_med = aes.decifrar(res[c].ced_med);
 									}
-									console.log(res);
 									callback(res);
 								}
 							});
@@ -171,7 +170,7 @@ function obtenerCitas(id,callback){
 									result[i].dat_cit = aes.decifrar(result[i].dat_cit);
 									result[i].id_med = result[i].id_med;
 									result[i].des_ = result[i].des_cit;
-									
+
 								}
 							}
 							callback(result);
@@ -305,7 +304,7 @@ function obtenerHorario(id,callback){
   connection.query('SELECT * FROM mhorario_medico WHERE id_med='+id,(er,resu)=>{
     if (!er) {
       if (resu.length>0) {
-		
+
         resu[0].hi_hor = aes.decifrar(resu[0].hi_hor);
         resu[0].hf_hor = aes.decifrar(resu[0].hf_hor);
         resu[0].tiem_hor = aes.decifrar(resu[0].tiem_hor);
