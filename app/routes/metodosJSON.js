@@ -23,6 +23,11 @@ function escribirJSON(idpac,idmed,idchat,tipusr, msg){
     }
     
 }
+function leerJSON(arch,tip){
+    let datos = fs.readFileSync(arch,"utf-8");
+    return datos;
+
+}
 function verify(req,res){
     let tipo = req.session.user.id_tid;
 	let id1,id2,idc;
@@ -65,4 +70,5 @@ function verify(req,res){
 exports.crearJSON = crearJSON;
 exports.escribirJSON = escribirJSON;
 exports.verificarJSON = verify;
+exports.leerJSON = leerJSON;
 

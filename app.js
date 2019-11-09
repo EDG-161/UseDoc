@@ -49,10 +49,10 @@ io.on("connection", (socket)=>{
     })
 
 	socket.on("chat-message", (data)=>{
+        let arch = "p"+data.idpac+"m"+data.idmed+"c"+data.idchat+".json"
         for(var i = 0; conexiones.length;i++){
             if(conexiones[i][1]==data.idpac&&conexiones[i][2]==data.idmed){
-                json.escribirJSON(data.idpac,data.idmed,data.idchat,data.tipuser,data.mensaje);
-                io.sockets.socket(conexiones[i][0]).emit("chat-message",json.escribirJSON(data.idpac,data.idmed,data.idchat,data.tipuser,data.mensaje));
+                io.to(conexiones[i][0]).emit("chat-message",json.leerJSON(arch,data.tipuser));
             }
         }
 		io.sockets.emit("chat-message", data);
