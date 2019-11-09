@@ -10,7 +10,7 @@ function login(req,res){
         const { pass } = req.body;
 
         if (valida.validarLogin(email,pass)) {
-        
+
             connection.query("SELECT * FROM musuarios WHERE email_usr = '"+ aes.cifrar(email) + "' && pass_usr = '"+ aes.cifrar(pass) + "'",(err,result)=>{
                 if (!err) {
                     var user = result[0];
@@ -195,38 +195,31 @@ function setMedico(req,res){//Este metodo asina medicos a pacientes
             connection.query('SELECT * FROM mdoctores where id_usr = ' + idmed,(ers,ress)=>{
                 if(ers){
                     console.log(ers);
-
                 }else{
                     if( typeof ress[0] !== "undefined"){
                         connection.query("select * FROM mpacientes where id_usr="+id,(er1,re1)=>{
-                          connection.query('INSERT INTO mpaciente_medico (id_med, id_pac, id_ran) values ('+ress[0].id_med+','+re1[0].id_pac+','+tip+')',(err,result)=>{
-                              if(err){
-                                  console.log("Error insercion setMedico      " + err);
-                              }else{
-                                  pacientes.obtenerDoctores(userobj.id_usr,function(doctores){
-                                      req.session.doctor = doctores;
-                                      res.render("Home-Paciente",{
-                                        user:userobj,
-                                        doctores: req.session.doctor,
-                                        rangos: req.session.rangos,
-                                        citas: req.session.citas,
-                                        mensaje: tipot
-                                      });
-                                  });
-                              }
+                          var regP = false;
+                          connection.query("SELECT * FROM mpaciente_medico where id_pac ="+re1[0].id_med+" && id_med="+ress[0].id_med,(ers,resq)=>{
+                            if (!ers) {
+                                if (resq.length>0) {
+                                  regP = true;;
+                                }
+                            }
                           });
+                          if (!regP) {
+                            connection.query('INSERT INTO mpaciente_medico (id_med, id_pac, id_ran) values ('+ress[0].id_med+','+re1[0].id_pac+','+tip+')',(err,result)=>{
+                                if(err){
+                                    console.log("Error insercion setMedico      " + err);
+                                }else{
+                                    res.redirect("Home?men="+tipot);
+                                }
+                            });
+                          }else{
+                              res.redirect("Home?men=Ya has registrado a este medico en tu perfil");
+                          }
                         });
                     }else{
-                        pacientes.obtenerDoctores(userobj.id_usr,function(doctores){
-                            req.session.doctor = doctores;
-                            res.render("Home-Paciente",{
-                              user:userobj,
-                              doctores: req.session.doctor,
-                              rangos: req.session.rangos,
-                              citas: req.session.citas,
-                              mensaje: "El codigo no existe"
-                            });
-                        });
+                        res.redirect("Home?men=El codigo no existe");
                     }
                 }
             })

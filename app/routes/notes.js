@@ -43,7 +43,7 @@ module.exports = app => {
         try {
           if (req.session.user!= null) {
               let userobj = req.session.user;
-              
+
               let men = req.query.men;
               if (userobj.id_tid==1) {
                   doctores.obtenerPacientes(userobj.id_usr,function(pac){
@@ -52,12 +52,16 @@ module.exports = app => {
                         req.session.citas = citas;
                         doctores.obtenerHorario(userobj.id_usr, function(h){
                           req.session.horario = h;
-                          res.render("Home",{
-                              user:userobj,
-                              pacientes:req.session.pacientes,
-                              citas: req.session.citas,
-                              horario: h,
-                              mensaje:men
+                          doctores.getGastos(userobj.id_usr,function(gastos){
+                            req.session.gastos = gastos;
+                            res.render("Home",{
+                                user:userobj,
+                                gastos,
+                                pacientes:req.session.pacientes,
+                                citas: req.session.citas,
+                                horario: h,
+                                mensaje:men
+                            });
                           });
                         });
                       });
@@ -195,7 +199,7 @@ module.exports = app => {
       if(req.session.user!=null){
         var userobj = req.session;
         console.log(userobj);
-        
+
         let imgP = req.files.file;
         console.log("Tamaño de imagen " + imgP.size);
         var exte = imgP.name.split('.').pop();
@@ -206,17 +210,30 @@ module.exports = app => {
           if(exte == "png"||exte=="jpg"){
             var user = userobj.user;
             console.log("user es esto : " + user);
-            
+
             var ruta = `${user.id_usr}profilePicture${user.name}.${exte}`;
             imgP.mv(`./app/public/images/profiles/${ruta}`,err => {
-              if(err){ 
+              if(err){
                 console.log("error mv" + err);
-                
+
                 return res.redirect('/perfil?men=Algo ocurrio vuelve a intentar');
               }else{
                 connection.query(`update musuarios set img_usr='${aes.cifrar(ruta)}' where id_usr=${user.id_usr}`,(er1,res1)=>{
                   if(!er1){
-                      return res.redirect('/perfil?men=Cambio de imagen exitoso');
+                    connection.query(`SELECT * FROM musuarios where id_usr=${user.id_usr}`,(errorq,ressq)=>{
+                      if (!errorq) {
+                        if (ressq.length>0) {
+                          ressq[0].email_usr = aes.decifrar(ressq[0].email_usr);
+                          ressq[0].img_usr = aes.decifrar(ressq[0].img_usr);
+                          req.session.user = ressq[0];
+                            return res.redirect('/perfil?men=Cambio de imagen exitoso');
+                        }else{
+                            return res.redirect('/login?men=Algo ocurrio, por favor inicia sesion');
+                        }
+                      }else{
+                        return res.redirect('/login?men=Algo ocurrio, por favor inicia sesion');
+                      }
+                    });
                   }else{
                     console.log("error query" + er1);
                     return res.redirect('/perfil?men=Algo ocurrio vuelve a intentar');
@@ -233,10 +250,33 @@ module.exports = app => {
       }
     });
 
-
-
-
     //----------------------Rutas medicos------------------------
+
+    app.get('/Gastos',(req,res)=>{
+      if (req.session.user!= null) {
+        if (req.session.user.id_tid==1) {
+          var tm = req.query.tm;
+          if (tm==0||tm==1||tm==2||tm==3) {
+            res.render('gastos',{
+              user : req.session.user,
+              gastos : req.session.gastos,
+              tm
+            });
+          }else{
+            res.render('gastos',{
+              user : req.session.user,
+              gastos : req.session.gastos,
+              tm:0
+            });
+          }
+
+        }else {
+          res.redirect('/Home');
+        }
+      }else {
+        res.redirect('login?men=Inicia sesion para poder continuar');
+      }
+    });
 
     app.post('/registrarHorario',(req,res)=>{
       if (req.session.user!=null) {
@@ -300,6 +340,7 @@ module.exports = app => {
                 req.session.citas = citas;
                 paciente.push(req.session.citas);
                 res.render("paciente",{
+                  user:req.session.user,
                 paciente : paciente,
                 mensaje:men
                 });
@@ -384,6 +425,7 @@ module.exports = app => {
             res.redirect("/citas");
           }else{
             res.render('cita',{
+              user:req.session.user,
               cita : ct,
               pacientes:req.session.pacientes
             });
@@ -550,14 +592,11 @@ module.exports = app => {
     });
 
     app.get('/perfil',(req,res)=>{
-      
-      var userobj = req.session; 
-      if(userobj=!null && typeof userobj!== "undefined"){
-        console.log( userobj);
+      if (req.session.user!= null) {
         var men = req.query.men;
         res.render('perfil',{
-          user : req.session.user2,
-          mensaaje : men
+          user : req.session.user,
+          mensaje : men
         });
       }else{
         res.redirect('login');
