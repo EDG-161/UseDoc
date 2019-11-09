@@ -121,27 +121,49 @@
                     <a class="gn-icon gn-icon-menu"><i class="fa fa-bars" aria-hidden="true"></i><span>Menu</span></a>
                     <nav class="gn-menu-wrapper">
                         <div class="gn-scroller scrollbar1">
-                            <ul class="gn-menu agile_menu_drop">
-                                <li><a href="Home"> <i class="fa fa-home"></i> Inicio</a></li>
-                                <li>
-                                    <a href="pacientes"><i class="fa fa-stethoscope" aria-hidden="true"></i> Pacientes <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                                    <ul class="gn-submenu">
-                                        <li class="mini_list_agile"><a href="Tratamientos"><i class="fa fa-caret-right" aria-hidden="true"></i> Tratamientos</a></li>
-                                        <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Diagnosticos</a></li>
-                                        <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="table"> <i class="fa fa-money" aria-hidden="true"></i> Gastos</a></li>
-                                <li><a href="#"><i class="fa fa-envelope " aria-hidden="true"></i>Mensajes</a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-table" aria-hidden="true"></i> Agenda <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                                    <ul class="gn-submenu">
-                                        <li class="mini_list_agile"><a href="buttons"><i class="fa fa-caret-right" aria-hidden="true"></i> Calendario</a></li>
-                                        <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
+                          <%
+                          if(user.id_tid==1){
+                              %>
+                              <ul class="gn-menu agile_menu_drop">
+                                      <li><a href="Home"> <i class="fa fa-home"></i> Inicio</a></li>
+                                      <li>
+                                          <a href="#"><i class="fa fa-stethoscope" aria-hidden="true"></i> Pacientes <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                                          <ul class="gn-submenu">
+                                              <li class="mini_list_agile"><a href="Tratameintos"><i class="fa fa-caret-right" aria-hidden="true"></i> Tratamientos</a></li>
+                                              <li class="mini_list_w3"><a href="Diagnosticos"> <i class="fa fa-caret-right" aria-hidden="true"></i> Diagnosticos</a></li>
+                                              <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
+                                          </ul>
+                                      </li>
+                                      <li><a href="Gastos"> <i class="fa fa-money" aria-hidden="true"></i> Gastos</a></li>
+                                      <li><a href="chat"><i class="fa fa-envelope " aria-hidden="true"></i>Mensajes</a>
+                                      </li>
+                                      <li>
+                                          <a ><i class="fa fa-table" aria-hidden="true"></i> Agenda <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                                          <ul class="gn-submenu">
+                                              <li class="mini_list_agile"><a href="Calendario"><i class="fa fa-caret-right" aria-hidden="true"></i> Calendario</a></li>
+                                              <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
+                                          </ul>
+                                      </li>
+                                  </ul>
+                              <%
+                          }else{
+                              %>
+                              <ul class="gn-menu agile_menu_drop">
+                                  <li><a href="Home"> <i class="fa fa-home"></i> Inicio</a></li>
+                                  <li>
+                                      <a href="#"><i class="fa fa-stethoscope" aria-hidden="true"></i> Información <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                                      <ul class="gn-submenu">
+                                          <li class="mini_list_agile"><a href="buttons"><i class="fa fa-caret-right" aria-hidden="true"></i> Tratamientos</a></li>
+                                          <li class="mini_list_w3"><a href="grids"> <i class="fa fa-caret-right" aria-hidden="true"></i> Diagnosticos</a></li>
+                                          <li class="mini_list_w3"><a href="grids"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
+                                      </ul>
+                                  </li>
+                                  <li><a href="#"><i class="fa fa-user-md" aria-hidden="true"></i>Medico</a>
+                                  </li>
+                              </ul>
+                              <%
+                          }
+                      %>
                         </div>
                     </nav>
                 </li>
@@ -152,17 +174,17 @@
                             <li class="dropdown profile_details_drop">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                     <div class="profile_img">
-                                        <%
-                                        if( user.img_usr!=null){
-                                            %>
-                                            <span class="prfil-img"><img src="images/profiles/<%=user.img_usr%>" style="width: 45px;" alt=""> </span>
-                                        <% 
-                                        }else{
-                                            %>
-                                            <span class="prfil-img"><img src="images/admin.png" style="width: 45px;" alt=""> </span>
-                                        <%
-                                        }
-                                        %>
+                                      <%
+                                      if( user.img_usr!=null){
+                                          %>
+                                          <span class="prfil-img"><img src="images/profiles/<%=user.img_usr%>" style="width: 50px; height: 50px;" alt=""> </span>
+                                      <% 
+                                      }else{
+                                          %>
+                                          <span class="prfil-img"><img src="images/admin.png" style="width:50px" alt=""> </span>
+                                      <%
+                                      }
+                                      %>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu drp-mnu">

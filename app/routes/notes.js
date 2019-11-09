@@ -322,12 +322,13 @@ module.exports = app => {
     app.get('/chat',(req,res)=>{
       if(req.session.user!=null){
         if(req.session.user.id_tid==2){
+          console.log(req.session.user);
           pacientes.obtenerPacienteById(req.session.user.id_usr,(respuesta)=>{
-            var id_pac = respuesta[0].id_pac;
-            var id_med = res.query.id_med;
-            if(typeof id_med ==! "undefined"){
+            //var id_pac = respuesta[0].id_pac;
+            //var id_med = res.query.id_med;
+            //if(typeof id_med ==! "undefined"){
 
-            }
+            //}
           });
         }else{
           paci

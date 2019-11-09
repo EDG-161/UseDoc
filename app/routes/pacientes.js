@@ -262,7 +262,7 @@ function obtenerPacienteById(id, callback){
         res[0].appat_pac = aes.decifrar(res[0].appat_pac);
         res[0].apmat_pac = aes.decifrar(res[0].apmat_pac);
         connection.query('SELECT * FROM mdatos where id_usr = '+res[0].id_usr,(e,r)=>{
-          if (!err) {
+          if (!e) {
             if (r.length>0) {
             	if (typeof r[0].id_usr !== "undefined") {
 		              r[0].tel_dat = aes.decifrar(r[0].tel_dat);
@@ -278,16 +278,22 @@ function obtenerPacienteById(id, callback){
 		              callback([]);
 		            }
             }else{
-		              callback([]);
+				console.log("No mayor a 0 	" + r )
+		              callback([res[0],null]);
 		            }
           }else{
+			console.log("error  	" + e )
             callback([]);
           }
         });
       }else{
+		console.log("no definido	" + res )
         callback([]);
       }
-    }
+    }else{
+		console.log(err);
+		callback([]);
+	}
   });
 }
 

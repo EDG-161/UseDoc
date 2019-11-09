@@ -17,7 +17,7 @@ function login(req,res){
                     if (typeof user !== 'undefined') {
                         var user2 = user;
                         user2.email_usr = aes.decifrar(user2.email_usr);
-                        if (user2.img_usr) {
+                        if (user2.img_usr!= null) {
                           user2.img_usr = aes.decifrar(user2.img_usr);
                         }
                         user2.reg_usr = aes.decifrar(user2.reg_usr);
