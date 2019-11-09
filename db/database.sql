@@ -407,6 +407,12 @@ CREATE TABLE `mpadecimiento` (
   PRIMARY KEY (`id_enf`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+INSERT INTO mpadecimiento (des_enf) VALUES ("Alteraciones De La Nutrición"),("Enfermedades Endocrinas y Metabólicas"),("Trastornos Gastrointestinales"), ("Enfermedades Hepáticas y Biliares");
+INSERT INTO mpadecimiento (des_enf) VALUES ("Enfermedades MusculoEsqueléticas y Del Tejido Conjuntivo"),("Neumología"),("Otorrinolaringología"), ("Oftalmología");
+INSERT INTO mpadecimiento (des_enf) VALUES ("Patología Dental y Oral"),("Trastornos Dermatológicos"),("Hematología y Oncología"), ("Enfermedades Alérgicas");
+INSERT INTO mpadecimiento (des_enf) VALUES ("Enfermedades Infecciosas"),("Neurología"),("Trastornos Psiquiátricos"), ("Trastornos Cardiovasculares");
+INSERT INTO mpadecimiento (des_enf) VALUES ("Trastornos Genitourinarios"),("Ginecología y Obstetricia"),("Pediatría"), ("Trastornos Causados Por Agentes Físicos"),("Intoxicaciones");
+
 
 --
 -- Dumping data for table `mpadecimiento`
