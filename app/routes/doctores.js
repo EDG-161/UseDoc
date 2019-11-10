@@ -21,6 +21,7 @@ function obtenerPacientes(id, callback){
               connection.query(cad,(er,resu)=>{
                   if(!er){
                       for(var i = 0; i<resu.length ; i++){
+                          resu[i].id_pac = resu[i].id_pac;
                           resu[i].nom_pac = aes.decifrar(resu[i].nom_pac);
                           resu[i].appat_pac = aes.decifrar(resu[i].appat_pac);
                           resu[i].apmat_pac = aes.decifrar(resu[i].apmat_pac);
@@ -49,6 +50,7 @@ function obtenerCitas(id,callback){
             }
   					result[i].dat_cit = aes.decifrar(result[i].dat_cit);
             result[i].hor_cit = aes.decifrar(result[i].hor_cit);
+            result[i].id_pac = result[i].id_pac;
   				}
   				callback(result);
   			}else{

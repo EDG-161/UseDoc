@@ -413,8 +413,8 @@ module.exports = app => {
     app.get('/cita',(req,res)=>{
       var id = req.query.c;
       if (req.session.user!=null) {
-        if (id.length>32&&id.length<210) {
-          var c = id.substring(16,17);
+        if (id.length>32 && id.length<210) {
+          var c = id.substring(50);
           var citas = req.session.citas;
           var ct;
           var com = false;

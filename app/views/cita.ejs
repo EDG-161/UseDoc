@@ -69,7 +69,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                           if( user.img_usr!=null){
                                               %>
                                               <span class="prfil-img"><img src="images/profiles/<%=user.img_usr%>" style="width: 50px; height: 50px;" alt=""> </span>
-                                          <% 
+                                          <%
                                           }else{
                                               %>
                                               <span class="prfil-img"><img src="images/admin.png" style="width:50px" alt=""> </span>
@@ -195,6 +195,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </script>
                 <div class="agile-tables">
                     <div class="w3l-table-info agile_info_shadow">
+                        
+                    </div>
+                </div>
+
+                <div class="agile-tables">
+                    <div class="w3l-table-info agile_info_shadow">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-3">
@@ -208,42 +214,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                 <div class="col-md-1">
 
                                 </div>
+                              <!--------------------------------------------------------------------------------------->
                                 <div class="col-md-8" id="fin_block" style="display:none">
                                     <form action="">
-                                      <div class="form-group">
-                                       <label for="">Ver tratamientos</label>
-                                       <select name="" id="" class="form-control" style="height: auto">
-                                           <option value="">Todas</option>
-                                           <option value="">Terminados</option>
-                                           <option value="">En progreso</option>
-                                           <option value="">Cancelados</option>
-                                       </select>
-                                        </div>
-                                        <div class="form-group">
-                                        <h3>Ver tratamiento: </h3>
-                                        </div>
-                                       <div class="form-group">
-                                           <input type="text" value="Nombre" disabled readonly class="form-control">
-                                       </div>
-                                       <div class="form-group">
-                                       <input type="text" value="Paciente" disabled readonly class="form-control">
-                                           </div>
-                                       <div class="form-group">
-                                           <input type="text" style="color: white" value="Estado" disabled readonly class="form-control btn btn-success">
-                                       </div>
-                                       <div class="form-group">
-                                              <textarea disabled readonly class="form-control">Descripcion
-                                           </textarea>
-                                           </div>
-                                       <div class="form-group">
-                                           <textarea disabled readonly class="form-control">Horario
-                                           </textarea>
-                                       </div>
-                                       <div class="form-group">
-                                           <input type="text" value="$Costo" disabled readonly class="form-control">
-                                       </div>
+                                      Padecimiento / Estado actual
+                                      <br>
+                                        <input type="text" value="Sintomas">    <input type="date" value="Inico de Sintomas">
+                                        <br>
+                                        <br>
+                                        Medicamentos tomados previamente:
+                                        <br>
+                                        <br>
+                                        <input type="text" value="opcional">
+                                        <br>
+                                        <br>
+                                        Es necesario realizar estudios: &nbsp&nbsp&nbsp<input type="radio" value="si">  Si &nbsp&nbsp&nbsp <input type="radio" value="no">  No
                                     </form>
                                 </div>
+                                <!-------------------------------------------------------------------------------------------->
                                 <div class="col-md-8" id="can_block" style="display:none">
                                     <form action="cancelarCita">
                                       <div class="form-group">

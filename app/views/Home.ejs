@@ -279,12 +279,21 @@
                                             </tr>
                                           </thead>
                                           <tbody>
+
+                                            <%for(var j = 0; j< citas.length; j++){%>
+                                                <%for(var p = 0; p < pacientes.length; p++){%>
+                                                    
+                                                    <%if(citas[j].id_pac == pacientes[p].id_pac){%>
+                                                        
                                             <tr>
-                                              <th scope="row">dd/mm/yyyy</th>
-                                              <td>Mark</td>
-                                              <td>16:00</td>
-                                              <td><a href="cita"><i class="fa fa-plus"> Ver mas </i></a></td>
+                                              <td><%=citas[j].dat_cit%></td>
+                                              <td><%=pacientes[p].nom_pac%></td>
+                                              <td><%=citas[j].hor_cit%></td>
+                                              <td><a href="citas"><i class="fa fa-plus"> Ver mas </i></a></td>
                                             </tr>
+                                            <%}
+                                        }
+                                    }%>
 
                                           </tbody>
                                         </table>
