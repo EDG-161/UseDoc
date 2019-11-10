@@ -360,8 +360,8 @@ module.exports = app => {
       }
     });
 
-    app.get('/chat',(req,res)=>{
-      if(req.session.user!=null){
+    app.get('/chat/:value', function (req,res){
+      /*if(req.session.user!=null){
         if(req.session.user.id_tid==2){
           console.log(req.session.user);
           pacientes.obtenerPacienteById(req.session.user.id_usr,(respuesta)=>{
@@ -379,10 +379,8 @@ module.exports = app => {
       }
         res.render('chat',{
           user : req.session.user
-        });
-    });
-    app.post('/chat',(req,res)=>{
-
+        });*/
+        
     });
 
     app.get('/citas',(req,res)=>{

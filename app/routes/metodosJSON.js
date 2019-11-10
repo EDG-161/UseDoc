@@ -1,4 +1,6 @@
 var fs = require("fs");
+const dbConnection = require('../../config/dbconnection');
+const connection = dbConnection();
 const aes = require("./aes");
 var path = require("path");
 function crearJSON(idpac,idmed,idchat){
@@ -23,9 +25,36 @@ function escribirJSON(idpac,idmed,idchat,tipusr, msg){
     }
     
 }
-function leerJSON(arch,tip){
-    let datos = fs.readFileSync(arch,"utf-8");
-    return datos;
+function leerJSON(req,res){
+    let cadena = aes.decifrar(req.params.value);
+    /*let idp, idm, idc;
+    for(var i = 0; i < cadena.length; i++){
+        if(cadena.charAt(i) = "p"){
+            for(var o = i; cadena.charAt(i)= "m";o++){
+                idp+=cadena.charAt(o);
+            }
+            idp = idp.replace("p","");
+        }else if(cadena.charAt(i) = "m"){
+            for(var p = i; cadena.charAt(i)= "c";p++){
+                idm+=cadena.charAt(p);
+            }
+            idm = idm.replace("m","");
+        }else if(cadena.charAt(i) = "c"){
+            for(var q = i; i <cadena.length;q++){
+                idc+=cadena.charAt(q);
+            }
+            idc = idc.replace("c","");
+        }else{}
+    }*/
+    let datos = fs.readFileSync(cadena,"utf-8");
+    let data = JSON.parse(datos);
+    if (data.id == socket.id) {
+		var msj = '<div class="local-message" disabled><strong>'+data.usuario+':</strong><p>'+sanitized+'</p><br><img src="images/save.png" class="imgmsg" style="align: right;" onclick="guardar()"></div>';
+		document.getElementById("msgs").innerHTML += msj;
+	} else {
+		var msj = '<div class="remote-message" disabled><strong>'+data.usuario+':</strong><p>'+sanitized+'</p></div>';
+		document.getElementById("msgs").innerHTML += msj;
+	}
 
 }
 function verify(req,res){
@@ -33,36 +62,41 @@ function verify(req,res){
 	let id1,id2,idc;
 	if(tipo == 1){
 		id2 = req.session.user.id_usr;
-		connection.query("SELECT id_pm WHERE id_med = "+id2+" AND id_pac="+id1+"", (err,result)=>{
+		connection.query("SELECT id_pm FROM mpaciente_medico WHERE id_med = "+id2+" AND id_pac="+id1+"", (err,result)=>{
 			if(!err){
 				idc = result;
 			}else{
 				console.log("Error: "+err);
 			}
         });
+        let value;
         let arch = "p"+id1+"m"+id2+"c"+idc+".json";
         if(!path.exists(arch)){
             crearJSON(id1,id2,idc);
-            res.redirect("/chat");
+            value = aes.cifrar(arch);
+            res.redirect("/chat"+value);
         }else{
-            res.redirect("/chat");
+            value = aes.cifrar(arch);
+            res.redirect("/chat/"+value);
         }
-		
 	}else{
 		id1 = req.session.user.id_usr;
-		connection.query("SELECT id_pm WHERE id_med = "+id2+" AND id_pac="+id1+"", (err,result)=>{
+		connection.query("SELECT id_pm FROM mpaciente_medico WHERE id_med = "+id2+" AND id_pac="+id1+"", (err,result)=>{
 			if(!err){
 				idc = result;
 			}else{
 				console.log("Error: "+err);
 			}
         });
+        let value;
         let arch = "p"+id1+"m"+id2+"c"+idc+".json";
         if(!path.exists(arch)){
             crearJSON(id1,id2,idc);
-            res.redirect("/chat");
+            value = aes.cifrar(arch);
+            res.redirect("/chat"+value);
         }else{
-            res.redirect("/chat");
+            value = aes.cifrar(arch);
+            res.redirect("/chat/"+value);
         }
 	}
 
