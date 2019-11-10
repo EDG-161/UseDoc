@@ -68,7 +68,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             if( user.img_usr!=null){
                                                 %>
                                                 <span class="prfil-img"><img src="images/profiles/<%=user.img_usr%>" style="width: 50px; height: 50px;" alt=""> </span>
-                                            <% 
+                                            <%
                                             }else{
                                                 %>
                                                 <span class="prfil-img"><img src="images/admin.png" style="width:50px" alt=""> </span>
@@ -318,6 +318,27 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 <script src="js/bars.js"></script>
 <script src="js/scripts.js"></script>
+<script type="text/javascript">
+	function cambiar(fecha,nombre,hora,tipo,descripcion){
+		$('#fecha').val(fecha);
+		$('#paciente').val(nombre);
+		$('#hora').val(hora);
+		$('#descripcion').val(descripcion);
+		switch (tipo) {
+			case 1:
+				$('#estado').val("Ocurrida");
+				break;
+			case 2:
+				$('#estado').val("Pendiente");
+				break;
+			case 3:
+				$('#estado').val("Cancelada");
+				break;
+			default:
+
+		}
+	}
+</script>
 
 <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
 

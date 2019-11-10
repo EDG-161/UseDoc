@@ -19,9 +19,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+
 <!-- font-awesome-icons -->
 <link href="css/font-awesome.css" rel="stylesheet">
-<script src="js/scripts.js"></script>
 
 </head>
 <body>
@@ -90,12 +91,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
             <li class="second w3l_search">
-
-                    <form action="#" method="post">
-                        <input type="search" name="search" placeholder="Busca pacientes" required="">
-                        <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                    </form>
-
             </li>
 
         </ul>
@@ -195,41 +190,225 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </script>
                 <div class="agile-tables">
                     <div class="w3l-table-info agile_info_shadow">
-                        
+											<div class="row">
+												<div class="col-md-6">
+													<h4>Diagnosticos anteriores <i class="fa fa-info" onclick=""></i></h4>
+												</div>
+												<div class="col-md-6">
+													<h4>Informacion de vivienda <i class="fa fa-info" onclick="toastr.info('Aquí usted puede registrar dato sobre el modo de vida del paciente con el fin de usarlo para posibles consluciones','Ayuda')"></i></h4>
+													<table class="table table-hover">
+											      <thead class="thead-dark"	>
+											        <tr>
+											          <th scope="col">Aspecto</th>
+											        </tr>
+											      </thead>
+											      <tbody id="vie_tb">
+										        </tbody>
+									        </table>
+									        <button type="button" class="btn btn-success" id="add-vid">
+									          <i class="fa fa-plus-circle"></i>
+									        </button>
+									        <button type="button" class="btn btn-success" id="less-vid">
+									          <i class="">-</i>
+									        </button>
+												</div>
+											</div>
                     </div>
                 </div>
 
                 <div class="agile-tables">
                     <div class="w3l-table-info agile_info_shadow">
                         <div class="container">
+
                             <div class="row">
                                 <div class="col-md-3">
                                   <div class="form-group">
-                                    <input type="button" id="can_btn" class="btn btn-danger btn-sm btn-block" value="Cancelar" onclick="cancelar()">
+                                    <input type="button" id="can_btn" class="btn btn-danger btn-sm btn-block" value="Cancelar cita" onclick="cancelar()">
                                   </div>
                                   <div class="form-group">
-                                    <input type="button" id="fin_btn" class="btn btn-warning btn-sm btn-block" value="Finalizar" onclick="finalizar()">
+                                    <input type="button" id="fin_btn" class="btn btn-warning btn-sm btn-block" value="Finalizar cita" onclick="finalizar()">
                                   </div>
                                 </div>
                                 <div class="col-md-1">
 
                                 </div>
                               <!--------------------------------------------------------------------------------------->
-                                <div class="col-md-8" id="fin_block" style="display:none">
-                                    <form action="">
-                                      Padecimiento / Estado actual
-                                      <br>
-                                        <input type="text" value="Sintomas">    <input type="date" value="Inico de Sintomas">
-                                        <br>
-                                        <br>
-                                        Medicamentos tomados previamente:
-                                        <br>
-                                        <br>
-                                        <input type="text" value="opcional">
-                                        <br>
-                                        <br>
-                                        Es necesario realizar estudios: &nbsp&nbsp&nbsp<input type="radio" value="si">  Si &nbsp&nbsp&nbsp <input type="radio" value="no">  No
-                                    </form>
+                                <div class="col-md-8" id="fin_block">
+
+																		<div class="row">
+																			<h3 class="w3_inner_tittle two">Antecedentes</h3>
+                                    	<div class="col-md-12">
+																				<strong>Enfermedades parentales</strong>
+																				<table class="table table-hover">
+																		      <thead class="thead-dark"	>
+																		        <tr>
+																		          <th scope="col">Enfermedad</th>
+																							<th scope="col">Parentesco</th>
+																							<th scope="col">Categoria de Enfermedad</th>
+																		        </tr>
+																		      </thead>
+																		      <tbody id="enp-tb">
+
+																	        </tbody>
+																        </table>
+																        <button type="button" id="add-enp" class="btn btn-success" name="button">
+																          <i class="fa fa-plus-circle"></i>
+																        </button>
+																        <button type="button" id="less-enp" class="btn btn-success" name="button">
+																          <i class="">-</i>
+																        </button>
+                                    	</div>
+																			<div class="col-md-4">
+																				<strong>Alergias</strong>
+																				<table class="table table-hover">
+																		      <thead class="thead-dark"	>
+																		        <tr>
+																		          <th scope="col">Nombre alergia</th>
+																		        </tr>
+																		      </thead>
+																		      <tbody id="alr-tb">
+																	        </tbody>
+																        </table>
+																        <button type="button" class="btn btn-success" id="add-alr" name="button">
+																          <i class="fa fa-plus-circle"></i>
+																        </button>
+																        <button type="button" class="btn btn-success" id="less-alr" name="button">
+																          <i class="">-</i>
+																        </button>
+                                    	</div>
+																			<div class="col-md-8">
+																				<strong>Cirugias</strong>
+																				<table class="table table-hover">
+																		      <thead class="thead-dark"	>
+																		        <tr>
+																		          <th scope="col">Nombre cirugia</th>
+																							<th scope="col">Fecha de cirugia</th>
+																		        </tr>
+																		      </thead>
+																		      <tbody id="cir-tb">
+																	        </tbody>
+																        </table>
+																        <button type="button" class="btn btn-success" id="add-cir" name="button">
+																          <i class="fa fa-plus-circle"></i>
+																        </button>
+																        <button type="button" class="btn btn-success" id="less-cir" name="button">
+																          <i class="">-</i>
+																        </button>
+                                    	</div>
+                                    </div>
+																		<hr>
+																		<div class="row">
+																			<h3 class="w3_inner_tittle two">Padecimiento / Estado actual</h3>
+                                    	<div class="row">
+                                    		<div class="col-md-11">
+																				<strong>Sistomas</strong>
+																					<table class="table table-hover">
+																			      <thead class="thead-dark"	>
+																			        <tr>
+																			          <th scope="col">Sintoma </th>
+																								<th scope="col">Notas</th>
+																								<th scope="col">Inicio</th>
+																			        </tr>
+																			      </thead>
+																			      <tbody id="sis-tb">
+																		        </tbody>
+																	        </table>
+																	        <button type="button" id="add-sis" class="btn btn-success" name="button">
+																	          <i class="fa fa-plus-circle"></i>
+																	        </button>
+																	        <button type="button" id="less-sis" class="btn btn-success" name="button">
+																	          <i class="">-</i>
+																	        </button>
+																				</div>
+																				<div class="col-md-1"></div>
+                                    	</div>
+																			<hr>
+																			<div class="row">
+                                    		<div class="col-md-12">
+																					<strong>Medicamentos tomados</strong>
+																					<table class="table table-hover">
+																			      <thead class="thead-dark"	>
+																			        <tr>
+																			          <th scope="col">Nombre del medicamento</th>
+																								<th scope="col">Dosis</th>
+																								<th scope="col">Unidad</th>
+																			        </tr>
+																			      </thead>
+																			      <tbody id="med-tb">
+																		        </tbody>
+																	        </table>
+																	        <button type="button" id="add-med" class="btn btn-success" name="button">
+																	          <i class="fa fa-plus-circle"></i>
+																	        </button>
+																	        <button type="button" id="less-med" class="btn btn-success" name="button">
+																	          <i class="">-</i>
+																	        </button>
+																				</div>
+																				<div class="col-md-12">
+																					<strong>Laboratorio</strong> <br>
+																					¿Se necesita realizar estudios de laboratorio para llegar a un diagnostico?
+																					<input type="radio"  class="form-check-input" name="nec" id="nec" value="1">Si
+																					<input type="radio" name="nec" checked class="form-check-input" id="nec" value="2">No
+																					<br>
+																					<hr>
+																					<div class="table-responsive-lg" id="lab">
+
+																					</div>
+																						<div class="table-responsive-lg" id="labn">
+																							<div class="row">
+																								<div class="col-md-12">
+																									<h3 class="w3_inner_tittle two">Diagnostico</h3>
+																									<div class="table-responsive-lg">
+																										<table class="table table-hover">
+																								      <thead class="thead-dark"	>
+																								        <tr>
+																								          <th scope="col">Padecimiento</th>
+																													<th scope="col">Clasificación</th>
+																													<th scope="col">Notas</th>
+																								        </tr>
+																								      </thead>
+																								      <tbody id="dig-tb">
+																							        </tbody>
+																						        </table>
+																										<button type="button" id="add-dig"  onclick="" class="btn btn-success" name="button">
+																						          <i class="fa fa-plus-circle"></i>
+																						        </button>
+																						        <button type="button" id="less-dig" onclick="" class="btn btn-success" name="button">
+																						          <i class="">-</i>
+																						        </button>
+																									</div>
+																								</div>
+																							</div>
+																							<div class="row">
+																								<div class="col-md-11">
+																									<h3 class="w3_inner_tittle two">Tratamiento</h3>
+																									<div class="table-responsive-lg">
+																										<table class="table table-hover">
+																								      <thead class="thead-dark"	>
+																								        <tr>
+																								          <th scope="col">Nombre del medicamento</th>
+																													<th scope="col">Cantidad</th>
+																													<th scope="col">Unidades</th>
+																													<th scope="col">Horario (cada cuantas horas)</th>
+																								        </tr>
+																								      </thead>
+																								      <tbody id="tra-tb">
+																							        </tbody>
+																						        </table>
+																										<button type="button" id="add-tra"  onclick="" class="btn btn-success" name="button">
+																						          <i class="fa fa-plus-circle"></i>
+																						        </button>
+																						        <button type="button" id="less-tra" onclick="" class="btn btn-success" name="button">
+																						          <i class="">-</i>
+																						        </button>
+																									</div>
+																								</div>
+																							</div>
+																							</div>
+																						</div>
+																				</div>
+                                    	</div>
+                                    </div>
                                 </div>
                                 <!-------------------------------------------------------------------------------------------->
                                 <div class="col-md-8" id="can_block" style="display:none">
@@ -249,7 +428,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </div>
         </div>
     </div>
-</div>
+
 <!-- banner -->
 <!--copy rights start here-->
 <div class="copyrights">
@@ -291,9 +470,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     new gnMenu( document.getElementById( 'gn-menu' ) );
 </script>
 <!-- script-for-menu -->
-
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<%if(typeof mensaje !== "undefined"){
+    %>
+    <script>
+        toastr.info("<%=mensaje%>","Info");
+    </script>
+    <%
+}%>
 <script src="js/bars.js"></script>
-
+<script type="text/javascript" src="js/cita.js"></script>
 
 <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
 
