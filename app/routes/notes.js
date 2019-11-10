@@ -381,6 +381,9 @@ module.exports = app => {
           user : req.session.user
         });
     });
+    app.post('/chat',(req,res)=>{
+
+    });
 
     app.get('/citas',(req,res)=>{
       if (req.session.user!= null) {

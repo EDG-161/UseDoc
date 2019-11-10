@@ -42,6 +42,8 @@ function enviarmsg(pac,med,chat,tip,msg){
 }
 socket.on("chat-message", function(data){
 	data.usuario = data.usuario.replace('</', '');
+	data.usuario = data.usuario.replace('>', '');
+	data.usuario = data.usuario.replace('<', '');
 	var sanitized = data.mensaje.replace('</', '');
 	sanitized = sanitized.replace('>', '');
 	sanitized = sanitized.replace('<', '');
