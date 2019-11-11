@@ -3,6 +3,7 @@ let pacientes = require('./pacientes');
 let doctores = require('./doctores');
 var modulos =  require('./Metodos');
 const aes = require('./aes');
+const citas = require('./citas');
 
 module.exports = app => {
     const connection = dbConnection();
@@ -610,6 +611,9 @@ module.exports = app => {
       str =str.replace(/_/gi, '"');
       var historia = JSON.parse(str);
 
+      citas.finalizarCita(historia,function(){
+        
+      });
       res.json({mensaje:'Funciono',tipo:'success'});
       res.end();
     });

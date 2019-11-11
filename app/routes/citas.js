@@ -24,8 +24,31 @@ function cancelarCita(id){
 	});
 }
 
-function finalizarCita(id,rec,recb){
+function guardarHistorial(historia,back){
+	var parentales = historia.enfermedadesParentales;
+	var cirugias = historia.cirugias;
+	var alergias = historia.algergias;
+	var vivienda = historia.vivienda;
+	var valido = true;
+	parentales.forEach(function(element){
+		if(valida.validarAspectos(element[0])&&valida.validarAspectos(element[1])&&valida.validarAspectos(element[2])){
+			
+		}else{
+			valido = false;
+		}
+	});
+	cirugias.forEach(element=>{
+		if(valida.){
+
+		}
+	});
+}
+
+function finalizarCita(historia,){
 	let d = "Cita Finalizada";
+
+
+
 	connection.query("UPDATE mcitas SET des_cit='"+aes.cifrar(d)+"' WHERE id_cit = "+id+" ",(err,result)=>{
 		if (!err) {
 			callback(null,result[0]);
@@ -68,3 +91,5 @@ function eliminarCita(id){
 		}
 	});
 }
+
+exports.finalizarCita = finalizarCita;
