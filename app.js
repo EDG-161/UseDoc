@@ -16,7 +16,6 @@ app.use(session({
 app.set('port', process.env.PORT || 3000);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'app/views'));
-
 // Middlewares
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended:false}));

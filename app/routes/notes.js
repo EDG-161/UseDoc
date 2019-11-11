@@ -380,7 +380,7 @@ module.exports = app => {
         res.render('chat',{
           user : req.session.user
         });*/
-        
+
     });
 
     app.get('/citas',(req,res)=>{
@@ -602,6 +602,16 @@ module.exports = app => {
       }else{
         res.redirect('login');
       }
+    });
+
+    app.get('/guardarHistoria',(req,res)=>{
+      var str = req._parsedUrl.query;
+      str =str.replace(/%22/gi, " ");
+      str =str.replace(/_/gi, '"');
+      var historia = JSON.parse(str);
+
+      res.json({mensaje:'Funciono',tipo:'success'});
+      res.end();
     });
 
 }
