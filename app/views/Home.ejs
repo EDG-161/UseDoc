@@ -24,6 +24,23 @@
 </head>
 <body>
 <!-- banner -->
+<%
+var cit = [];
+//Definimos el tiempo a mostrar
+var tiempoMenor = 0;
+var tiempoMayor = 0;
+
+tiempoMenor = (new Date().getTime()) - (86400000 * (new Date().getDay()));
+if (new Date().getDay()==0) {
+  tiempoMayor = (new Date().getTime());
+}else {
+    tiempoMayor = (new Date().getTime()) + ((86400000*7)- (86400000 * (new Date().getDay())))
+  }
+for(var i = 0 ; i < citas.length; i++){
+    cit.push(citas[i]);
+    break;
+}
+%>
 <div class="wthree_agile_admin_info">
     <div class="w3_agileits_top_nav">
         <ul id="gn-menu" class="gn-menu-main">
