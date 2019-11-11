@@ -36,7 +36,6 @@ $('input[name="nec"]').change(function(e){
 
 $('#add-vid').click(function(){
 	$(this).attr("disabled","disabled");
-	var index = $('#vie_tb tr:last-child').index();
 	var ntr = '<tr>' +
 			'<td><input type="text" class="form-control" placeholder="Ingresa el aspecto" name="as" id="dio"></td>' +
 			'<td><input type="button" id="add-vid-btn" onclick="agrVivienda()" class="btn btn-success" value="Agregar"></td>' +
