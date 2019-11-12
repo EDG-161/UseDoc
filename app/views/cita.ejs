@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 <title>Cita - UseDoc</title>
 <!-- custom-theme -->
@@ -20,7 +20,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
 <!-- font-awesome-icons -->
 <link href="css/font-awesome.css" rel="stylesheet">
 
@@ -28,15 +28,54 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <body>
 <!-- banner -->
 <script>
-	var enfermedadesParentales = [];
-	var vivienda = [];
-	var alergias = [];
-	var cirugias = [];
+var id = <%=paciente.id_pac%>
+	var enfermedadesParentales = [
+		<%
+		if (historial.enfermedadesParentales.length>0) {
+			%>
+			<%for (var i = 0; i < historial.enfermedadesParentales.length-1; i++) {
+				%>['<%=historial.enfermedadesParentales[i][0]%>','<%=historial.enfermedadesParentales[i][1]%>','<%=historial.enfermedadesParentales[i][2]%>'],<%
+			}%>
+			['<%=historial.enfermedadesParentales[historial.enfermedadesParentales.length-1][0]%>','<%=historial.enfermedadesParentales[historial.enfermedadesParentales.length-1][1]%>','<%=historial.enfermedadesParentales[historial.enfermedadesParentales.length-1][2]%>']
+		<%}
+		%>
+	];
+	var vivienda = [
+		<%if (historial.vivienda.length>0) {
+			%>
+			<%for (var i = 0; i < historial.vivienda.length-1; i++) {
+				%>['<%=historial.vivienda[i][0]%>'],<%
+			}%>
+			['<%=historial.vivienda[historial.vivienda.length-1][0]%>']
+			<%
+		}%>
+	];
+	var alergias = [
+		<%if (historial.alergias.length>0) {
+			%>
+			<%for (var i = 0; i < historial.alergias.length-1; i++) {
+				%>['<%=historial.alergias[i][0]%>'],<%
+			}%>
+			['<%=historial.alergias[historial.alergias.length-1][0]%>']
+		<%}
+		%>
+	];
+	var cirugias = [
+		<%if (historial.cirugias.length>0) {
+		%>
+		<%for (var i = 0; i < historial.cirugias.length-1; i++) {
+			%>['<%=historial.cirugias[i][0]%>','<%=historial.cirugias[i][1]%>'],<%
+		}%>
+		['<%=historial.cirugias[historial.cirugias.length-1][0]%>','<%=historial.cirugias[historial.cirugias.length-1][1]%>']
+		<%
+		}%>
+	];
 	var sintomas = [];
 	var medicamentos = [];
 	var lab = [false,[]];
 	var diagnostico = [];
 	var tratamiento = [];
+	var notas = [];
 
 
 </script>
@@ -409,6 +448,24 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 														</button>
 													</div>
 											</div>
+											<div class="w3l-table-info agile_info_shadow">
+												<h3 class="">Notas sobre la cita</h3>
+												<table class="table table-hover" id="table-force-off">
+													<thead class="thead-dark"	>
+														<tr>
+															<th scope="col">Nota</th>
+														</tr>
+													</thead>
+													<tbody id="not-tb">
+													</tbody>
+												</table>
+												<button type="button" id="add-not"  onclick="" class="btn btn-success" name="button">
+													<i class="fa fa-plus-circle"></i>
+												</button>
+												<button type="button" id="less-not" onclick="" class="btn btn-success" name="button">
+													<i class="">-</i>
+												</button>
+											</div>
 										</div>
 									</div>
 									<div class="w3l-table-info agile_info_shadow" id="can_block" style="display:none">
@@ -451,7 +508,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--copy rights end here-->
 <!-- js -->
 
-<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+
 
 <script src="js/amcharts.js"></script>
 <script src="js/serial.js"></script>
@@ -465,6 +522,45 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="js/gnmenu.js"></script>
 <script type="text/javascript" src="js/jquery.basictable.min.js"></script>
 <script>
+	function completar(){
+		enfermedadesParentales.forEach(element=>{
+			var ntr = "<tr>";
+			for (var i = 0; i < element.length; i++) {
+				ntr += "<td>"+element[i]+"</td>";
+			}
+			ntr+="</tr>";
+			$('#enp-tb').append(ntr);
+			ntr = "";
+		});
+		alergias.forEach(element=>{
+			var ntr = "<tr>";
+			for (var i = 0; i < element.length; i++) {
+				ntr += "<td>"+element[i]+"</td>";
+			}
+			ntr+="</tr>";
+			$('#alr-tb').append(ntr);
+			ntr = "";
+		});
+		vivienda.forEach(element=>{
+			var ntr = "<tr>";
+			for (var i = 0; i < element.length; i++) {
+				ntr += "<td>"+element[i]+"</td>";
+			}
+			ntr+="</tr>";
+			$('#vie_tb').append(ntr);
+			ntr = "";
+		});
+		cirugias.forEach(element=>{
+			var ntr = "<tr>";
+			for (var i = 0; i < element.length; i++) {
+				ntr += "<td>"+element[i]+"</td>";
+			}
+			ntr+="</tr>";
+			$('#cir-tb').append(ntr);
+			ntr = "";
+		});
+	}
+	completar();
     new gnMenu( document.getElementById( 'gn-menu' ) );
 
 </script>

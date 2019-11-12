@@ -4,6 +4,27 @@ var cenf = [
  'Trastornos Dermatológicos','Hematología y Oncología','Enfermedades Alérgicas ', 'Enfermedades Infecciosas', 'Neurología','Trastornos Psiquiátricos',
  'Trastornos Cardiovasculares','Trastornos Genitourinarios', 'Ginecología y Obstetricia','Pediatría','Trastornos Causados Por Agentes Físicos', 'Intoxicaciones'];
 var uni = ['','Tabletas','mg','ml','Unidades'];
+var normalize = (function() {
+  var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
+      to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
+      mapping = {};
+
+  for(var i = 0, j = from.length; i < j; i++ )
+      mapping[ from.charAt( i ) ] = to.charAt( i );
+
+  return function( str ) {
+      var ret = [];
+      for( var i = 0, j = str.length; i < j; i++ ) {
+          var c = str.charAt( i );
+          if( mapping.hasOwnProperty( str.charAt( i ) ) )
+              ret.push( mapping[ c ] );
+          else
+              ret.push( c );
+      }
+      return ret.join( '' );
+  }
+
+})();
 	var n = 0;
 $('input[name="nec"]').change(function(e){
   if ($(this).val()=='1') {
@@ -287,6 +308,29 @@ $('#less-tra').click(function(e){
 	$('#add-tra').removeAttr("disabled");
 });
 
+$('#add-not').click(function(){
+	$(this).attr("disabled","disabled");
+	var ntr = '<tr>' +
+			'<td><input type="text" class="form-control" placeholder="Ingresa la alergia" name="as" id="name-not"></td>' +
+			'<td><input type="button" id="add-ale-btn" onclick="agrNota()" class="btn btn-success" value="Agregar"></td>' +
+	'</tr>';
+	$('#not-tb').append(ntr);
+});
+
+$('#less-not').click(function(e){
+ var td = "";
+	$('#alr-not').find("tr:not(:last-child)").each(function(){
+		td += "<tr>"+$(this).html()+"</tr>";
+		$(this).find("td").each(function(){
+			td +=$(this).text();
+		});
+		td +="</tr>";
+	});
+	alergias.pop();
+	$('#not-tb').html(td);
+	$('#add-not').removeAttr("disabled");
+});
+
 function addLab(){
 	if ($('input[name="nec"]').val()==1&&lab[0]) {
 		$(this).attr("disabled","disabled");
@@ -325,7 +369,7 @@ function agrDig() {
 			$(this).find("td").eq(0).text(pade);
 			$(this).find("td").eq(1).text(cla);
 			$(this).find("td").eq(2).text(note);
-			diagnostico.push([pade,cla,note]);
+			diagnostico.push([normalize(pade),normalize(cla),normalize(note)]);
 		});
 		$('#add-dig').removeAttr("disabled");
 		$('#less-dig').removeAttr("disabled");
@@ -341,7 +385,7 @@ function agrExa() {
 			$(this).find("td").each(function() {
 				$(this).text(name);
 				if (lab[0]) {
-					lab[1].push([name]);
+					lab[1].push([normalize(name)]);
 				}
 			});
 		});
@@ -369,7 +413,7 @@ function agrTra() {
 			$(this).find("td").eq(2).text(cate);
 			$(this).find("td").eq(3).text(hor);
 			$(this).find("td").eq(4).text(dias);
-			tratamiento.push([nombre,paentesco,cate,hor,dias]);
+			tratamiento.push([normalize(nombre),normalize(paentesco),normalize(cate),normalize(hor),normalize(dias)]);
 		});
 		$('#add-tra').removeAttr("disabled");
 		$('#less-tra').removeAttr("disabled");
@@ -390,7 +434,7 @@ function agrMed() {
 			$(this).find("td").eq(0).text(nombre);
 			$(this).find("td").eq(1).text(parentesco);
 			$(this).find("td").eq(2).text(cate);
-			medicamentos.push([nombre,parentesco,cate]);
+			medicamentos.push([normalize(nombre),normalize(parentesco),normalize(cate)]);
 		});
 		$('#add-med').removeAttr("disabled");
 		$('#less-med').removeAttr("disabled");
@@ -412,7 +456,7 @@ function agrSis(){
 				$(this).find("td").eq(0).text(aspecto);
 				$(this).find("td").eq(1).text(des);
 				$(this).find("td").eq(2).text(fecha);
-				sintomas.push([aspecto,des,fecha]);
+				sintomas.push([normalize(aspecto),normalize(des),normalize(fecha)]);
 			});
 		}else{
 			$("#sis-tb").find("tr:last-child").each(function(){
@@ -420,7 +464,7 @@ function agrSis(){
 				$(this).find("td").eq(0).text(aspecto);
 				$(this).find("td").eq(1).text("Sin notas");
 				$(this).find("td").eq(2).text(fecha);
-				sintomas.push([aspecto,"Sin notas",fecha]);
+				sintomas.push([normalize(aspecto),"Sin notas",normalize(fecha)]);
 			});
 		}
 		$('#add-sis').removeAttr("disabled");
@@ -441,7 +485,7 @@ function agrEnferPar(){
 			$(this).find("td").eq(1).text(parentesco);
 			$(this).find("td").eq(2).text(cate);
 		});
-		enfermedadesParentales.push([nombre,parentesco,cate]);
+		enfermedadesParentales.push([normalize(nombre),normalize(parentesco),normalize(cate)]);
 		$('#add-enp').removeAttr("disabled");
 		$('#less-enp').removeAttr("disabled");
 	}else{
@@ -457,7 +501,7 @@ function agrAlergia(){
 			$(this).find("td").each(function() {
 				$(this).text(aspecto);
 			});
-			alergias.push([aspecto]);
+			alergias.push([normalize(aspecto)]);
 		});
 		$('#add-alr').removeAttr("disabled");
 		$('#less-alr').removeAttr("disabled");
@@ -478,7 +522,7 @@ function agrCir(){
 			$(this).find("td").eq(0).text(aspecto);
 			$(this).find("td").eq(1).text(fecha);
 		});
-		cirugias.push([aspecto,fecha]);
+		cirugias.push([normalize(aspecto),normalize(fecha)]);
 		$('#add-cir').removeAttr("disabled");
 		$('#less-cir').removeAttr("disabled");
 	}else{
@@ -497,9 +541,26 @@ function agrVivienda(){
 		});
 		$('#add-vid').removeAttr("disabled");
 		$('#less-vid').removeAttr("disabled");
-		vivienda.push(aspecto)
+		vivienda.push(normalize(aspecto))
 	}else{
 		toastr.error('El aspecto debe tener una longitud minima de 10 caracteres','Error');
+	}
+}
+function agrNota(){
+	var aspecto = $('#name-not').val();
+	var html = "";
+	if (aspecto.length>0) {
+		$("#not-tb").find("tr:last-child").each(function(){
+			$(this).html("<td>"+"</td>");
+			$(this).find("td").each(function() {
+				$(this).text(aspecto);
+			});
+			notas.push([normalize(aspecto)]);
+		});
+		$('#add-not').removeAttr("disabled");
+		$('#less-not').removeAttr("disabled");
+	}else{
+		toastr.error('Ingresa una nota','Error');
 	}
 }
 
@@ -508,10 +569,11 @@ function guardarHistoria() {
 		"enfermedadesParentales":enfermedadesParentales,
 		"vivienda":vivienda,
 		"alergias":alergias,
-		"cirugias":cirugias
+		"cirugias":cirugias,
+		"id_pac":id
 	}
 	var j = JSON.stringify(historia);
-	j = j.replace(/"/gi, "_")
+	j = j.replace(/"/gi, "`")
 	$.ajax({
 				method : 'GET',
         url : 'http://localhost:3000/guardarHistoria',
@@ -521,7 +583,9 @@ function guardarHistoria() {
              var res = JSON.parse(response);
 						 if (res.tipo=="success") {
 						 	toastr.success(res.mensaje,"Exito")
-						 }
+						}else{
+							toastr.error(res.mensaje,"Error")
+						}
         },
         error: function(error){
              console.log(error);
@@ -529,6 +593,12 @@ function guardarHistoria() {
     });
 }
 
-function guardarCita(){
 
+
+function guardarCita(){
+	var cita = {
+		laboratorio : lab,
+		diagnostico: diagnostico,
+		tratamiento:tratamiento
+	}
 }

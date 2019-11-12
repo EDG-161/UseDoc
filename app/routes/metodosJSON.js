@@ -21,10 +21,38 @@ function escribirJSON(idpac,idmed,idchat,tipusr, msg){
         table:[]
         };
         obj.table.push({tip_user:aes.cifrar(tipusr),msg:aes.cifrar(msg)});
-        fs.writeFile(arch,json,"utf-8",callback);
+        fs.writeFile(arch,json,"utf-8");
     }
-    
+
 }
+
+function guardarHistorial(name, content,pass){
+  var contenido = aes.cifrarP(content,pass)
+  fs.writeFile(name,contenido,"utf-8",function(re){
+    console.log(re);
+  });
+
+  return name;
+}
+
+function leerHistorial(name, pass,callback){
+  if(fs.existsSync(name)){
+    fs.readFile(name, 'utf-8', function (err, fileContents) {
+      if (err) throw err;
+      callback(JSON.parse(aes.decifrarP(fileContents,pass)));
+    });
+  }else {
+      var historia = {
+    		enfermedadesParentales:[],
+    		vivienda: [],
+    		alergias :[],
+    		cirugias:[],
+    		id:0
+    	}
+      callback(historia)
+  }
+}
+
 function leerJSON(req,res){
     let cadena = aes.decifrar(req.params.value);
     /*let idp, idm, idc;
@@ -101,8 +129,10 @@ function verify(req,res){
 	}
 
 }
+
+exports.guardarHistorial = guardarHistorial;
 exports.crearJSON = crearJSON;
 exports.escribirJSON = escribirJSON;
 exports.verificarJSON = verify;
 exports.leerJSON = leerJSON;
-
+exports.leerHistorial = leerHistorial;

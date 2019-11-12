@@ -1,8 +1,30 @@
 const dbConnection = require('../../config/dbconnection');
 const connection = dbConnection();
 
+var normalize = (function() {
+  var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
+      to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
+      mapping = {};
+
+  for(var i = 0, j = from.length; i < j; i++ )
+      mapping[ from.charAt( i ) ] = to.charAt( i );
+
+  return function( str ) {
+      var ret = [];
+      for( var i = 0, j = str.length; i < j; i++ ) {
+          var c = str.charAt( i );
+          if( mapping.hasOwnProperty( str.charAt( i ) ) )
+              ret.push( mapping[ c ] );
+          else
+              ret.push( c );
+      }
+      return ret.join( '' );
+  }
+
+})();
+
 function validarAspectos(cadena){
-    var nomval = /^[A-Za-z\s0-9]+$/i;
+    var nomval = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/i;
     return nomval.test(cadena);
 
 }
@@ -18,13 +40,9 @@ function validarHoras(cadena){
 }
 
 function validarNumeros(cadena){
-
+    var numeval = /^([0-9])+$/;
+    return numeval.test(cadena);
 }
-
-function validarLetrasYnumeros(cadena){
-    
-}
-
 function validarNombre(name, appat, apmat) {
     var nomval = /^[A-Za-z\s]+$/i;
     var cont = true;
@@ -211,6 +229,7 @@ function validarLogin(email, pass) {
     }
 }
 
+exports.normalize = normalize;
 exports.validarCedula = validarCedula;
 exports.validarLogin = validarLogin;
 exports.validarNombre = validarNombre;
