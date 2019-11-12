@@ -38,7 +38,7 @@ function guardarHistorial(historia,back){
 		}
 	});
 	cirugias.forEach(element=>{
-		if(valida.){
+		if(valida){
 
 		}
 	});

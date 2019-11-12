@@ -611,9 +611,9 @@ module.exports = app => {
       str =str.replace(/_/gi, '"');
       var historia = JSON.parse(str);
 
-      citas.finalizarCita(historia,function(){
+     /* citas.finalizarCita(historia,function(){
         
-      });
+      });*/
       res.json({mensaje:'Funciono',tipo:'success'});
       res.end();
     });
