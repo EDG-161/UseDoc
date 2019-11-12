@@ -24,7 +24,8 @@ var normalize = (function() {
 })();
 
 function validarAspectos(cadena){
-    var nomval = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/i;
+    var nomval = /^[a-zA-Z0-9/s]/i;
+  //()  var nomval = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/i;
     return nomval.test(cadena);
 
 }

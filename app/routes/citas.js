@@ -66,7 +66,7 @@ function guardarHistorial(historia,req,callback){
 	});
 	vivienda.forEach(element=>{
 		if (!valida.validarAspectos(element[0])) {
-			mensaje += "Los aspectos de vivienda solo deben contener numeros"
+			mensaje += "Los aspectos de vivienda solo deben contener letras y numeros"
 			valido = false;
 		}
 	});

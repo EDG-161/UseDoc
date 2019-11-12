@@ -541,7 +541,7 @@ function agrVivienda(){
 		});
 		$('#add-vid').removeAttr("disabled");
 		$('#less-vid').removeAttr("disabled");
-		vivienda.push(normalize(aspecto))
+		vivienda.push([normalize(aspecto)])
 	}else{
 		toastr.error('El aspecto debe tener una longitud minima de 10 caracteres','Error');
 	}
@@ -553,7 +553,7 @@ function agrNota(){
 		$("#not-tb").find("tr:last-child").each(function(){
 			$(this).html("<td>"+"</td>");
 			$(this).find("td").each(function() {
-				$(this).text(aspecto);
+				$(this).text(normalize(aspecto));
 			});
 			notas.push([normalize(aspecto)]);
 		});
