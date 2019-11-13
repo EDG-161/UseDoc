@@ -48,6 +48,12 @@ io.on("connection", (socket)=>{
     conexiones.push(ag);
     console.log(conexiones);
   });
+
+  socket.on('obt-chat',(da)=>{
+    console.log(socket.id + da)
+    console.log(conexiones)
+  });
+
 	socket.on("chat-message", (data)=>{
         let arch = "p"+data.idpac+"m"+data.idmed+"c"+data.idchat+".json"
         for(var i = 0; conexiones.length;i++){

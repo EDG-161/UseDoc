@@ -156,9 +156,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                       <%
                       for (var i = 0; i < contactos.length; i++) {
                         %>
-                        <div class="chat-profile" onclick="cambiar(<%if (user.id_tid==1) {
-                          %><%=contactos[i].id_usr%><%
-                        }else{%><%=contactos[i].id_usr%><%}%>)">
                         <%
                         var imgRut = "";
                           for (var j = 0; j < img.length; j++) {
@@ -167,7 +164,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             }
                           }
                         %>
-                          <div class="name-chat"><img class="img-chat" src="images/profiles/<%=imgRut%>"> <strong> <%if (user.id_tid==1) {
+                        <div class="chat-profile" onclick="cambiar(<%if (user.id_tid==1) {
+                          %>'<%=contactos[i].nom_pac%>'<%
+                        }else{%>'<%=contactos[i].name_med%>'<%}%>,<%if(imgRut!= null){%>'profiles/<%=imgRut%>'<%}else{%>'admin.png'<%}%>,<%=contactos[i].id_usr%>)">
+                        
+                          <div class="name-chat"><img class="img-chat" src="images<%if(imgRut!=null){%>/profiles/<%=imgRut%><%}else{%>/admin.png<%}%>"> <strong> <%if (user.id_tid==1) {
                             %><%=contactos[i].nom_pac%><%
                           }else{%><%=contactos[i].name_med%><%}%></strong></div>
                         </div>

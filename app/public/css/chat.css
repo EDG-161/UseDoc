@@ -6,7 +6,6 @@
 
 .chat-bar{
   border-right:10px  solid #D9D8DC;
-  height: 90vh;
   overflow: auto;
 }
 
@@ -17,14 +16,13 @@
 
 .content-chat{
   height:100%;
-  margin-bottom:50px;
+  margin-bottom:0;
   padding:0
 }
 
 .content-main-chat{
   height:100%;
   width: 100vw;
-  position: fixed;
   padding:0
 }
 
