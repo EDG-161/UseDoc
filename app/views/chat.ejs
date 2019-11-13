@@ -1,110 +1,22 @@
-+<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Chat</title>
-    <style>
-        .main-container {
-          width: 100%;
-          height: 100vh;
-          max-height: 100vh;
-          overflow: hidden;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          background-color: #61BFD4;
-          padding: 90px 100px;
-        }
 
-        .text-container {
-          width: 100%;
-          box-sizing: border-box;
-          margin-right: 1rem;
-          background-color: white;
-          border: 4px solid rgb(189, 189, 189);
-          border-radius: 10px;
-          height: 90vh;
-          max-height: 90vh;
-          overflow-y: scroll;
-          overflow-x: hidden;
-          color: rgb(80, 80, 80);
-          display: flex;
-          justify-content: flex-start;
-          align-items: flex-start;
-          flex-wrap: wrap;
-          box-shadow:3px 5px 6px rgba(0,0,0,.4);
-        }
+<head>
+    <title>Chat - UseDoc</title>
+    <!-- custom-theme -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="Esteem Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <script type="application/x-javascript">
+        addEventListener("load", function() {
+            setTimeout(hideURLbar, 0);
+        }, false);
 
-        .input-chat {
-          align-self: flex-end;
-          box-sizing: content-box;
-          position: absolute;
-          width: 84.05%;
-          background: white;
-          border-radius: 5px;
+        function hideURLbar() {
+            window.scrollTo(0, 1);
         }
-
-        #input {
-          width: 94%;
-          padding: 1rem;
-          border: none;
-          border: 2px solid #5984BA;
-          color: rgb(0, 0, 0);
-          font-size: 1.5rem;
-          box-shadow: 1px 3px 5px rgba(0,0,0,.5);
-        }
-
-        hr.divider {
-          padding: 0;
-          margin: 1rem 0 1rem;
-          border: none;
-          border-bottom: 2px solid #e0e0e0;
-        }
-
-        ol#lista-users {
-          margin-left: 1rem;
-        }
-
-        .mensajes-container {
-          width: 100%;
-          display: flex;
-          justify-content: flex-start;
-          align-items: flex-start;
-          flex-wrap: wrap;
-          margin-bottom: 60px;
-        }
-
-        .local-message {
-          text-align: right;
-          padding: 1rem;
-          background-color: #7ED9ED;
-          color: white;
-          margin: 1rem;
-          box-sizing: border-box;
-          border-radius: 20px;
-          width: 50%;
-          margin-left: auto;
-          margin-bottom: 0;
-        }
-
-        .remote-message {
-          padding: 1rem;
-          background-color: #5984BA;
-          color: white;
-          margin: 1rem;
-          box-sizing: border-box;
-          border-radius: 20px;
-          width: 50%;
-          margin-bottom: 0;
-        }
-        .imgmsg{
-          height: 16px;
-          width: 16px;
-        }
-
-    </style>
-    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
-		function hideURLbar(){ window.scrollTo(0,1); } </script>
+    </script>
     <!-- //custom-theme -->
     <link rel="icon" type="image/png" href="images/icon.png" />
     <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
@@ -114,135 +26,207 @@
     <link href="css/circles.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
     <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link href="css/chat.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+  <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
     <!-- font-awesome-icons -->
     <link href="css/font-awesome.css" rel="stylesheet">
-  </head>
-  <body>
-        <div class="w3_agileits_top_nav">
+    <script type="text/javascript">
+      const id = <%=user.id_usr%>;
+      const tid = <%=user.id_tid%>;
+    </script>
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="js/logicachat.js" ></script>
+</head>
+<body>
+    <!-- banner -->
+    <div class="wthree_agile_admin_info" style="padding:0;margin:0">
+        <div class="w3_agileits_top_nav ">
             <ul id="gn-menu" class="gn-menu-main">
-                        <!-- /nav_agile_w3l -->
+                <!-- /nav_agile_w3l -->
                 <li class="gn-trigger">
                     <a class="gn-icon gn-icon-menu"><i class="fa fa-bars" aria-hidden="true"></i><span>Menu</span></a>
                     <nav class="gn-menu-wrapper">
                         <div class="gn-scroller scrollbar1">
-                          <%
-                          if(user.id_tid==1){
-                              %>
-                              <ul class="gn-menu agile_menu_drop">
-                                      <li><a href="Home"> <i class="fa fa-home"></i> Inicio</a></li>
-                                      <li>
-                                          <a href="#"><i class="fa fa-stethoscope" aria-hidden="true"></i> Pacientes <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                                          <ul class="gn-submenu">
-                                              <li class="mini_list_agile"><a href="Tratameintos"><i class="fa fa-caret-right" aria-hidden="true"></i> Tratamientos</a></li>
-                                              <li class="mini_list_w3"><a href="Diagnosticos"> <i class="fa fa-caret-right" aria-hidden="true"></i> Diagnosticos</a></li>
-                                              <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
-                                          </ul>
-                                      </li>
-                                      <li><a href="Gastos"> <i class="fa fa-money" aria-hidden="true"></i> Gastos</a></li>
-                                      <li><a href="chat"><i class="fa fa-envelope " aria-hidden="true"></i>Mensajes</a>
-                                      </li>
-                                      <li>
-                                          <a ><i class="fa fa-table" aria-hidden="true"></i> Agenda <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                                          <ul class="gn-submenu">
-                                              <li class="mini_list_agile"><a href="Calendario"><i class="fa fa-caret-right" aria-hidden="true"></i> Calendario</a></li>
-                                              <li class="mini_list_w3"><a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
-                                          </ul>
-                                      </li>
-                                  </ul>
+                            <%
+                            if(user.id_tid==1){
+                                %>
+                                <ul class="gn-menu agile_menu_drop">
+                                    <li>
+                                        <a href="Home"> <i class="fa fa-home"></i> Inicio</a>
+                                    </li>
+                                    <li>
+                                        <a href="#"><i class="fa fa-stethoscope" aria-hidden="true"></i> Pacientes <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                                        <ul class="gn-submenu">
+                                            <li class="mini_list_agile"><a href="Tratameintos"><i class="fa fa-caret-right" aria-hidden="true"></i> Tratamientos</a></li>
+                                            <li class="mini_list_w3">
+                                                <a href="Diagnosticos"> <i class="fa fa-caret-right" aria-hidden="true"></i> Diagnosticos</a>
+                                            </li>
+                                            <li class="mini_list_w3">
+                                                <a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="Gastos"> <i class="fa fa-money" aria-hidden="true"></i> Gastos</a>
+                                    </li>
+                                    <li><a href="chat"><i class="fa fa-envelope " aria-hidden="true"></i>Mensajes</a>
+                                    </li>
+                                    <li>
+                                        <a><i class="fa fa-table" aria-hidden="true"></i> Agenda <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                                        <ul class="gn-submenu">
+                                            <li class="mini_list_agile"><a href="Calendario"><i class="fa fa-caret-right" aria-hidden="true"></i> Calendario</a></li>
+                                            <li class="mini_list_w3">
+                                                <a href="citas"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                               <%
-                          }else{
-                              %>
-                              <ul class="gn-menu agile_menu_drop">
-                                  <li><a href="Home"> <i class="fa fa-home"></i> Inicio</a></li>
-                                  <li>
-                                      <a href="#"><i class="fa fa-stethoscope" aria-hidden="true"></i> Información <i class="fa fa-angle-down" aria-hidden="true"></i></a>
-                                      <ul class="gn-submenu">
-                                          <li class="mini_list_agile"><a href="buttons"><i class="fa fa-caret-right" aria-hidden="true"></i> Tratamientos</a></li>
-                                          <li class="mini_list_w3"><a href="grids"> <i class="fa fa-caret-right" aria-hidden="true"></i> Diagnosticos</a></li>
-                                          <li class="mini_list_w3"><a href="grids"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a></li>
-                                      </ul>
-                                  </li>
-                                  <li><a href="#"><i class="fa fa-user-md" aria-hidden="true"></i>Medico</a>
-                                  </li>
-                              </ul>
-                              <%
-                          }
-                      %>
+                           }else{
+                                %>
+                                    <ul class="gn-menu agile_menu_drop">
+                                        <li>
+                                            <a href="Home"> <i class="fa fa-home"></i> Inicio</a>
+                                        </li>
+                                        <li>
+                                            <a href="#"><i class="fa fa-stethoscope" aria-hidden="true"></i> Información <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                                            <ul class="gn-submenu">
+                                                <li class="mini_list_agile"><a href="buttons"><i class="fa fa-caret-right" aria-hidden="true"></i> Tratamientos</a></li>
+                                                <li class="mini_list_w3">
+                                                    <a href="grids"> <i class="fa fa-caret-right" aria-hidden="true"></i> Diagnosticos</a>
+                                                </li>
+                                                <li class="mini_list_w3">
+                                                    <a href="grids"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="#"><i class="fa fa-user-md" aria-hidden="true"></i>Medico</a>
+                                        </li>
+                                    </ul>
+                                    <%
+                           }
+                        %>
                         </div>
                     </nav>
                 </li>
                 <!-- //nav_agile_w3l -->
-                <li class="second logo"><h1><a href="index"><i class="fa fa-graduation-cap" aria-hidden="true"></i>USEDOC </a></h1></li>
-                    <li class="second admin-pic">
-                        <ul class="top_dp_agile">
-                            <li class="dropdown profile_details_drop">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                    <div class="profile_img">
-                                      <%
-                                      if( user.img_usr!=null){
-                                          %>
-                                          <span class="prfil-img"><img src="images/profiles/<%=user.img_usr%>" style="width: 50px; height: 50px;" alt=""> </span>
-                                      <% 
-                                      }else{
-                                          %>
-                                          <span class="prfil-img"><img src="images/admin.png" style="width:50px" alt=""> </span>
-                                      <%
-                                      }
-                                      %>
-                                    </div>
-                                </a>
-                                <ul class="dropdown-menu drp-mnu">
-                                    <li> <a href="#"><i class="fa fa-cog"></i> Configuracion</a> </li>
-                                    <li> <a href="perfil"><i class="fa fa-user"></i> Perfil</a> </li>
-                                    <li> <a href="salir"><i class="fa fa-sign-out"></i> Cerrar sesion</a> </li>
-                                </ul>
-                            </li>
-                        </ul>
-                      </li>
-                <li class="second w3l_search">
-                    <form action="#" method="post">
-                        <input type="search" name="search" placeholder="Busca pacientes" required="">
-                        <button class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
-                    </form>
+                <li class="second logo">
+                    <h1><a href="index"><i class="fa fa-graduation-cap" aria-hidden="true"></i>USEDOC </a></h1>
                 </li>
+                <li class="second admin-pic">
+                    <ul class="top_dp_agile">
+                        <li class="dropdown profile_details_drop">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <div class="profile_img">
+                                    <%
+                                          if( user.img_usr!=null){
+                                                %>
+                                        <span class="prfil-img"><img src="images/profiles/<%=user.img_usr%>" style="width: 50px; height: 50px;" alt=""> </span>
+                                        <%
+                                            }else{
+                                                %>
+                                            <span class="prfil-img"><img src="images/admin.png" style="width:50px" alt=""> </span>
+                                            <%
+                                            }
+                                            %>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu drp-mnu">
+                                <li> <a href="#"><i class="fa fa-cog"></i> Configuracion</a> </li>
+                                <li> <a href="perfil"><i class="fa fa-user"></i> Perfil</a> </li>
+                                <li> <a href="salir"><i class="fa fa-sign-out"></i> Cerrar sesion</a> </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="second w3l_search">
+                </li>
+
             </ul>
             <!-- //nav -->
         </div>
-    <div class="main-container">
-      <div class="text-container">
-        <div class="mensajes-container" id="msgs"></div>
-        <div class="input-chat">
-          <script src="/socket.io/socket.io.js"></script>
-          <script src="js/logicachat.js" charset="utf-8"></script>
-          <div style="width: 100%; background: #5984BA; padding-left: 5px; padding-right: 5px; padding-top: 25px; border-radius: 5px;">
-            <textarea id="input" placeholder="Escriba un Mensaje..."></textarea>
-            <img src="images/right-arrow.png" onclick="enviarmsg()">
-          </div>
+        <div class="inner_content mg">
+            <div class="inner_content_w3_agile_info content-chat">
+                <div class="w3l-table-info agile_info_shadow content-main-chat">
+                  <div class="row mb40 row-chat">
+                    <div class="col-md-3 chat-bar">
+                      <h3 class="w3_inner_tittle two">Chats</h3>
+                      <%
+                      for (var i = 0; i < contactos.length; i++) {
+                        %>
+                        <div class="chat-profile" onclick="cambiar(<%if (user.id_tid==1) {
+                          %><%=contactos[i].id_usr%><%
+                        }else{%><%=contactos[i].id_usr%><%}%>)">
+                        <%
+                        var imgRut = "";
+                          for (var j = 0; j < img.length; j++) {
+                            if(img[j].id_usr==contactos[i].id_usr){
+                              imgRut  = img[j].img_usr;
+                            }
+                          }
+                        %>
+                          <div class="name-chat"><img class="img-chat" src="images/profiles/<%=imgRut%>"> <strong> <%if (user.id_tid==1) {
+                            %><%=contactos[i].nom_pac%><%
+                          }else{%><%=contactos[i].name_med%><%}%></strong></div>
+                        </div>
+                        <%
+                      }
+                      %>
+
+                    </div>
+                    <div class="col-md-9" style="height:90vh">
+                      <div class="cav-chat" id="cav-chat">
+                        <img class="img-chat" id="img-chat" src="images/admin.png"> <strong> Nombre del usuario</strong>
+                      </div>
+                      <div class="bod-chat">
+                        <div class="res-chat"> <span>Holaasdasdasdasdasdasdas</span> </div>
+                        <div class="req-chat"><span> Hola asdasdasdasdasdHolaasdasdasdasdasdasdasHolaasdasdasdasdasdasdas</span></div>
+                      </div>
+                      <div class="sen-chat">
+                        <div class="sendd">
+                          <input type="text" name="men" placeholder="Escribe un mensaje ... " class="form-control" style="height:100%">
+                        </div>
+                        <button class="btn btn-primary" style="width:10%"> <i class="fa fa-send"></i> </button
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-    <script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+
+    <!-- js -->
+
+
 
     <script src="js/amcharts.js"></script>
     <script src="js/serial.js"></script>
     <script src="js/export.js"></script>
     <script src="js/light.js"></script>
-        <script src="js/Chart.min.js"></script>
+
+    <script src="js/Chart.min.js"></script>
     <script src="js/modernizr.custom.js"></script>
 
     <script src="js/classie.js"></script>
     <script src="js/gnmenu.js"></script>
     <script>
-        new gnMenu( document.getElementById( 'gn-menu' ) );
+        new gnMenu(document.getElementById('gn-menu'));
     </script>
-    <!-- script-for-menu -->
-    <script src="js/bars.js"></script>
 
-    <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
-    <!--
-    <script src="/js/jq.js" charset="utf-8"></script>
-    <script src="/js/socket.io.js"></script>
-    <script src="/js/logica.js" charset="utf-8"></script>
-    -->
-  </body>
+    <script src="js/bars.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <%if(typeof mensaje !== "undefined"){
+    %>
+        <script>
+            toastr.info("<%=mensaje%>", "Info");
+        </script>
+        <%
+}%>
+
+            <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+
+</body>
+
 </html>

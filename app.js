@@ -38,15 +38,16 @@ const server = app.listen(app.get('port'), () => {
 });
 
 //Sockets para el chat
-const socket = require("socket.io");
-const io = socket(server);
+const io = require("socket.io")(server);
 //websockets
 var conexiones = [];
 io.on("connection", (socket)=>{
-    socket.on("conectado",(usuarios)=>{
-        conexiones.push([socket.id,usuarios[0],usuarios[1]]);//usuarios[0] = id_pac  usuarios[1] = id_med
-    })
 
+  io.to(socket.id).emit('conectado',socket.id);
+  socket.on('agregar',(ag)=>{
+    conexiones.push(ag);
+    console.log(conexiones);
+  });
 	socket.on("chat-message", (data)=>{
         let arch = "p"+data.idpac+"m"+data.idmed+"c"+data.idchat+".json"
         for(var i = 0; conexiones.length;i++){
@@ -56,4 +57,13 @@ io.on("connection", (socket)=>{
         }
 		io.sockets.emit("chat-message", data);
 	});
+
+  socket.on('disconnect', function(data) {
+        for (var i = 0; i < conexiones.length; i++) {
+          if (conexiones[i][1]==socket.id) {
+            conexiones.splice(i,1);
+          }
+        }
+        console.log(conexiones);
+    });
 });

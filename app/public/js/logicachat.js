@@ -1,67 +1,16 @@
-const socket = io();
-const dbConnection = require('../../config/dbconnection');
-const connection = dbConnection();
-const json = require("../../routes/metodosJSON");
-function guardar(req,res){
-	let msg = document.getElementById("input").value;
-	let tipo = req.session.user.id_tid;
-	let id1,id2,idc;
-	if(tipo == 1){
-		id2 = req.session.user.id_usr;
-		connection.query("SELECT id_pm FROM mpaciente_medico WHERE id_med = "+id2+" AND id_pac="+id1+"", (err,result)=>{
-			if(!err){
-				idc = result;
-			}else{
-				console.log("Error: "+err);
-			}
-		});
-		json.escribirJSON(id1,id2,idc,tipo,msg);
-	}else{
-		id1 = req.session.user.id_user;
-		connection.query("SELECT id_pm FROM mpaciente_medico WHERE id_med = "+id2+" AND id_pac="+id1+"", (err,result)=>{
-			if(!err){
-				idc = result;
-			}else{
-				console.log("Error: "+err);
-			}
-		});
-		json.escribirJSON(id1,id2,idc,tipo,msg);
-	}
+var socket = io("http://localhost:3000");
+var socket_id = "";
+socket.on('conectado',(ids)=>{
+	socket.emit('agregar',[id,ids]);
+});
 
+var destino = 0;
+
+function camabiar(id){
+	destino = id;
+	
 }
-function enviarmsg(req,res){
-	let idp,idm,idc,tid,msg;
-	tid = req.session.user.id_tid;
-	msg = document.getElementById("input").value;
-	if(tid == 1){
-		idm = req.session.user.id_user;
-		connection.query("SELECT id_pm FROM mpaciente_medico WHERE id_med = "+idm+" AND id_pac="+idp+"", (err,result)=>{
-			if(!err){
-				idc = result;
-			}else{
-				console.log("Error: "+err);
-			}
-        });
-	}else{
-		idp = req.session.user.id_user;
-		connection.query("SELECT id_pm FROM mpaciente_medico WHERE id_med = "+idm+" AND id_pac="+idp+"", (err,result)=>{
-			if(!err){
-				idc = result;
-			}else{
-				console.log("Error: "+err);
-			}
-        });
-	}
-	socket.emit("chat-message", {
-		//req.session.user.id_user
-		idpac: pac,
-		idmed: med,
-		idchat: chat,
-		tipuser: tip,
-		mensaje: msg,
-		id: socket.id
-	});
-}
+
 socket.on("chat-message", function(data){
 	data.usuario = data.usuario.replace('</', '');
 	data.usuario = data.usuario.replace('>', '');

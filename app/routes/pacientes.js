@@ -49,7 +49,7 @@ function obtenerDoctores(id,callback){
 							connection.query(cad,(er,res)=>{
 								if(er){
 									callback([]);
-									console.log("error " + er);	
+									console.log("error " + er);
 								}else{
 
 									for(var c = 0; c < res.length;c++){
@@ -334,6 +334,22 @@ function obtenerPerfilImg(callback){
 			callback([]);
 		}
 	});
+}
+
+function obtenerMensajes(req,callback){
+	if (req.session.user.id_tid==1) {
+		connection.query(`SELECT * FROM mdoctores where id_usr=${req.session.user.id_usr}`,(err,res)=>{
+			if (!err) {
+				if (true) {
+
+				}
+			}else{
+				callback([]);
+			}
+		})
+	}else{
+
+	}
 }
 
 exports.obtenerPerfilImg = obtenerPerfilImg;

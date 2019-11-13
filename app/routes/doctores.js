@@ -323,6 +323,36 @@ function getGastos(id,callback) {
   });
 }
 
+function obtenerMedicoById (id,callback){
+	connection.query('SELECT * from mdoctores where id_usr='+id,(err,res)=>{
+		if (!err) {
+			connection.query('SELECT * from mcitas where id_med = '+res[0].id_med,(er,re)=>{
+				if (!er) {
+					for (var i = 0; i < re.length; i++) {
+						if (re[i].des_cit!="Sin descripcion") {
+							re[i].des_cit = aes.decifrar(re[i].des_cit);
+						}
+						re[i].dat_cit = aes.decifrar(re[i].dat_cit);
+						re[i].hor_cit = aes.decifrar(re[i].hor_cit);
+					}
+					res[0].name_med = aes.decifrar(res[0].name_med);
+					res[0].appat_med = aes.decifrar(res[0].appat_med);
+					res[0].apmat_med = aes.decifrar(res[0].apmat_med);
+					res[0].ced_med = aes.decifrar(res[0].ced_med);
+					callback([res[0],re]);
+				}else{
+					console.log("Error obtenerMedicoById1  " + er);
+					callback([]);
+				}
+			});
+		}else{
+			console.log("Error obtenerMedicoById  " + err);
+			callback([]);
+		}
+	})
+}
+
+exports.obtenerMedicoById = obtenerMedicoById;
 exports.getGastos = getGastos;
 exports.editarHorario = editarHorario;
 exports.registrarHorario = registrarHorario;
