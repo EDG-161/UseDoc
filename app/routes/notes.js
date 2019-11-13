@@ -56,13 +56,16 @@ module.exports = app => {
                           req.session.horario = h;
                           doctores.getGastos(userobj.id_usr,function(gastos){
                             req.session.gastos = gastos;
-                            res.render("Home",{
+                            pacientes.obtenerPerfilImg(function(img){
+                              res.render("Home",{
                                 user:userobj,
                                 gastos,
                                 pacientes:req.session.pacientes,
                                 citas: req.session.citas,
                                 horario: h,
-                                mensaje:men
+                                mensaje:men,
+                                img
+                              });
                             });
                           });
                         });
@@ -75,12 +78,15 @@ module.exports = app => {
                       req.session.rangos = rangos;
                       pacientes.obtenerCitas(userobj.id_usr, function(citas){
                         req.session.citas = citas;
-                        res.render("Home-Paciente",{
-                            user:userobj,
-                            doctores: req.session.doctor,
-                            rangos: req.session.rangos,
-                            citas: req.session.citas,
-                            mensaje:men
+                        pacientes.obtenerPerfilImg(function(img){
+                          res.render("Home-Paciente",{
+                              user:userobj,
+                              doctores: req.session.doctor,
+                              rangos: req.session.rangos,
+                              citas: req.session.citas,
+                              mensaje:men,
+                              img
+                          });
                         });
                       });
                     });
@@ -634,6 +640,28 @@ module.exports = app => {
       }else{
         res.json({mensaje:"Tu sesion a caducado recarga la pagina",tipo:"Error"});
         res.end();
+      }
+    });
+
+    app.get('/HistorialMedico',(req,res)=>{
+      if(req.session.user!=null){
+        if(req.session.user.id_tid==2){
+          pacientes.obtenerPacienteById(req.session.user.id_usr,function(pac){
+            var name = "hta_"+pac[0].id_pac;
+            var pass = `${name}cas31${name}19562348451asdfbkhjb` 
+            mjson.leerHistorial(name,pass,function(historia){
+              res.render('Historialmedico',{
+                user:req.session.user,
+                paciente : pac[0],
+                historia
+              });
+            });
+          });
+        }else{
+          res.redirect('/Home');
+        }
+      }else{
+        res.redirect('login?men=Tu sesion ha caducado, inicia sesion')
       }
     });
 

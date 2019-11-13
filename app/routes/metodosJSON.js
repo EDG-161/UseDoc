@@ -27,22 +27,49 @@ function escribirJSON(idpac,idmed,idchat,tipusr, msg){
 }
 
 function guardarHistorial(name, content,pass){
+    var contenido = aes.cifrarP(content,pass)
+    fs.writeFile('db/data'+name,contenido,"utf-8",function(re){
+      console.log(re);
+    });
+  
+    return name;
+  }
+  
+  function leerHistorial(name, pass,callback){
+    if(fs.existsSync('db/data'+name)){
+      fs.readFile('db/data'+name, 'utf-8', function (err, fileContents) {
+        if (err) throw err;
+        callback(JSON.parse(aes.decifrarP(fileContents,pass)));
+      });
+    }else {
+        var historia = {
+              enfermedadesParentales:[],
+              vivienda: [],
+              alergias :[],
+              cirugias:[],
+              id:0
+          }
+        callback(historia)
+    }
+  }
+
+function guardarDatosMedicos(name, content,pass){
   var contenido = aes.cifrarP(content,pass)
-  fs.writeFile(name,contenido,"utf-8",function(re){
+  fs.writeFile('db/data'+name,contenido,"utf-8",function(re){
     console.log(re);
   });
 
   return name;
 }
 
-function leerHistorial(name, pass,callback){
-  if(fs.existsSync(name)){
-    fs.readFile(name, 'utf-8', function (err, fileContents) {
+function leerDatosMedicos(name, pass,callback){
+  if(fs.existsSync('db/data'+name)){
+    fs.readFile('db/data'+name, 'utf-8', function (err, fileContents) {
       if (err) throw err;
       callback(JSON.parse(aes.decifrarP(fileContents,pass)));
     });
   }else {
-      var historia = {
+      var datos = {
     		enfermedadesParentales:[],
     		vivienda: [],
     		alergias :[],

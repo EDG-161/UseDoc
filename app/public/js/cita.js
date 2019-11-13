@@ -601,4 +601,10 @@ function guardarCita(){
 		diagnostico: diagnostico,
 		tratamiento:tratamiento
 	}
+
+	var tratamientosHistorico = {};
+
+	var diagnosticos = {};
+
+	
 }

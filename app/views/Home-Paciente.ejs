@@ -123,7 +123,7 @@
                                              </tr>
                                          </tbody>
                                         </table>
-                                        <a class="btn btn-default" style="text-decoration: none; padding: 10px;">Ver historial medico</a>
+                                        <a href="HistorialMedico" class="btn btn-default" style="text-decoration: none; padding: 10px;">Ver historial medico</a>
                                     </div>
                                 </div>
                                 <div class="col-md-2"></div>
@@ -133,13 +133,24 @@
                                     for(var c = 0; c<doctores.length; c++){
                                         for(var a = 0; a<rangos.length; a++){
                                             if(doctores[c].id_med == rangos[a].id_med){
-                                                if(rangos[a].id_ran==1){
+                                                if(rangos[a].id_ran==1){ 
                                                     %>
                                                     <div class="profile_bg_agile ">
                                                         <div class="profile-pic wthree">
                                                              <h2>Medico</h2>
-                                                               <img src="images/admin.png" alt="Image">
-                                                               <p><%= doctores[c].id_med + doctores[c].name_med%></p>
+                                                             <%
+                                                                var imgRut = "";
+                                                                console.log("Imagenes  "+img);
+                                                                for(var imgt = 0; imgt<img.length;imgt++){
+                                                                    if(img[imgt].id_usr==doctores[c].id_usr){
+                                                                        if(img[imgt].img_usr!=null){
+                                                                            imgRut= img[imgt].img_usr;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                %>
+                                                               <img src="<%if(imgRut.length!=0){%>images/profiles/<%=imgRut%><%}else{%>images/admin.png<%}%>" alt="Image">
+                                                               <p><%=doctores[c].id_med + doctores[c].name_med%></p>
                                                          </div>
                                                          <div class="profile-ser">
                                                              <div class="follow-grids-agileits-w3layouts">

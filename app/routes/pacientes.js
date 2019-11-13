@@ -319,6 +319,24 @@ function obtenerHorario(id,callback){
   });
 }
 
+function obtenerPerfilImg(callback){
+	connection.query('Select id_usr,img_usr from musuarios',(err,res)=>{
+		if(!err){
+			if(res.length>0){
+				for(var i = 0;i< res.length;i++){
+					res[i].img_usr = aes.decifrar(res[i].img_usr);
+				}
+				callback(res);
+			}else{
+				callback([]);
+			}
+		}else{
+			callback([]);
+		}
+	});
+}
+
+exports.obtenerPerfilImg = obtenerPerfilImg;
 exports.obtenerHorario = obtenerHorario;
 exports.obtenerPacienteById = obtenerPacienteById;
 exports.obtenerMedicoById = obtenerMedicoById;
