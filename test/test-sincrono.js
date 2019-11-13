@@ -50,7 +50,7 @@ describe('validaciones', function() {
     });
     //validaciones telefono
     describe('Largo', function() {
-        it('Cadenas sean string', function validarTelefono() {
+        it('Cadenas sean string', function validarTelefono(phone) {
             assert.toString;
         });
     });
