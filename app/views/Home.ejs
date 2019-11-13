@@ -24,6 +24,16 @@
 </head>
 <body>
 <!-- banner -->
+<%
+var cit = [];
+//Definimos el tiempo a mostrar
+var tiempoMenor = 0;
+var tiempoMayor = 0;
+for(var i = 0 ; i < citas.length; i++){
+    cit.push(citas[i]);
+
+}
+%>
 <div class="wthree_agile_admin_info">
     <div class="w3_agileits_top_nav">
         <ul id="gn-menu" class="gn-menu-main">
@@ -261,7 +271,24 @@
 									</div>
 								</div>
 							</div>
-						</div>
+                        </div>
+                        <div class="agile-tables">
+                    <div class="w3l-table-info agile_info_shadow">
+                        <div class="container">
+                            <%
+                            var f = new Date();
+                            var mes;
+                            if(f.getMonth() +1 == 11){
+                                mes = "Noviembre";
+                            }
+                            %>
+                            <h4 class="w3_inner_tittle two"3>Citas del mes de  <%=mes%></h4>
+                            <canvas id="citasg">Hola</canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        <!------------------------------------------antecedentes de citas gráficas--------------------------------------------------------------->        
                 <div class="agile-tables">
                     <div class="w3l-table-info agile_info_shadow">
                         <div class="container">
@@ -514,10 +541,62 @@
         data: {
             labels: ['mm/yy', 'mm2/yy', 'mm3/yy', 'mm4/yy', 'mm5/yy', 'mm6yy', 'mm7/yy'],
             datasets: [{
-                label: 'Ingrsos',
+                label: 'Ingresos',
                 backgroundColor: '#FF5E61',
                 borderColor: '#FF5E61',
                 data: [500, 550, 490, 300, 450, 200, 500],
+                "fill":false,
+                "lineTension":0.1
+            }]
+        },
+        options: {}
+    });
+    <%
+    var hor = [];
+    var vet = [];
+    var cont = 0;
+    var fver = [];
+    for(var i=0;i<citas.length;i++){
+        var fecha1 = citas[i].dat_cit.split('-');
+        var ft = new Date(fecha1[2],(fecha1[1]-1),fecha1[0]);
+        
+        var vef = true;
+
+        for(var vf = 0; vf < fver.length;vf++){
+            if(fver[vf].getMonth()==ft.getMonth()&&(fver[vf].getFullYear()==ft.getFullYear())){
+                vef = false;
+            }
+        }
+
+        if(vef){
+            for(var j=0;j<citas.length;j++){
+                var fecha1j = citas[i].dat_cit.split('-');
+                var ftj = new Date(fecha1j[2],(fecha1j[1]-1),fecha1j[0]);
+                if(ft.getMonth()==ftj.getMonth()&&(ft.getFullYear()==ftj.getFullYear())){
+                    cont++;
+                }
+            }   
+            fver.push(ft);
+            hor.push((ft.getMonth()+1)+"/"+ft.getFullYear());
+            vet.push(cont); 
+            cont = 0;
+        }
+    }
+    %>
+    var ctx = document.getElementById('citasg').getContext('2d');
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [<%
+                for(var i = 0; i< hor.length-1;i++){
+                    %>'<%=hor[i]%>',<%
+                }
+            %>'<%=hor[hor.length-1]%>'],
+            datasets: [{
+                label: 'Citas del mes',
+                backgroundColor: '#FF5E61',
+                borderColor: '#FF5E61',
+                data: [<%=vet%>],
                 "fill":false,
                 "lineTension":0.1
             }]

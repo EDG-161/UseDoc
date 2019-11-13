@@ -1,8 +1,10 @@
 const dbConnection = require('../../config/dbconnection');
 let pacientes = require('./pacientes');
 let doctores = require('./doctores');
+const mjson = require('./metodosJSON');
 var modulos =  require('./Metodos');
 const aes = require('./aes');
+const citas = require('./citas');
 
 module.exports = app => {
     const connection = dbConnection();
@@ -380,7 +382,7 @@ module.exports = app => {
         res.render('chat',{
           user : req.session.user
         });*/
-        
+
     });
 
     app.get('/citas',(req,res)=>{
@@ -425,10 +427,22 @@ module.exports = app => {
           if (!com) {
             res.redirect("/citas");
           }else{
-            res.render('cita',{
-              user:req.session.user,
-              cita : ct,
-              pacientes:req.session.pacientes
+            var paciente;
+            for (var i = 0; i < req.session.pacientes.length; i++) {
+              if (req.session.pacientes[i].id_pac == ct.id_pac) {
+                paciente = req.session.pacientes[i];
+              }
+            }
+            var name = "hta_"+paciente.id_pac;
+            var pass = `${name}cas31${name}19562348451asdfbkhjb`;
+            mjson.leerHistorial(name,pass,function(historial){
+              res.render('cita',{
+                user:req.session.user,
+                cita : ct,
+                pacientes:req.session.pacientes,
+                paciente: paciente,
+                historial
+              });
             });
           }
         }else{
@@ -601,6 +615,25 @@ module.exports = app => {
         });
       }else{
         res.redirect('login');
+      }
+    });
+
+    app.get('/guardarHistoria',(req,res)=>{
+      if (req.session.user != null) {
+        var str = req._parsedUrl.query;
+        str =str.replace(/%22/gi, " ");
+        str =str.replace(/%20/gi, " ");
+        str =str.replace(/`/gi, '"');
+        console.log(str);
+        var historia = JSON.parse(str);
+
+        citas.guardarHistorial(historia,req,function(mensaje,tm){
+          res.json({mensaje:mensaje,tipo:tm});
+          res.end();
+        });
+      }else{
+        res.json({mensaje:"Tu sesion a caducado recarga la pagina",tipo:"Error"});
+        res.end();
       }
     });
 

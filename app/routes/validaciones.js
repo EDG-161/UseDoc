@@ -1,6 +1,49 @@
 const dbConnection = require('../../config/dbconnection');
 const connection = dbConnection();
 
+var normalize = (function() {
+  var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
+      to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
+      mapping = {};
+
+  for(var i = 0, j = from.length; i < j; i++ )
+      mapping[ from.charAt( i ) ] = to.charAt( i );
+
+  return function( str ) {
+      var ret = [];
+      for( var i = 0, j = str.length; i < j; i++ ) {
+          var c = str.charAt( i );
+          if( mapping.hasOwnProperty( str.charAt( i ) ) )
+              ret.push( mapping[ c ] );
+          else
+              ret.push( c );
+      }
+      return ret.join( '' );
+  }
+
+})();
+
+function validarAspectos(cadena){
+    var nomval = /^[a-zA-Z0-9/s]/i;
+  //()  var nomval = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+(\s*[a-zA-ZÀ-ÿ\u00f1\u00d1]*)*[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/i;
+    return nomval.test(cadena);
+
+}
+
+function validarFechas(cadena){
+    var vadFech = /^(?:(?:(?:0?[1-9]|1\d|2[0-8])[-](?:0?[1-9]|1[0-2])|(?:29|30)[-](?:0?[13-9]|1[0-2])|31[-](?:0?[13578]|1[02]))[-](?:0{2,3}[1-9]|0{1,2}[1-9]\d|0?[1-9]\d{2}|[1-9]\d{3})|29[-]0?2[-](?:\d{1,2}(?:0[48]|[2468][048]|[13579][26])|(?:0?[48]|[13579][26]|[2468][048])00))$/;
+    return vadFech.test(cadena);
+}
+
+function validarHoras(cadena){
+    let hv = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    hv.test(cadena);
+}
+
+function validarNumeros(cadena){
+    var numeval = /^([0-9])+$/;
+    return numeval.test(cadena);
+}
 function validarNombre(name, appat, apmat) {
     var nomval = /^[A-Za-z\s]+$/i;
     var cont = true;
@@ -187,6 +230,7 @@ function validarLogin(email, pass) {
     }
 }
 
+exports.normalize = normalize;
 exports.validarCedula = validarCedula;
 exports.validarLogin = validarLogin;
 exports.validarNombre = validarNombre;
@@ -194,3 +238,6 @@ exports.validarEmail = validarEmail;
 exports.validarPassword = validarPassword;
 exports.validarCodigoP = validarCodigoP;
 exports.validarTelefono = validarTelefono;
+exports.validarAspectos = validarAspectos;
+exports.validarFechas = validarFechas;
+exports.validarHoras = validarHoras;
