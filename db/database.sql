@@ -293,7 +293,7 @@ CREATE TABLE `mhistoriales` (
   `id_his` int(11) NOT NULL AUTO_INCREMENT,
   `rut_his` varchar(400) NOT NULL,
   `id_pac` int(11) NOT NULL,
-  `fec_his` date NOT NULL,
+  `fec_his` varchar(200) NOT NULL,
   PRIMARY KEY (`id_his`),
   KEY `id_pac` (`id_pac`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;

@@ -167,7 +167,6 @@ function obtenerCitas(id,callback){
 									}
 									result[i].dat_cit = aes.decifrar(result[i].dat_cit);
 									result[i].hor_cit = aes.decifrar(result[i].hor_cit);
-									result[i].dat_cit = aes.decifrar(result[i].dat_cit);
 									result[i].id_med = result[i].id_med;
 									result[i].des_ = result[i].des_cit;
 
@@ -324,7 +323,9 @@ function obtenerPerfilImg(callback){
 		if(!err){
 			if(res.length>0){
 				for(var i = 0;i< res.length;i++){
-					res[i].img_usr = aes.decifrar(res[i].img_usr);
+					if (res[i].img_usr!=null) {
+						res[i].img_usr = aes.decifrar(res[i].img_usr);
+					}
 				}
 				callback(res);
 			}else{

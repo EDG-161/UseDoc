@@ -6,9 +6,17 @@ socket.on('conectado',(ids)=>{
 
 var destino = 0;
 
-function camabiar(id){
+function cambiar(name,img,id){
 	destino = id;
+	$('#cav-chat').find('strong').each(function(){
+		$(this).text(name);
+	});
+	$('#cav-chat').find('img').each(function(){
+		$(this).attr("src","images/"+img);	
+	});
 	
+	socket.emit('obt-chat',destino);
+
 }
 
 socket.on("chat-message", function(data){
