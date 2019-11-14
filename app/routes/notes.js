@@ -166,7 +166,10 @@ module.exports = app => {
             res.redirect('/Home');
             res.end();
         }else{
-            res.render('login');
+
+            res.render('login',{  
+              mensaje: req.query.men
+            });
         }
     });
 
@@ -622,12 +625,23 @@ module.exports = app => {
     app.get('/perfil',(req,res)=>{
       if (req.session.user!= null) {
         var men = req.query.men;
-        res.render('perfil',{
-          user : req.session.user,
-          mensaje : men
+        modulos.obtenerDatos(req.session.id_usr,(datos)=>{
+          res.render('perfil',{
+            user : req.session.user,
+            mensaje : men,
+            datos
+          });
         });
       }else{
         res.redirect('login');
+      }
+    });
+
+    app.post('/guardatDatos',(req,res)=>{
+      if (req.session.user!=null) {
+        
+      }else{
+        res.redirect('/login?men =Tu sesion ha caducado')
       }
     });
 

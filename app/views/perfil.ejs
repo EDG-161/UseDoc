@@ -182,50 +182,140 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                             <div class="col-md-6">
 
                                 <div class="table-responsive-lg">
-                                    <form action="obtenerDatos" method="post">
+                                    <%
+                                    
+                                    if(datos[0] != null){
+                                        
+                                        %>
+                                        <h4 style="margin: 20px;">Datos de contacto</h4>
                                         <table class="table table-hover table-striped">
                                             <tbody>
                                                 <tr>
                                                     <td>Sexo:</td>
                                                     <td>
-
+                                                        <%=datos[0].id_sex%>
                                                     </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Teléfono:</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <%=datos[0].tel_dat%>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Num. Exterior:</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <%=datos[0].numext_dat%>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Num. Interior</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <%=datos[0].numin_dat%>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Calle</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <%=datos[0].calle_dat%>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Delegación</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <%=datos[0].del_dat%>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Estado</td>
-                                                    <td></td>
+                                                    <td>
+                                                       <%
+                                                        for(var i = 0; datos[1].length;i++){
+                                                            if(datos[1].id_sta==datos[0].id_sta){
+                                                                %>
+                                                                <%=datos[0].id_sex%><%
+                                                            }
+                                                        }
+                                                       %>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Colonia</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <%=datos[0].col_dat%>
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <td>Código Postal</td>
-                                                    <td></td>
+                                                    <td>
+                                                        <%=datos[0].codpost_dat%>
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </form>
+                                        <%
+                                    }else{
+                                        %>
+                                        <form action="guardarDatos" method="post">
+                                            <h4 style="margin: 20px;">Aún estableces tus datos de contacto</h4>
+                                            
+                                            <div class="form-group">
+                                               <label for="sex">Genero</label>
+                                                <select name="sex" id="" class="form-control" style="height:auto;">
+                                                    <option value="1">Hombre</option>
+                                                    <option value="2">Mujer</option>
+                                                    <option value="3">Prefiero no decirlo</option>
+                                                </select>
+                                            </div>
+                                           <strong>Datos de contacto</strong>
+                                           <hr>
+                                           <div class="form-group">
+                                               <input type="text" name="calle" class="form-control" placeholder="Calle" required>
+                                           </div>
+                                           <div class="form-group">
+                                               <div class="row">
+                                                   <div class="col-md-6">
+                                                       <input type="text" name="nume" class="form-control" placeholder="Numero exterior" required>
+                                                   </div>
+                                                   <div class="col-md-6">
+                                                       <input type="text" name="numi" class="form-control" placeholder="Numero interior" required>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="form-group">
+                                               <div class="row">
+                                                   <div class="col-md-6">
+                                                       <input type="text" class="form-control" name="col" placeholder="Colonia" required>
+                                                   </div>
+                                                   <div class="col-md-6">
+                                                       <input type="text" class="form-control" name="cod" placeholder="Codigo postal" required>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="form-group">
+                                               <div class="row">
+                                                   <div class="col-md-6">
+                                                       <input type="text" class="form-control" name="mun" placeholder="Delegacion o municipio" required>
+                                                   </div>
+                                                   <div class="col-md-6">
+                                                       <select name="est" id="" class="form-control" style="height:auto;">
+                                                           <%for(var i =0;i<datos[1].length;i++){%>
+                                                               <option value="<%=datos[1][i].id_sta%>"><%=datos[1][i].name_sta%></option>
+                                                           <%}%>
+                                                       </select>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <div class="form-group">
+                                               <input type="text" class="form-control" name="tel" required placeholder="Telefono">
+                                           </div>
+                                           <div class="form-group">
+                                                <input type="submit" class="btn btn-primary" value="Guardar Datos">
+                                            </div>
+                                        </form>
+                                        <%
+                                    }
+                                    %>
 
                                 </div>
 
@@ -238,21 +328,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                     <div class="clearfix"></div>
 
-                </div>
-                <div class="agile-tables">
-                    <div class="w3l-table-info agile_info_shadow">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h3 style="margin-bottom: 30px">Todas las citas</h3>
-
-                                </div>
-                                <div class="col-md-4">
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

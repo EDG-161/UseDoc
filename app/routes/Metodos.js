@@ -237,7 +237,44 @@ function setPaciente(req, res) { //Este metodo asigna pacientes a medicos
 
 }
 
+function obtenerDatos(id_usr,callback){
+    connection.query(`SELECT * FROM mdatos where id_usr =${id_usr}`,(err,res)=>{
+        if(!err){
+            if(res.length>0){
+                if(res[0].id_sex==1){
+                    res[0].id_sex= "Masculino";
+                }else if(res[0].id_sex==2){
+                    res[0].id_sex="Femenino";
+                }else{
+                    res[0].id_sex="Otro";
+                }
+                if(res[0].numin_dat!= null){
+                    res[0].numin_dat = aes.decifrar(res[0].numin_dat);
+                }
+                res[0].tel_dat = aes.decifrar(res[0].tel_dat);
+                res[0].numex_dat = aes.decifrar(res[0].numex_dat);
+                res[0].calle_dat = aes.decifrar(res[0].calle_dat);
+                res[0].del_dat = aes.decifrar(res[0].del_dat);
+                res[0].col_dat = aes.decifrar(res[0].col_dat);
+                res[0].codpost_dat = aes.decifrar(res[0].codpost_dat);
+                connection.query('SELECT * FROM cestado',(err,result1)=>{
+                    callback([res[0],result1]);    
+                });
+            }else{
+                connection.query('SELECT * FROM cestado',(err,result1)=>{
+                    callback([null,result1]);    
+                });
+            }
+        }else{
+            connection.query('SELECT * FROM cestado',(err,result1)=>{
+                callback([null,result1]);    
+            });
+        }
+    });
+}
+
 exports.agregarUsuario = agregarUsuario;
+exports.obtenerDatos = obtenerDatos;
 exports.login = login;
 exports.setMedico = setMedico;
 exports.setPaciente = setPaciente;
