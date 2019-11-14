@@ -46,43 +46,88 @@ io.on("connection", (socket)=>{
   io.to(socket.id).emit('conectado',socket.id);
   socket.on('agregar',(ag)=>{
     conexiones.push(ag);
-    console.log(conexiones);
   });
 
   socket.on('obt-chat',(da)=>{
     let arch ="";
     if(da[1]==1){
-      console.log(conexiones);
-      
       for(var i = 0; i<conexiones.length;i++){
         if(conexiones[i][1]==socket.id){
-          arch = "p"+da[0]+"m"+conexiones[i][0]+".json";
+          arch = "p"+da[0]+"m"+conexiones[i][0]+"";
           var pass = `cont${arch}chat${arch}`;
-          json.leerChat(arch,pass,(chat)=>{
-            console.log("archivo--------------------------------    " + arch);
-            console.log("archivo--------------------------------    " + pass);
+          json.leerChat(arch,pass,socket.id,(chat)=>{
+            io.to(socket.id).emit("chat",chat);
             for(var c = 0;c<conexiones.length;c++){
               if(conexiones[c][0]==da[0]){
                 io.to(conexiones[c][1]).emit("chat",chat);
               }
             }
-            io.to(conexiones[i][1]).emit("chat",chat)
-          }); 
+
+          });
+
         }
       }
     }else{
       for(var i = 0; i<conexiones.length;i++){
         if(conexiones[i][1]==socket.id){
-          arch = "p"+conexiones[i][0]+"m"+da[0]+".json";
+          arch = "p"+conexiones[i][0]+"m"+da[0]+"";
           var pass = `cont${arch}chat${arch}`;
-          json.leerChat(arch,pass,(chat)=>{
+          json.leerChat(arch,pass,socket.id,(chat)=>{
+            io.to(socket.id).emit("chat",chat);
             for(var c = 0;c<conexiones.length;c++){
               if(conexiones[c][0]==da[0]){
                 io.to(conexiones[c][1]).emit("chat",chat);
               }
             }
-            io.to(conexiones[i][1]).emit("chat",chat)
-          }); 
+
+          });
+        }
+      }
+    }
+  });
+
+  socket.on('men-chat',(mensaje)=>{
+    if (typeof mensaje !== "undefined") {
+      if (mensaje!= null) {
+        if (mensaje.length>0) {
+          if (mensaje[0].length>0) {
+            if (mensaje[1].length>0) {
+              if (mensaje[1][0].length>0 && (mensaje[1][0]!= " "||mensaje[1][0]!= "  "||mensaje[1][0]!= "   ")) {
+                if (mensaje[0][1]==1) {
+                  arch = "p"+mensaje[0][0]+"m"+mensaje[1][1]+"";
+                  var pass = `cont${arch}chat${arch}`;
+                  for (let i = 0; i < conexiones.length; i++) {
+                    if (conexiones[i][0]==mensaje[1][1]||conexiones[i][0]==mensaje[0][0]) {
+                      json.leerChat(arch,pass,conexiones[i][1],(chat)=>{
+                        for (var j = 0; j < chat.length; j++) {
+                          if (chat[j][1]!=mensaje[1][1]&&i==chat.length-1) {
+                            chat[j][2]=1;
+                          }
+                        }
+                        mensaje[1].push([mensaje[0][0],mensaje[1][1]]);
+                        chat.push(mensaje[1]);
+                        io.to(conexiones[i][1]).emit('message-as',chat);
+                        json.guardarChat(arch,chat,pass);
+                      });
+                    }
+                  }
+                }else{
+                  arch = "p"+mensaje[1][1]+"m"+mensaje[0][0]+"";
+                  var pass = `cont${arch}chat${arch}`;
+                  for (let i = 0; i < conexiones.length; i++) {
+                    if (conexiones[i][0]==mensaje[1][1]||conexiones[i][0]==mensaje[0][0]) {
+                      json.leerChat(arch,pass,conexiones[i][1],(chat)=>{
+                        mensaje[1].push([mensaje[1][1],mensaje[0][0]]);
+                        chat.push(mensaje[1]);
+                        io.to(conexiones[i][1]).emit('message-as',chat);
+                        json.guardarChat(arch,chat,pass);
+                      });
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
       }
     }

@@ -133,14 +133,13 @@
                                     for(var c = 0; c<doctores.length; c++){
                                         for(var a = 0; a<rangos.length; a++){
                                             if(doctores[c].id_med == rangos[a].id_med){
-                                                if(rangos[a].id_ran==1){ 
+                                                if(rangos[a].id_ran==1){
                                                     %>
                                                     <div class="profile_bg_agile ">
                                                         <div class="profile-pic wthree">
                                                              <h2>Medico</h2>
                                                              <%
                                                                 var imgRut = "";
-                                                                console.log("Imagenes  "+img);
                                                                 for(var imgt = 0; imgt<img.length;imgt++){
                                                                     if(img[imgt].id_usr==doctores[c].id_usr){
                                                                         if(img[imgt].img_usr!=null){
@@ -268,7 +267,7 @@
                                             <tr>
                                               <th scope="row">Ultimos mensajes</th>
                                               <td>
-                                                <a href="#" aria-expanded="true">
+                                                <a href="chat" aria-expanded="true">
                                                      <i class="fa  fa-envelope" aria-hidden="true"></i>
                                                      <span class="badge badge-success">4</span>
                                                  </a>

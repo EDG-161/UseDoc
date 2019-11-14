@@ -31,10 +31,10 @@ function guardarHistorial(name, content,pass){
     fs.writeFile('db/data/'+name,contenido,"utf-8",function(re){
       console.log(re);
     });
-  
+
     return name;
   }
-  
+
   function leerHistorial(name, pass,callback){
     if(fs.existsSync('db/data/'+name)){
       fs.readFile('db/data/'+name, 'utf-8', function (err, fileContents) {
@@ -54,18 +54,23 @@ function guardarHistorial(name, content,pass){
   }
 
 function guardarChat(name, content , pass){
-  var contenido = aes.cifrarP(content,pass)
+  var contenido = aes.cifrarP(JSON.stringify(content),pass)
   fs.writeFile('db/chats/'+name,contenido,"utf-8",function(re){
     console.log(re);
   });
   return name;
 }
-  
-function leerChat(name, pass , callback){
+
+function leerChat(name, pass ,dir, callback){
   if(fs.existsSync('db/chats/'+name)){
     fs.readFile('db/chats/'+name, 'utf-8', function (err, fileContents) {
       if (err) throw err;
-      callback(JSON.parse(aes.decifrarP(fileContents,pass)));
+      if (aes.decifrarP(fileContents,pass).length>0) {
+          callback(JSON.parse(aes.decifrarP(fileContents,pass)));
+      }else{
+        callback([])
+      }
+
     });
   }else {
       var chat = [];

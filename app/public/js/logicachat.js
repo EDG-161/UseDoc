@@ -3,22 +3,88 @@ var socket_id = "";
 socket.on('conectado',(ids)=>{
 	socket.emit('agregar',[id,ids]);
 });
-//chat [mensaje,estado,id]
+var destino = 0;
+//chat [mensaje,id,estado]
 socket.on("chat",(chat)=>{
-	console.log(chat);
-	
-	for(var i =0;i<chat.length;i++){
-		if(chat[i][2]==id){
-			var str = `<div class="req-chat"><span>${chat[i][0]}</span></div>`;
-			$('#bod-chat').append(str);
-		}else{
-			var str = `<div class="res-chat"><span>${chat[i][0]}</span></div>`;
-			$('#bod-chat').append(str);
+$('#bod-chat').html("");
+let pertenece = false;
+if (tid==1&& chat.length>0) {
+	if (chat[chat.length-1][3][0]==destino) {
+		pertenece = true;
+	}
+}else if(chat.length>0){
+	if (chat[chat.length-1][3][1]==destino) {
+		pertenece = true;
+	}
+}
+if (pertenece) {
+		for(var i =0;i<chat.length;i++){
+			if(chat[i][1]==id){
+				$('#bod-chat').append('<div class="req-chat"><span></span></div>');
+				$('#bod-chat').find('.req-chat:last-child').each(function(){
+					$(this).find('span').text(chat[i][0])
+				});
+			}else{
+				$('#bod-chat').append('<div class="res-chat"><span></span></div>');
+				$('#bod-chat').find('.res-chat:last-child').each(function(){
+					$(this).find('span').text(chat[i][0])
+				});
+			}
 		}
+		$('#bod-chat').animate({
+			scrollTop:$('#bod-chat')[0].scrollHeight
+		},500);
+	}else{
+
 	}
 });
 
-var destino = 0;
+
+
+$('#btn-send').click(function(){
+	var mensaje = $('#text-chat').val();
+	$('#text-chat').val("");
+	socket.emit('men-chat',[[destino,tid],[mensaje,id,0]]);
+});
+
+$('#text-chat').keypress(function(e){
+	if (e.which==13) {
+		$('#btn-send').click();
+	}
+});
+
+socket.on('message-as',function(chat){
+	$('#bod-chat').html("");
+	var pertenece = false;
+	if (tid==1) {
+		if (chat[chat.length-1][3][0]==destino) {
+			pertenece = true;
+		}
+	}else{
+		if (chat[chat.length-1][3][1]==destino) {
+			pertenece = true;
+		}
+	}
+	if (pertenece) {
+		for(var i =0;i<chat.length;i++){
+			if(chat[i][1]==id){
+				$('#bod-chat').append('<div class="req-chat"><span></span></div>');
+				$('#bod-chat').find('.req-chat:last-child').each(function(){
+					$(this).find('span').text(chat[i][0])
+				});
+			}else{
+				$('#bod-chat').append('<div class="res-chat"><span></span></div>');
+				$('#bod-chat').find('.res-chat:last-child').each(function(){
+					$(this).find('span').text(chat[i][0])
+				});
+			}
+		}
+		$('#bod-chat').animate({
+			scrollTop:$('#bod-chat')[0].scrollHeight
+		},500);
+	}
+
+});
 
 function cambiar(name,img,idd){
 	destino = idd;
@@ -26,25 +92,9 @@ function cambiar(name,img,idd){
 		$(this).text(name);
 	});
 	$('#cav-chat').find('img').each(function(){
-		$(this).attr("src","images/"+img);	
+		$(this).attr("src","images/"+img);
 	});
-	
+	document.getElementById('sen-chat').style.display = "flex";
 	socket.emit('obt-chat',[destino,tid]);
 
 }
-
-socket.on("chat-message", function(data){
-	data.usuario = data.usuario.replace('</', '');
-	data.usuario = data.usuario.replace('>', '');
-	data.usuario = data.usuario.replace('<', '');
-	var sanitized = data.mensaje.replace('</', '');
-	sanitized = sanitized.replace('>', '');
-	sanitized = sanitized.replace('<', '');
-	if (data.id == socket.id) {
-		var msj = '<div class="local-message" disabled><strong>'+data.usuario+':</strong><p>'+sanitized+'</p><br><img src="images/save.png" class="imgmsg" style="align: right;" onclick="guardar()"></div>';
-		document.getElementById("msgs").innerHTML += msj;
-	} else {
-		var msj = '<div class="remote-message" disabled><strong>'+data.usuario+':</strong><p>'+sanitized+'</p></div>';
-		document.getElementById("msgs").innerHTML += msj;
-	}
-});

@@ -35,8 +35,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
       const id = <%=user.id_usr%>;
       const tid = <%=user.id_tid%>;
     </script>
-    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
-    <script src="js/logicachat.js" ></script>
+
 </head>
 <body>
     <!-- banner -->
@@ -167,7 +166,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                         <div class="chat-profile" onclick="cambiar(<%if (user.id_tid==1) {
                           %>'<%=contactos[i].nom_pac%>'<%
                         }else{%>'<%=contactos[i].name_med%>'<%}%>,<%if(imgRut!= null){%>'profiles/<%=imgRut%>'<%}else{%>'admin.png'<%}%>,<%=contactos[i].id_usr%>)">
-                        
+
                           <div class="name-chat"><img class="img-chat" src="images<%if(imgRut!=null){%>/profiles/<%=imgRut%><%}else{%>/admin.png<%}%>"> <strong> <%if (user.id_tid==1) {
                             %><%=contactos[i].nom_pac%><%
                           }else{%><%=contactos[i].name_med%><%}%></strong></div>
@@ -179,16 +178,16 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                     </div>
                     <div class="col-md-9" style="height:90vh">
                       <div class="cav-chat" id="cav-chat">
-                        <img class="img-chat" id="img-chat" src="images/admin.png"> <strong> Nombre del usuario</strong>
+                        <img class="img-chat" id="img-chat" src="images/admin.png"> <strong> Selecciona uno de tus contactos</strong>
                       </div>
                       <div class="bod-chat" id="bod-chat">
-                        
+
                       </div>
-                      <div class="sen-chat">
+                      <div class="sen-chat" id="sen-chat" style="display:none">
                         <div class="sendd">
-                          <input type="text" name="men" placeholder="Escribe un mensaje ... " class="form-control" style="height:100%">
+                          <input type="text" name="men" placeholder="Escribe un mensaje ... " class="form-control" id="text-chat" style="height:100%">
                         </div>
-                        <button class="btn btn-primary" style="width:10%"> <i class="fa fa-send"></i> </button
+                        <button class="btn btn-primary" id="btn-send" style="width:10%"> <i class="fa fa-send"></i> </button>
                       </div>
                     </div>
                   </div>
@@ -214,7 +213,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
     <script>
         new gnMenu(document.getElementById('gn-menu'));
     </script>
-
+    <script src="http://localhost:3000/socket.io/socket.io.js"></script>
+    <script src="js/logicachat.js" ></script>
     <script src="js/bars.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <%if(typeof mensaje !== "undefined"){

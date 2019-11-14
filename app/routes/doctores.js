@@ -5,35 +5,39 @@ const aes = require('./aes');
 
 function obtenerPacientes(id, callback){
     connection.query("SELECT * FROM mdoctores where id_usr="+id,(er1,re1)=>{
-      connection.query('SELECT * FROM mpaciente_medico where id_med = '+ re1[0].id_med,(err,res)=>{
-          if(err){
-              console.log("Error obtenerPacientes     " + err);
-          }else{
-              let cad = "SELECT * FROM mpacientes where ";
+      if (!er1) {
+        connection.query('SELECT * FROM mpaciente_medico where id_med = '+ re1[0].id_med,(err,res)=>{
+            if(err){
+                console.log("Error obtenerPacientes     " + err);
+            }else{
+                let cad = "SELECT * FROM mpacientes where ";
 
-              for(var i = 0; i<res.length; i++){
-                  if(i == (res.length-1)){
-                      cad += "id_pac = " + res[i].id_pac;
-                  }else{
-                      cad += "id_pac = " + res[i].id_pac + " && ";
-                  }
-              }
-              connection.query(cad,(er,resu)=>{
-                  if(!er){
-                      for(var i = 0; i<resu.length ; i++){
-                          resu[i].id_pac = resu[i].id_pac;
-                          resu[i].nom_pac = aes.decifrar(resu[i].nom_pac);
-                          resu[i].appat_pac = aes.decifrar(resu[i].appat_pac);
-                          resu[i].apmat_pac = aes.decifrar(resu[i].apmat_pac);
-                      }
-                      callback(resu);
-                  }else{
-                      console.log("No hay pacientes")
-                      callback([]);
-                  }
-              });
-          }
-      });
+                for(var i = 0; i<res.length; i++){
+                    if(i == (res.length-1)){
+                        cad += "id_pac = " + res[i].id_pac;
+                    }else{
+                        cad += "id_pac = " + res[i].id_pac + " || ";
+                    }
+                }
+                connection.query(cad,(er,resu)=>{
+                    if(!er){
+                        for(var i = 0; i<resu.length ; i++){
+                            resu[i].id_pac = resu[i].id_pac;
+                            resu[i].nom_pac = aes.decifrar(resu[i].nom_pac);
+                            resu[i].appat_pac = aes.decifrar(resu[i].appat_pac);
+                            resu[i].apmat_pac = aes.decifrar(resu[i].apmat_pac);
+                        }
+                        callback(resu);
+                    }else{
+                        console.log("No hay pacientes")
+                        callback([]);
+                    }
+                });
+            }
+        });
+      }else{
+        console.log(er1);
+      }
     });
 
 }
@@ -43,7 +47,6 @@ function obtenerCitas(id,callback){
 		connection.query("SELECT * from mdoctores WHERE id_usr="+id,(er1,re1)=>{
       connection.query('SELECT * FROM mcitas where id_med='+re1[0].id_med,(err,result)=>{
   			if (!err) {
-          console.log('SELECT * FROM mcitas where id_med='+re1[0].id_med);
           for (var i = 0; i < result.length; i++) {
   					if (result[i].des_cit!="Sin descripcion") {
               result[i].des_cit = aes.decifrar(result[i].des_cit);
