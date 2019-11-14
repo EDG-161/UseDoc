@@ -50,8 +50,42 @@ io.on("connection", (socket)=>{
   });
 
   socket.on('obt-chat',(da)=>{
-    console.log(socket.id + da)
-    console.log(conexiones)
+    let arch ="";
+    if(da[1]==1){
+      console.log(conexiones);
+      
+      for(var i = 0; i<conexiones.length;i++){
+        if(conexiones[i][1]==socket.id){
+          arch = "p"+da[0]+"m"+conexiones[i][0]+".json";
+          var pass = `cont${arch}chat${arch}`;
+          json.leerChat(arch,pass,(chat)=>{
+            console.log("archivo--------------------------------    " + arch);
+            console.log("archivo--------------------------------    " + pass);
+            for(var c = 0;c<conexiones.length;c++){
+              if(conexiones[c][0]==da[0]){
+                io.to(conexiones[c][1]).emit("chat",chat);
+              }
+            }
+            io.to(conexiones[i][1]).emit("chat",chat)
+          }); 
+        }
+      }
+    }else{
+      for(var i = 0; i<conexiones.length;i++){
+        if(conexiones[i][1]==socket.id){
+          arch = "p"+conexiones[i][0]+"m"+da[0]+".json";
+          var pass = `cont${arch}chat${arch}`;
+          json.leerChat(arch,pass,(chat)=>{
+            for(var c = 0;c<conexiones.length;c++){
+              if(conexiones[c][0]==da[0]){
+                io.to(conexiones[c][1]).emit("chat",chat);
+              }
+            }
+            io.to(conexiones[i][1]).emit("chat",chat)
+          }); 
+        }
+      }
+    }
   });
 
 	socket.on("chat-message", (data)=>{
@@ -70,6 +104,5 @@ io.on("connection", (socket)=>{
             conexiones.splice(i,1);
           }
         }
-        console.log(conexiones);
     });
 });

@@ -53,6 +53,26 @@ function guardarHistorial(name, content,pass){
     }
   }
 
+function guardarChat(name, content , pass){
+  var contenido = aes.cifrarP(content,pass)
+  fs.writeFile('db/chats/'+name,contenido,"utf-8",function(re){
+    console.log(re);
+  });
+  return name;
+}
+  
+function leerChat(name, pass , callback){
+  if(fs.existsSync('db/chats/'+name)){
+    fs.readFile('db/chats/'+name, 'utf-8', function (err, fileContents) {
+      if (err) throw err;
+      callback(JSON.parse(aes.decifrarP(fileContents,pass)));
+    });
+  }else {
+      var chat = [];
+      callback(chat)
+  }
+}
+
 function guardarDatosMedicos(name, content,pass){
   var contenido = aes.cifrarP(content,pass)
   fs.writeFile('db/data/'+name,contenido,"utf-8",function(re){
@@ -163,3 +183,5 @@ exports.escribirJSON = escribirJSON;
 exports.verificarJSON = verify;
 exports.leerJSON = leerJSON;
 exports.leerHistorial = leerHistorial;
+exports.leerChat = leerChat;
+exports.guardarChat = guardarChat;

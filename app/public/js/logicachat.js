@@ -3,11 +3,25 @@ var socket_id = "";
 socket.on('conectado',(ids)=>{
 	socket.emit('agregar',[id,ids]);
 });
+//chat [mensaje,estado,id]
+socket.on("chat",(chat)=>{
+	console.log(chat);
+	
+	for(var i =0;i<chat.length;i++){
+		if(chat[i][2]==id){
+			var str = `<div class="req-chat"><span>${chat[i][0]}</span></div>`;
+			$('#bod-chat').append(str);
+		}else{
+			var str = `<div class="res-chat"><span>${chat[i][0]}</span></div>`;
+			$('#bod-chat').append(str);
+		}
+	}
+});
 
 var destino = 0;
 
-function cambiar(name,img,id){
-	destino = id;
+function cambiar(name,img,idd){
+	destino = idd;
 	$('#cav-chat').find('strong').each(function(){
 		$(this).text(name);
 	});
@@ -15,7 +29,7 @@ function cambiar(name,img,id){
 		$(this).attr("src","images/"+img);	
 	});
 	
-	socket.emit('obt-chat',destino);
+	socket.emit('obt-chat',[destino,tid]);
 
 }
 
