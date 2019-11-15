@@ -118,7 +118,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                             if( user.img_usr!=null){
                                                 %>
                                         <span class="prfil-img"><img src="images/profiles/<%=user.img_usr%>" style="width: 50px; height: 50px;" alt=""> </span>
-                                        <% 
+                                        <%
                                             }else{
                                                 %>
                                             <span class="prfil-img"><img src="images/admin.png" style="width:50px" alt=""> </span>
@@ -163,7 +163,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         </div>
                                     </form>
 
-                                    <% 
+                                    <%
                                     }else{
                                         %>
                                         <h3 class="w3_inner_tittle two">Aún no tienes imagen de perfil. ¡Agregala!</h3>
@@ -183,9 +183,9 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
                                 <div class="table-responsive-lg">
                                     <%
-                                    
+
                                     if(datos[0] != null){
-                                        
+
                                         %>
                                         <h4 style="margin: 20px;">Datos de contacto</h4>
                                         <table class="table table-hover table-striped">
@@ -211,7 +211,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                 <tr>
                                                     <td>Num. Interior</td>
                                                     <td>
-                                                        <%=datos[0].numin_dat%>
+                                                        <%=datos[0].numint_dat%>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -229,14 +229,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                                 <tr>
                                                     <td>Estado</td>
                                                     <td>
-                                                       <%
-                                                        for(var i = 0; datos[1].length;i++){
-                                                            if(datos[1].id_sta==datos[0].id_sta){
-                                                                %>
-                                                                <%=datos[0].id_sex%><%
-                                                            }
-                                                        }
-                                                       %>
+                                                       <%=datos[0].id_sta%>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -258,7 +251,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                                         %>
                                         <form action="guardarDatos" method="post">
                                             <h4 style="margin: 20px;">Aún estableces tus datos de contacto</h4>
-                                            
+
                                             <div class="form-group">
                                                <label for="sex">Genero</label>
                                                 <select name="sex" id="" class="form-control" style="height:auto;">

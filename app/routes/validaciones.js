@@ -44,6 +44,12 @@ function validarNumeros(cadena){
     var numeval = /^([0-9])+$/;
     return numeval.test(cadena);
 }
+
+function validarNombre1(name) {
+  var nomval = /^[A-Za-z\s]+$/i;
+  return nomval.test(name);
+}
+
 function validarNombre(name, appat, apmat) {
     var nomval = /^[A-Za-z\s]+$/i;
     var cont = true;
@@ -230,6 +236,7 @@ function validarLogin(email, pass) {
     }
 }
 
+exports.validarNombre1 = validarNombre1;
 exports.normalize = normalize;
 exports.validarCedula = validarCedula;
 exports.validarLogin = validarLogin;
@@ -241,3 +248,4 @@ exports.validarTelefono = validarTelefono;
 exports.validarAspectos = validarAspectos;
 exports.validarFechas = validarFechas;
 exports.validarHoras = validarHoras;
+exports.validarNumeros = validarNumeros;

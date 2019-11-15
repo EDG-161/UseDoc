@@ -40,7 +40,7 @@ function obtenerDoctores(id,callback){
 								if(i == (result.length-1)){
 									cad += "id_med = "+ result[i].id_med;
 								}else{
-									cad += "id_med = "+ result[i].id_med + " && ";
+									cad += "id_med = "+ result[i].id_med + " || ";
 								}
 							}
 							if (result.length<1) {

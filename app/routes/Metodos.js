@@ -248,31 +248,114 @@ function obtenerDatos(id_usr,callback){
                 }else{
                     res[0].id_sex="Otro";
                 }
-                if(res[0].numin_dat!= null){
-                    res[0].numin_dat = aes.decifrar(res[0].numin_dat);
+                if(res[0].numint_dat!= null){
+                    res[0].numint_dat = aes.decifrar(res[0].numint_dat);
                 }
                 res[0].tel_dat = aes.decifrar(res[0].tel_dat);
-                res[0].numex_dat = aes.decifrar(res[0].numex_dat);
+                res[0].numext_dat = aes.decifrar(res[0].numext_dat);
                 res[0].calle_dat = aes.decifrar(res[0].calle_dat);
                 res[0].del_dat = aes.decifrar(res[0].del_dat);
                 res[0].col_dat = aes.decifrar(res[0].col_dat);
                 res[0].codpost_dat = aes.decifrar(res[0].codpost_dat);
                 connection.query('SELECT * FROM cestado',(err,result1)=>{
-                    callback([res[0],result1]);    
+                    for (var i = 0; i < result1.length; i++) {
+                      if(result1[i].id_sta==res[0].id_sta){
+                        res[0].id_sta = result1[i].name_sta;
+                      }
+                    }
+                    callback([res[0],[]])
                 });
+
             }else{
-                connection.query('SELECT * FROM cestado',(err,result1)=>{
-                    callback([null,result1]);    
-                });
+              connection.query('SELECT * FROM cestado',(err,result1)=>{
+                  callback([null,result1]);
+              });
             }
         }else{
+          console.log(err);
             connection.query('SELECT * FROM cestado',(err,result1)=>{
-                callback([null,result1]);    
+                callback([null,result1]);
             });
         }
     });
 }
 
+function guardarDatos(req,res) {
+  const { sex } = req.body;
+  const { calle } = req.body;
+  const { nume } = req.body;
+  const { numi } = req.body;
+  const { col } = req.body;
+  const { cod } = req.body;
+  const { mun } = req.body;
+  const { est } = req.body;
+  const { tel } = req.body;
+  if (valida.validarNumeros(sex) && sex >0 && sex<4) {
+    if (valida.validarAspectos(calle)) {
+      if (valida.validarAspectos(nume)) {
+        if (valida.validarAspectos(numi)||numi.length==0) {
+          if (valida.validarAspectos(col)) {
+            if (valida.validarNumeros(cod)) {
+              if (valida.validarNombre1(mun)) {
+                if (valida.validarNumeros(est)&& est >0 && est<33) {
+                  if (valida.validarTelefono(tel)) {
+                    connection.query(`SELECT * FROM mdatos WHERE id_usr=${req.session.user.id_usr}`,(err,res1)=>{
+                      if (!err) {
+                        if (res1.length==0) {
+                          connection.query(`INSERT into mdatos (id_usr, id_sex, tel_dat, numext_dat, numint_dat, calle_dat, del_dat, id_sta, col_dat, codpost_dat)
+                           values(${req.session.user.id_usr},${sex},'${aes.cifrar(tel)}','${aes.cifrar(nume)}','${aes.cifrar(numi)}','${aes.cifrar(calle)}','${aes.cifrar(mun)}',${aes.cifrar(est)},'${aes.cifrar(col)}','${aes.cifrar(cod)}')`,(er,re)=>{
+                              if(!er){
+                                res.redirect('/perfil?men=Datos guardados');
+                              }else{
+                                console.log(er);
+                                res.redirect('/perfil?men=Algo salio mal');
+                              }
+                           });
+                        }else{
+                          connection.query(`UPDATE mdatos set tel_dat='${aes.cifrar(tel)}' , numext_dat='${aes.cifrar(nume)}', numint_dat='${aes.cifrar(numi)}',calle_dat='${aes.cifrar(calle)}',del_dat='${aes.cifrar(mun)}',id_sta=${est},col_dat='${aes.cifrar(col)}',codpost_dat='${aes.cifrar(cod)}',id_sex=${sex} where id_usr=${req.session.user.id_usr}`,(er,re)=>{
+                            if (!er) {
+                              res.redirect('/perfil?men=Datos actualizados');
+                            }else{
+                              console.log(er);
+                              res.redirect('/perfil?men=Algo salio mal');
+                            }
+                          });
+                        }
+                      }else{
+                        console.log(err);
+                        res.redirect('/perfil?men=Algo salio mal');
+                      }
+                    });
+                  }else{
+                    res.redirect('/perfil?men=El telefono no es valido');
+                  }
+                }else{
+                  res.redirect('/perfil?men=El nombre del estado no es valido');
+                }
+              }else{
+                res.redirect('/perfil?men=El nombre del municipio no es valido');
+              }
+            }else{
+              res.redirect('/perfil?men=El codigo no es valido');
+            }
+          }else{
+            res.redirect('/perfil?men=El nombre de la colonia no es valido');
+          }
+        }else{
+          res.redirect('/perfil?men=El numero interior no es valido');
+        }
+      }else{
+        res.redirect('/perfil?men=El numero exterior no es valido');
+      }
+    }else{
+      res.redirect('/perfil?men=El nombre de la calle no es valido');
+    }
+  }else{
+    res.redirect('/perfil?men=El genero no es valido');
+  }
+}
+
+exports.guardarDatos = guardarDatos;
 exports.agregarUsuario = agregarUsuario;
 exports.obtenerDatos = obtenerDatos;
 exports.login = login;

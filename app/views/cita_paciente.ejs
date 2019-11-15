@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<title>Cita - UseDoc</title>
+<!-- custom-theme -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="Esteem Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template,
+Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+		function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- //custom-theme -->
+<link rel="icon" type="image/png" href="images/icon.png" />
+<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/component.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/export.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/flipclock.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/circles.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/style_grid.css" rel="stylesheet" type="text/css" media="all" />
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+<!-- font-awesome-icons -->
+<link href="css/font-awesome.css" rel="stylesheet">
+
+</head>
+<body>
+<!-- banner -->
+<script>
+var id = <%=paciente.id_pac%>
+	var enfermedadesParentales = [
+		<%
+		if (historial.enfermedadesParentales.length>0) {
+			%>
+			<%for (var i = 0; i < historial.enfermedadesParentales.length-1; i++) {
+				%>['<%=historial.enfermedadesParentales[i][0]%>','<%=historial.enfermedadesParentales[i][1]%>','<%=historial.enfermedadesParentales[i][2]%>'],<%
+			}%>
+			['<%=historial.enfermedadesParentales[historial.enfermedadesParentales.length-1][0]%>','<%=historial.enfermedadesParentales[historial.enfermedadesParentales.length-1][1]%>','<%=historial.enfermedadesParentales[historial.enfermedadesParentales.length-1][2]%>']
+		<%}
+		%>
+	];
+	var vivienda = [
+		<%if (historial.vivienda.length>0) {
+			%>
+			<%for (var i = 0; i < historial.vivienda.length-1; i++) {
+				%>['<%=historial.vivienda[i][0]%>'],<%
+			}%>
+			['<%=historial.vivienda[historial.vivienda.length-1][0]%>']
+			<%
+		}%>
+	];
+	var alergias = [
+		<%if (historial.alergias.length>0) {
+			%>
+			<%for (var i = 0; i < historial.alergias.length-1; i++) {
+				%>['<%=historial.alergias[i][0]%>'],<%
+			}%>
+			['<%=historial.alergias[historial.alergias.length-1][0]%>']
+		<%}
+		%>
+	];
+	var cirugias = [
+		<%if (historial.cirugias.length>0) {
+		%>
+		<%for (var i = 0; i < historial.cirugias.length-1; i++) {
+			%>['<%=historial.cirugias[i][0]%>','<%=historial.cirugias[i][1]%>'],<%
+		}%>
+		['<%=historial.cirugias[historial.cirugias.length-1][0]%>','<%=historial.cirugias[historial.cirugias.length-1][1]%>']
+		<%
+		}%>
+	];
+	var sintomas = [];
+	var medicamentos = [];
+	var lab = [false,[]];
+	var diagnostico = [];
+	var tratamiento = [];
+	var notas = [];
+
+
+</script>
+<div class="wthree_agile_admin_info">
+    <div class="w3_agileits_top_nav">
+        <ul id="gn-menu" class="gn-menu-main">
+                 <!-- /nav_agile_w3l -->
+            <li class="gn-trigger">
+                <a class="gn-icon gn-icon-menu"><i class="fa fa-bars" aria-hidden="true"></i><span>Menu</span></a>
+                <nav class="gn-menu-wrapper">
+                    <div class="gn-scroller scrollbar1">
+                      <ul class="gn-menu agile_menu_drop">
+                          <li>
+                              <a href="Home"> <i class="fa fa-home"></i> Inicio</a>
+                          </li>
+                          <li>
+                              <a href="#"><i class="fa fa-stethoscope" aria-hidden="true"></i> Información <i class="fa fa-angle-down" aria-hidden="true"></i></a>
+                              <ul class="gn-submenu">
+                                  <li class="mini_list_agile"><a href="buttons"><i class="fa fa-caret-right" aria-hidden="true"></i> Tratamientos</a></li>
+                                  <li class="mini_list_w3">
+                                      <a href="grids"> <i class="fa fa-caret-right" aria-hidden="true"></i> Diagnosticos</a>
+                                  </li>
+                                  <li class="mini_list_w3">
+                                      <a href="grids"> <i class="fa fa-caret-right" aria-hidden="true"></i> Citas</a>
+                                  </li>
+                              </ul>
+                          </li>
+                          <li><a href="#"><i class="fa fa-user-md" aria-hidden="true"></i>Medico</a>
+                          </li>
+                      </ul>
+                    </div>
+                </nav>
+            </li>
+            <!-- //nav_agile_w3l -->
+            <li class="second logo"><h1><a href="index"><i class="fa fa-graduation-cap" aria-hidden="true"></i>USEDOC </a></h1></li>
+                <li class="second admin-pic">
+                   <ul class="top_dp_agile">
+                                <li class="dropdown profile_details_drop">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <div class="profile_img">
+                                          <%
+                                          if( user.img_usr!=null){
+                                              %>
+                                              <span class="prfil-img"><img src="images/profiles/<%=user.img_usr%>" style="width: 50px; height: 50px;" alt=""> </span>
+                                          <%
+                                          }else{
+                                              %>
+                                              <span class="prfil-img"><img src="images/admin.png" style="width:50px" alt=""> </span>
+                                          <%
+                                          }
+                                          %>
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu drp-mnu">
+                                        <li> <a href="#"><i class="fa fa-cog"></i> Configuracion</a> </li>
+                                        <li> <a href="perfil"><i class="fa fa-user"></i> Perfil</a> </li>
+                                        <li> <a href="salir"><i class="fa fa-sign-out"></i> Cerrar sesion</a> </li>
+                                    </ul>
+                                </li>
+
+                    </ul>
+            </li>
+
+
+            <li class="second w3l_search">
+            </li>
+
+        </ul>
+        <!-- //nav -->
+
+    </div>
+    <div class="clearfix"></div>
+    <div class="inner_content">
+        <div class="inner_content_w3_agile_info">
+            <h2 class="w3_inner_tittle two" style="margin-bottom: 30px;">Monitorear cita</h2>
+               <div class="w3l-table-info agile_info_shadow">
+                   <div class="container">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <%
+                                var pn = paciente;
+                                console.log(paciente[0]);
+                                    %>
+
+
+                                    <div class="col-md-12 socail_grid_agile <%if(paciente[0].sta_pac==2 || paciente[0].sta_pac==1){%>sintra<%}else{%>tra<%}%>">
+                                      <ul class="icon_w3_info">
+                                        <li><a href="#" class="wthree_facebook"><i class="fa fa-user" aria-hidden="true"></i></a></li>
+                                        <li><%if(paciente[0].sta_pac==2 || paciente[0].sta_pac==1){%>Fuera de tratamiento<%}else{%>En tratamiento<%}%></li>
+                                      </ul>
+                                      <ul class="icon_w3_social">
+                                        <li><i class="fa fa-comment-o" aria-hidden="true"></i></li>
+                                        <li><i class="fa fa-user" aria-hidden="true"></i></li>
+                                      </ul>
+                                      <div class="clearfix"></div>
+                                        <div class="bottom_info_social">
+                                      <div class="col-md-4 agile_w3l_social_media_text_img">
+                                        <img src="images/admin.png" style="width: 100%" alt="">
+                                      </div>
+                                      <div class="col-md-8 agile_w3l_social_media_text">
+                                        <h4><%=paciente[0].nom_pac%></h4>
+
+                                      </div>
+
+                                        <div class="clearfix"></div>
+                                        </div>
+
+                                    </div>
+
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-5">
+                              <h3 class="w3_inner_tittle two">Informacion de la cita</h3>
+                                <div class="form-group">
+                                  <label for="fecha">Fecha de la cita</label>
+                                  <input type="text" class="form-control" name="fecha" disabled value="<%=cita.dat_cit%>">
+                                </div>
+                                <div class="form-group">
+                                  <label for="nombre">Nombre del paciente</label>
+                                  <input type="text" class="form-control" name="nombre" disabled value="<%=pn[0].nom_pac+" "+pn[0].appat_pac%>">
+                                </div>
+                                <div class="form-group">
+                                  <label for="hora">Hora programada</label>
+                                  <input type="text" name="hora" class="form-control" disabled value="<%=cita.hor_cit%>">
+                                </div>
+                                <div class="form-group">
+                                  <label for="estado">Estado de la cita</label>
+                                  <input type="text" name="estado" class="form-control" disabled value="<%if(cita.id_tip==1){%>Finalizada<%}else if(cita.id_tip==2){%>Pendiente<%}else if(cita.id_tip==3){%>Cancelada<%}%>">
+                                </div>
+                                <div class="form-group">
+                                  <label for="Descripcion">Descripcion</label>
+                                  <input type="text" name="Descripcion" class="form-control" disabled value="<%=cita.des_cit%>">
+                                </div>
+                            </div>
+                       </div>
+                   </div>
+
+                     <div class="clearfix"></div>
+
+                </div>
+                <script type="text/javascript">
+                  var f = 1;
+                  var c =1;
+                  function cancelar(){
+                      document.getElementById('can_btn').style.display = "none";
+                      document.getElementById('fin_btn').style.display = "block";
+                      document.getElementById('can_block').style.display = "block";
+                      document.getElementById('fin_block').style.display = "none";
+
+                    }
+
+                  function finalizar(){
+                      document.getElementById('can_btn').style.display = "block";
+                      document.getElementById('fin_btn').style.display = "none";
+                      document.getElementById('can_block').style.display = "none";
+                      document.getElementById('fin_block').style.display = "block";
+                  }
+                </script>
+                <div class="agile-tables">
+                    <div class="w3l-table-info agile_info_shadow">
+											<div class="row">
+												<div class="col-md-6">
+													<h4>Diagnosticos anteriores <i class="fa fa-info" onclick=""></i></h4>
+												</div>
+												<div class="col-md-6">
+													<h4>Informacion de vivienda <i class="fa fa-info" onclick="toastr.info('Aquí usted puede registrar dato sobre el modo de vida del paciente con el fin de usarlo para posibles consluciones','Ayuda')"></i></h4>
+													<table class="table table-hover">
+											      <thead class="thead-dark"	>
+											        <tr>
+											          <th scope="col">Aspecto</th>
+											        </tr>
+											      </thead>
+											      <tbody id="vie_tb">
+										        </tbody>
+									        </table>
+									        <button type="button" class="btn btn-success" id="add-vid">
+									          <i class="fa fa-plus-circle"></i>
+									        </button>
+									        <button type="button" class="btn btn-success" id="less-vid">
+									          <i class="">-</i>
+									        </button>
+												</div>
+											</div>
+                    </div>
+                </div>
+
+                <div class="agile-tables">
+                    <div class="w3l-table-info agile_info_shadow">
+                        <div class="row mb40">
+													<div class="col-md-12">
+	                          <div class="col-md-6">
+															<div class="form-group">
+	                              <input type="button" id="can_btn" class="btn btn-danger btn-sm btn-block" value="Cancelar cita" onclick="cancelar()">
+	                            </div>
+	                          </div>
+														<div class="col-md-6">
+															<div class="form-group">
+	                              <input type="button" id="fin_btn" class="btn btn-warning btn-sm btn-block" value="Finalizar cita" onclick="finalizar()">
+	                            </div>
+														</div>
+	                        </div>
+                        </div>
+                    </div>
+                </div>
+									<div id="fin_block">
+										<hr>
+										<div class="inner_content_w3_agile_info two_in">
+											<div class="agile-tables" >
+												<div class="w3l-table-info agile_info_shadow">
+													<h3>Enfermedades parentales</h3>
+													<table class="table table-hover">
+														<thead class="thead-dark"	>
+															<tr>
+																<th scope="col">Enfermedad</th>
+																<th scope="col">Parentesco</th>
+																<th scope="col">Categoria de Enfermedad</th>
+															</tr>
+														</thead>
+														<tbody id="enp-tb">
+
+														</tbody>
+													</table>
+													<button type="button" id="add-enp" class="btn btn-success" name="button">
+														<i class="fa fa-plus-circle"></i>
+													</button>
+													<button type="button" id="less-enp" class="btn btn-success" name="button">
+														<i class="">-</i>
+													</button>
+												</div>
+												<div class="w3l-table-info agile_info_shadow">
+
+													<h3>Alergias</h3>
+													<table class="table table-hover">
+														<thead class="thead-dark"	>
+															<tr>
+																<th scope="col">Nombre alergia</th>
+															</tr>
+														</thead>
+														<tbody id="alr-tb">
+														</tbody>
+													</table>
+													<button type="button" class="btn btn-success" id="add-alr" name="button">
+														<i class="fa fa-plus-circle"></i>
+													</button>
+													<button type="button" class="btn btn-success" id="less-alr" name="button">
+														<i class="">-</i>
+													</button>
+												</div>
+												<div class="w3l-table-info agile_info_shadow">
+													<h3>Cirugias</h3>
+													<table class="table table-hover">
+														<thead class="thead-dark"	>
+															<tr>
+																<th scope="col">Nombre cirugia</th>
+																<th scope="col">Fecha de cirugia</th>
+															</tr>
+														</thead>
+														<tbody id="cir-tb">
+														</tbody>
+													</table>
+													<button type="button" class="btn btn-success" id="add-cir" name="button">
+														<i class="fa fa-plus-circle"></i>
+													</button>
+													<button type="button" class="btn btn-success" id="less-cir" name="button">
+														<i class="">-</i>
+													</button>
+													<button class="btn btn-primary" onclick="guardarHistoria()">Guardar datos del historial</button>
+												</div>
+												<div class="w3l-table-info agile_info_shadow">
+													<h3 class="">Padecimiento / Estado actual</h3>
+													<strong>Sistomas</strong>
+														<table class="table table-hover">
+															<thead class="thead-dark"	>
+																<tr>
+																	<th scope="col">Sintoma </th>
+																	<th scope="col">Notas</th>
+																	<th scope="col">Inicio</th>
+																</tr>
+															</thead>
+															<tbody id="sis-tb">
+															</tbody>
+														</table>
+														<button type="button" id="add-sis" class="btn btn-success" name="button">
+															<i class="fa fa-plus-circle"></i>
+														</button>
+														<button type="button" id="less-sis" class="btn btn-success" name="button">
+															<i class="">-</i>
+														</button>
+												</div>
+												<div class="w3l-table-info agile_info_shadow">
+													<strong>Medicamentos</strong>
+													<table class="table table-hover">
+														<thead class="thead-dark"	>
+															<tr>
+																<th scope="col">Nombre del medicamento</th>
+																<th scope="col">Dosis</th>
+																<th scope="col">Unidad</th>
+															</tr>
+														</thead>
+														<tbody id="med-tb">
+														</tbody>
+													</table>
+													<button type="button" id="add-med" class="btn btn-success" name="button">
+														<i class="fa fa-plus-circle"></i>
+													</button>
+													<button type="button" id="less-med" class="btn btn-success" name="button">
+														<i class="">-</i>
+													</button>
+												</div>
+											</div>
+										</div>
+										<hr>
+										<div class="inner_content_w3_agile_info two_in">
+											<h3>Laboratorio</h3> <br>
+											¿Se necesita realizar estudios de laboratorio para llegar a un diagnostico?
+											<input type="radio"  class="form-check-input" name="nec" id="nec" value="1">Si
+											<input type="radio" name="nec" checked class="form-check-input" id="nec" value="2">No
+											<br>
+											<hr>
+											<div class="agile-tables" id="lab">
+
+											</div>
+											<div class="agile-tables" id="labn">
+													<div class="w3l-table-info agile_info_shadow" >
+														<h3 class="">Diagnostico</h3>
+														<table class="table table-hover">
+															<thead class="thead-dark"	>
+																<tr>
+																	<th scope="col">Padecimiento</th>
+																	<th scope="col">Clasificación</th>
+																	<th scope="col">Notas</th>
+																</tr>
+															</thead>
+															<tbody id="dig-tb">
+															</tbody>
+														</table>
+														<button type="button" id="add-dig"  onclick="" class="btn btn-success" name="button">
+															<i class="fa fa-plus-circle"></i>
+														</button>
+														<button type="button" id="less-dig" onclick="" class="btn btn-success" name="button">
+															<i class="">-</i>
+														</button>
+													</div>
+													<div class="w3l-table-info agile_info_shadow">
+														<h3 class="">Tratamiento</h3>
+														<table class="table table-hover" id="table-force-off">
+															<thead class="thead-dark"	>
+																<tr>
+																	<th scope="col">Nombre del medicamento</th>
+																	<th scope="col">Cantidad</th>
+																	<th scope="col">Unidades</th>
+																	<th scope="col">Horario (cada cuantas horas)</th>
+																	<th scope="col">Duración dle tratamiento en días</th>
+																</tr>
+															</thead>
+															<tbody id="tra-tb">
+															</tbody>
+														</table>
+														<button type="button" id="add-tra"  onclick="" class="btn btn-success" name="button">
+															<i class="fa fa-plus-circle"></i>
+														</button>
+														<button type="button" id="less-tra" onclick="" class="btn btn-success" name="button">
+															<i class="">-</i>
+														</button>
+													</div>
+											</div>
+											<div class="w3l-table-info agile_info_shadow">
+												<h3 class="">Notas sobre la cita</h3>
+												<table class="table table-hover" id="table-force-off">
+													<thead class="thead-dark"	>
+														<tr>
+															<th scope="col">Nota</th>
+														</tr>
+													</thead>
+													<tbody id="not-tb">
+													</tbody>
+												</table>
+												<button type="button" id="add-not"  onclick="" class="btn btn-success" name="button">
+													<i class="fa fa-plus-circle"></i>
+												</button>
+												<button type="button" id="less-not" onclick="" class="btn btn-success" name="button">
+													<i class="">-</i>
+												</button>
+											</div>
+										</div>
+									</div>
+									<div class="w3l-table-info agile_info_shadow" id="can_block" style="display:none">
+											<form action="cancelarCita">
+												<div class="form-group">
+													<input type="text" class="form-control" name="tes" placeholder="Ingresa algún motivo">
+												</div>
+												<div class="form-group">
+													<input type="submit" class="btn btn-warning" name="tes" value="Cancelar">
+												</div>
+											</form>
+									</div>
+              </div>
+          </div>
+        </div>
+    </div>
+
+<!-- banner -->
+<!--copy rights start here-->
+<div class="copyrights">
+    <div class="container clearfix">
+        <div class="copyright-text">
+            <p>&copy; Copyright 2019. Todos los derechos reservados por
+              <a href="team">SpicySystems</a>
+            </p>
+        </div>
+        <ul class="footer-bottom-link">
+            <li>
+              <a href="index">Inicio</a>
+            </li>
+            <li>
+              <a href="index#About">Sobre nosotros</a>
+            </li>
+            <li>
+              <a href="contact">Contact</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!--copy rights end here-->
+<!-- js -->
+
+
+
+<script src="js/amcharts.js"></script>
+<script src="js/serial.js"></script>
+<script src="js/export.js"></script>
+<script src="js/light.js"></script>
+
+    <script src="js/Chart.min.js"></script>
+<script src="js/modernizr.custom.js"></script>
+
+<script src="js/classie.js"></script>
+<script src="js/gnmenu.js"></script>
+<script type="text/javascript" src="js/jquery.basictable.min.js"></script>
+<script>
+	function completar(){
+		enfermedadesParentales.forEach(element=>{
+			var ntr = "<tr>";
+			for (var i = 0; i < element.length; i++) {
+				ntr += "<td>"+element[i]+"</td>";
+			}
+			ntr+="</tr>";
+			$('#enp-tb').append(ntr);
+			ntr = "";
+		});
+		alergias.forEach(element=>{
+			var ntr = "<tr>";
+			for (var i = 0; i < element.length; i++) {
+				ntr += "<td>"+element[i]+"</td>";
+			}
+			ntr+="</tr>";
+			$('#alr-tb').append(ntr);
+			ntr = "";
+		});
+		vivienda.forEach(element=>{
+			var ntr = "<tr>";
+			for (var i = 0; i < element.length; i++) {
+				ntr += "<td>"+element[i]+"</td>";
+			}
+			ntr+="</tr>";
+			$('#vie_tb').append(ntr);
+			ntr = "";
+		});
+		cirugias.forEach(element=>{
+			var ntr = "<tr>";
+			for (var i = 0; i < element.length; i++) {
+				ntr += "<td>"+element[i]+"</td>";
+			}
+			ntr+="</tr>";
+			$('#cir-tb').append(ntr);
+			ntr = "";
+		});
+	}
+	completar();
+    new gnMenu( document.getElementById( 'gn-menu' ) );
+
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+      $('#table').basictable();
+      $('#table-force-off').basictable({
+        forceResponsive: false
+      });
+    });
+</script>
+<!-- script-for-menu -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<%if(typeof mensaje !== "undefined"){
+    %>
+    <script>
+        toastr.info("<%=mensaje%>","Info");
+    </script>
+    <%
+}%>
+<script src="js/bars.js"></script>
+<script type="text/javascript" src="js/cita.js"></script>
+
+<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+
+
+</body>
+</html>

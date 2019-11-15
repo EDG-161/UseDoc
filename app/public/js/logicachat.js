@@ -1,4 +1,4 @@
-var socket = io("http://localhost:3000");
+var socket = io();
 var socket_id = "";
 socket.on('conectado',(ids)=>{
 	socket.emit('agregar',[id,ids]);

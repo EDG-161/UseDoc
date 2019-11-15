@@ -102,6 +102,8 @@ io.on("connection", (socket)=>{
                         for (var j = 0; j < chat.length; j++) {
                           if (chat[j][1]!=mensaje[1][1]&&i==chat.length-1) {
                             chat[j][2]=1;
+                          }else{
+                            chat[j][2]=1;
                           }
                         }
                         mensaje[1].push([mensaje[0][0],mensaje[1][1]]);

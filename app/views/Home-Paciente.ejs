@@ -98,7 +98,7 @@
                             <div class="row">
                                 <div class="col-md-5">
                                 <h3 class="w3_inner_tittle two" style="margin-bottom: 30px">Datos del paciete</h3>
-                                    <div class="table-responsive-lg">
+                                    <div class="table-responsive-lg w3l-table-info agile_info_shadow">
                                         <table class="table table-hover table-striped" >
                                          <tbody>
                                              <tr>
@@ -124,6 +124,23 @@
                                          </tbody>
                                         </table>
                                         <a href="HistorialMedico" class="btn btn-default" style="text-decoration: none; padding: 10px;">Ver historial medico</a>
+                                    </div>
+																		<div class="table-responsive-lg w3l-table-info agile_info_shadow">
+                                        <table class="table table-hover table-striped" >
+
+                                          <tbody>
+                                            <tr>
+                                              <th scope="row">Ultimos mensajes</th>
+                                              <td>
+                                                <a href="chat" aria-expanded="true">
+                                                     <i class="fa  fa-envelope" aria-hidden="true"></i>
+                                                     <span class="badge badge-success">4</span>
+                                                 </a>
+                                              </td>
+                                            </tr>
+
+                                          </tbody>
+                                        </table>
                                     </div>
                                 </div>
                                 <div class="col-md-2"></div>
@@ -221,7 +238,7 @@
                                     <%
                                 }%>
 																<br><br>
-                                <div class="table-responsive-lg">
+                                <div class="table-responsive-lg w3l-table-info agile_info_shadow">
                                     <h4>Medicos auxiliares</h4>
                                     <table class="table table-hover table-striped" >
                                       <tbody>
@@ -257,26 +274,18 @@
                                         }
                                     }
                                     %>
+																		<tr>
+																			<td>
+																				<a href="agregarMedico" class="button btn-success" style="padding: 10px">
+																						<i class="fa fa-plus" aria-hidden="true"></i>
+																						 Agregar medico
+																				</a>
+																			</td>
+																		</tr>
                                         </tbody>
                                     </table>
                                 </div>
-                                    <div class="table-responsive-lg">
-                                        <table class="table table-hover table-striped" >
 
-                                          <tbody>
-                                            <tr>
-                                              <th scope="row">Ultimos mensajes</th>
-                                              <td>
-                                                <a href="chat" aria-expanded="true">
-                                                     <i class="fa  fa-envelope" aria-hidden="true"></i>
-                                                     <span class="badge badge-success">4</span>
-                                                 </a>
-                                              </td>
-                                            </tr>
-
-                                          </tbody>
-                                        </table>
-                                    </div>
                                 </div>
                                 <div class="col-md-1"></div>
                             </div>
@@ -299,24 +308,27 @@
                                   </thead>
                                   <tbody>
                                         <%
-                                        if(doctores.length>0){
-                                        for(var c = 0; c<doctores.length; c++){
-                                            for(var a = 0; a<rangos.length; a++){
-                                                if(doctores[c].id_med == rangos[a].id_med){
-                                                    if(rangos[a].id_ran==1){
-                                                        %>
+                                        if(citas.length>0){
+                                        for(var c = 0; c<citas.length; c++){
+																					if(citas[c].id_tip==2){%>
                                     <tr>
-                                      <th scope="row"><%= citas[cit]%></th>
-                                      <td>16:00</td>
-                                      <td><a href="cita"><i class="fa fa-plus"> Ver mas </i></a></td>
+                                      <th scope="row"><%= citas[c].dat_cit%></th>
+                                      <td><%= citas[c].hor_cit%></td>
+																			<td><%for(let j=0;j<doctores.length;j++){
+																				if(doctores[j].id_med==citas[c].id_med){%>
+																				<%= doctores[j].name_med%>
+																			<%
+																		}}%></td>
+                                      <td><a href="cita?c=<%var ref = 'asdaodjvinrubtn8uhvwisvnuiev46164198741619413203061910316';
+																			var str = '';
+																			for(var v =0;v<50;v++){
+																					str += ref.charAt(Math.floor(Math.random()*ref.length));
+																			}%><%=str%><%=citas[c].id_cit%>" style="font-size: 20px" title="Ver cita"><i class="fa  fa-plus">Ver más</i></a></td>
                                     </tr>
 
-                                    <%
-                                }
-                            }
-                        }
-											}
-										}
+                                    <%}
+																		}
+																	}
                     %>
                                   </tbody>
                                 </table>
