@@ -491,7 +491,7 @@ module.exports = app => {
               var pass = `${name}cas31${name}19562348451asdfbkhjb`;
               mjson.leerHistorial(name,pass,function(historial){
                 pacientes.obtenerPacienteById(req.session.user.id_usr,function(pac) {
-                
+
                   res.render('cita_paciente',{
                     user:req.session.user,
                     cita : ct,
@@ -694,13 +694,19 @@ module.exports = app => {
         str =str.replace(/%22/gi, " ");
         str =str.replace(/%20/gi, " ");
         str =str.replace(/`/gi, '"');
-        console.log(str);
-        var historia = JSON.parse(str);
+        try {
+          console.log(str);
+          var historia = JSON.parse(str);
 
-        citas.guardarHistorial(historia,req,function(mensaje,tm){
-          res.json({mensaje:mensaje,tipo:tm});
+          citas.guardarHistorial(historia,req,function(mensaje,tm){
+            res.json({mensaje:mensaje,tipo:tm});
+            res.end();
+          });
+        } catch (e) {
+          console.log("Error con el JSON   " + e);
+          res.json({mensaje:"Comprueba que los aspectos no contengan caracteres especiales",tipo:"Error"});
           res.end();
-        });
+        }
       }else{
         res.json({mensaje:"Tu sesion a caducado recarga la pagina",tipo:"Error"});
         res.end();
@@ -726,6 +732,101 @@ module.exports = app => {
         }
       }else{
         res.redirect('login?men=Tu sesion ha caducado, inicia sesion')
+      }
+    });
+
+    app.get('/finalizarCita',(req,res)=>{
+      var id = req.query.c;
+      if (req.session.user!=null) {
+        if (req.session.user.id_tid==1) {
+          if (id.length>32 && id.length<210) {
+            var c = id.substring(50);
+            var citas = req.session.citas;
+            var ct;
+            var com = false;
+            for (var i = 0; i < citas.length; i++) {
+              if (citas[i].id_cit==c && citas[i].id_tip==1) {
+                com = true;
+                ct = citas[i];
+              }
+            }
+            if (!com) {
+              res.redirect("/citas");
+            }else{
+              var paciente;
+              for (var i = 0; i < req.session.pacientes.length; i++) {
+                if (req.session.pacientes[i].id_pac == ct.id_pac) {
+                  paciente = req.session.pacientes[i];
+                }
+              }
+              var name = "hta_"+paciente.id_pac;
+              var pass = `${name}cas31${name}19562348451asdfbkhjb`;
+
+              mjson.leerHistorial(name,pass,function(historial){
+                name =`cit_${ct.id_pac}_${ct.id_cit}`;
+            		var pass = `${name}cas31${name}19562348451asdfbkhjb`
+                mjson.leerCitas(name,pass,function(cita){
+                  res.render('cita-finalizada',{
+                    user:req.session.user,
+                    cita : ct,
+                    pacientes:req.session.pacientes,
+                    paciente: paciente,
+                    historial,
+                    cita
+                  });
+                });
+              });
+            }
+          }else{
+            console.log("my¿yt largo  " + id.length);
+            res.redirect("/citas");
+            res.end();
+          }
+        }else{
+          if (id.length>32 && id.length<210) {
+            var c = id.substring(50);
+            var citas = req.session.citas;
+            var ct;
+            var com = false;
+            for (var i = 0; i < citas.length; i++) {
+              if (citas[i].id_cit==c) {
+                com = true;
+                ct = citas[i];
+              }
+            }
+            if (!com) {
+              res.redirect("/citas");
+            }else{
+              var paciente;
+              for (var i = 0; i < req.session.doctor.length; i++) {
+                if (req.session.doctor[i].id_med == ct.id_med) {
+                  paciente = req.session.doctor[i];
+                }
+              }
+              var name = "hta_"+paciente.id_pac;
+              var pass = `${name}cas31${name}19562348451asdfbkhjb`;
+              mjson.leerHistorial(name,pass,function(historial){
+                pacientes.obtenerPacienteById(req.session.user.id_usr,function(pac) {
+
+                  res.render('cita_paciente',{
+                    user:req.session.user,
+                    cita : ct,
+                    pacientes:req.session.doctor,
+                    paciente: pac,
+                    historial
+                  });
+                })
+              });
+            }
+          }else{
+            console.log("my¿yt largo  " + id.length);
+            res.redirect("/citas");
+            res.end();
+          }
+        }
+      }else{
+        res.redirect("/login");
+        res.end();
       }
     });
 

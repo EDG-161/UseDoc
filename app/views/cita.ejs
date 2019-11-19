@@ -29,6 +29,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!-- banner -->
 <script>
 var id = <%=paciente.id_pac%>
+var id_cit = <%=cita.id_cit%>
 	var enfermedadesParentales = [
 		<%
 		if (historial.enfermedadesParentales.length>0) {
@@ -466,6 +467,7 @@ var id = <%=paciente.id_pac%>
 													<i class="">-</i>
 												</button>
 											</div>
+											<input type="button" class="btn btn-success" id="fin-cit" value="Finalizar cita">
 										</div>
 									</div>
 									<div class="w3l-table-info agile_info_shadow" id="can_block" style="display:none">

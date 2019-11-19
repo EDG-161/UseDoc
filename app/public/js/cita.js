@@ -358,8 +358,10 @@ function lessLab(e){
 }
 function agrDig() {
 	var pade = $('#enf-dig').val();
+		pade = pade.replace(/"/gi, '-');
 	var cla = cenf[$('#cat-dig').val()-1];
 	var note = $('#par-dig').val();
+		note = note.replace(/"/gi, '-');
 	if (pade.length>0) {
 		if (note.length<1) {
 			note = "Sin notas";
@@ -379,6 +381,7 @@ function agrDig() {
 }
 function agrExa() {
 	var name = $('#name-lab').val();
+		name = name.replace(/"/gi, '-');
 	if (name.length>0) {
 		$("#lab-tb").find("tr:last-child").each(function(){
 			$(this).html("<td>"+"</td>");
@@ -398,7 +401,9 @@ function agrExa() {
 }
 function agrTra() {
 	var nombre = $('#name-tra').val();
+		nombre = nombre.replace(/"/gi, '-');
 	var parentesco = $('#des-tra').val();
+		parentesco = parentesco.replace(/"/gi, '-');
 	var cate = uni[($('#cat-tra').val())];
 	var numv =/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
 	var hor = $('#hor-tra').val();
@@ -413,7 +418,7 @@ function agrTra() {
 			$(this).find("td").eq(2).text(cate);
 			$(this).find("td").eq(3).text(hor);
 			$(this).find("td").eq(4).text(dias);
-			tratamiento.push([normalize(nombre),normalize(paentesco),normalize(cate),normalize(hor),normalize(dias)]);
+			tratamiento.push([normalize(nombre),normalize(parentesco),normalize(cate),normalize(hor),normalize(dias)]);
 		});
 		$('#add-tra').removeAttr("disabled");
 		$('#less-tra').removeAttr("disabled");
@@ -425,8 +430,11 @@ function agrTra() {
 }
 function agrMed() {
 	var nombre = $('#name-med').val();
+		nombre = nombre.replace(/"/gi, '-');
 	var parentesco = $('#des-med').val();
+		parentesco = parentesco.replace(/"/gi, '-');
 	var cate = uni[($('#cat-med').val())];
+
 	var html = "";
 	if (nombre.length>0 && parentesco.length>0) {
 		$("#med-tb").find("tr:last-child").each(function(){
@@ -444,8 +452,10 @@ function agrMed() {
 }
 function agrSis(){
 	var aspecto = $('#name-sis').val();
+		aspecto = aspecto.replace(/"/gi, '-');
 	var daf = new Date($('#date-sis').val());
 	var des = $('#des-sis').val();
+		des = des.replace(/"/gi, '-');
 	var fecha = daf.getDate()+ "-" + (daf.getMonth()+1) + "-" + daf.getFullYear();
 	var fecv = /^(?:(?:(?:0?[1-9]|1\d|2[0-8])[-](?:0?[1-9]|1[0-2])|(?:29|30)[-](?:0?[13-9]|1[0-2])|31[-](?:0?[13578]|1[02]))[-](?:0{2,3}[1-9]|0{1,2}[1-9]\d|0?[1-9]\d{2}|[1-9]\d{3})|29[-]0?2[-](?:\d{1,2}(?:0[48]|[2468][048]|[13579][26])|(?:0?[48]|[13579][26]|[2468][048])00))$/;
 	var html = "";
@@ -478,6 +488,9 @@ function agrEnferPar(){
 	var parentesco = $('#par-enp').val();
 	var cate = cenf[($('#cate').val()-1)];
 	var html = "";
+	nombre = nombre.replace(/"/gi, '-');
+	parentesco = parentesco.replace(/"/gi, '-');
+	cate = cate.replace(/"/gi, '-');
 	if (nombre.length>0 && parentesco.length>0) {
 		$("#enp-tb").find("tr:last-child").each(function(){
 			$(this).html("<td>"+"</td>"+"<td>"+"</td>"+"<td>"+"</td>");
@@ -495,6 +508,7 @@ function agrEnferPar(){
 function agrAlergia(){
 	var aspecto = $('#name-alr').val();
 	var html = "";
+		aspecto = aspecto.replace(/"/gi, '-');
 	if (aspecto.length>10) {
 		$("#alr-tb").find("tr:last-child").each(function(){
 			$(this).html("<td>"+"</td>");
@@ -511,8 +525,10 @@ function agrAlergia(){
 }
 function agrCir(){
 	var aspecto = $('#name-cir').val();
+		aspecto = aspecto.replace(/"/gi, '-');
 	var daf = new Date($('#date-cir').val());
 	var fecha = daf.getDate()+ "-" + (daf.getMonth()+1) + "-" + daf.getFullYear();
+	fecha = fecha.replace(/"/gi, '-');
 	var fecv = /^(?:(?:(?:0?[1-9]|1\d|2[0-8])[-](?:0?[1-9]|1[0-2])|(?:29|30)[-](?:0?[13-9]|1[0-2])|31[-](?:0?[13578]|1[02]))[-](?:0{2,3}[1-9]|0{1,2}[1-9]\d|0?[1-9]\d{2}|[1-9]\d{3})|29[-]0?2[-](?:\d{1,2}(?:0[48]|[2468][048]|[13579][26])|(?:0?[48]|[13579][26]|[2468][048])00))$/;
 	var html = "";
 	if (aspecto.length>1 && (fecv.test(fecha)||fecv.test($('#date-cir').val()))) {
@@ -532,6 +548,7 @@ function agrCir(){
 function agrVivienda(){
 	var aspecto = $('#dio').val();
 	var html = "";
+		aspecto = aspecto.replace(/"/gi, '-');
 	if (aspecto.length>10) {
 		$("#vie_tb").find("tr:last-child").each(function(){
 			$(this).html("<td>"+"</td>");
@@ -549,6 +566,7 @@ function agrVivienda(){
 function agrNota(){
 	var aspecto = $('#name-not').val();
 	var html = "";
+	aspecto = aspecto.replace(/"/gi, '-');
 	if (aspecto.length>0) {
 		$("#not-tb").find("tr:last-child").each(function(){
 			$(this).html("<td>"+"</td>");
@@ -588,23 +606,48 @@ function guardarHistoria() {
 						}
         },
         error: function(error){
-             console.log(error);
+             toastr.error("Comprueba que los datos esten libre de caracteres especiales","Error")
         }
     });
 }
 
 
 
-function guardarCita(){
+$('#fin-cit').click(function(){
 	var cita = {
+		id_cit,
+		id_pac:id,
 		laboratorio : lab,
 		diagnostico: diagnostico,
-		tratamiento:tratamiento
+		tratamiento:tratamiento,
+		sintomas:sintomas,
+		medicamentos:medicamentos,
+		notas
 	}
 
 	var tratamientosHistorico = {};
 
 	var diagnosticos = {};
 
-	
-}
+	var j = JSON.stringify(cita);
+	j = j.replace(/"/gi, "`")
+	$.ajax({
+				method : 'GET',
+        url : 'http://localhost:3000/finalizarCita',
+        data : j,
+        dataType : 'text',
+        success : function(response){
+             var res = JSON.parse(response);
+						 if (res.tipo=="success") {
+						 	toastr.success(res.mensaje,"Exito");
+							document.location.href = "/cita-finalizada";
+						}else{
+							toastr.error(res.mensaje,"Error")
+						}
+        },
+        error: function(error){
+             toastr.error("Comprueba que los datos esten libre de caracteres especiales","Error")
+        }
+    });
+
+});

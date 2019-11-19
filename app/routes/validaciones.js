@@ -36,8 +36,8 @@ function validarFechas(cadena){
 }
 
 function validarHoras(cadena){
-    let hv = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
-    hv.test(cadena);
+    var hv = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/;
+    return hv.test(cadena);
 }
 
 function validarNumeros(cadena){

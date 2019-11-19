@@ -288,7 +288,7 @@ for(var i = 0 ; i < citas.length; i++){
                         </div>
                     </div>
                 </div>
-        <!------------------------------------------antecedentes de citas gráficas--------------------------------------------------------------->        
+        <!------------------------------------------antecedentes de citas gráficas--------------------------------------------------------------->
                 <div class="agile-tables">
                     <div class="w3l-table-info agile_info_shadow">
                         <div class="container">
@@ -309,14 +309,18 @@ for(var i = 0 ; i < citas.length; i++){
 
                                             <%for(var j = 0; j< citas.length; j++){%>
                                                 <%for(var p = 0; p < pacientes.length; p++){%>
-                                                    
-                                                    <%if(citas[j].id_pac == pacientes[p].id_pac){%>
-                                                        
+
+                                                    <%if(citas[j].id_pac == pacientes[p].id_pac && citas[j].id_tip==2){%>
+
                                             <tr>
                                               <td><%=citas[j].dat_cit%></td>
                                               <td><%=pacientes[p].nom_pac%></td>
                                               <td><%=citas[j].hor_cit%></td>
-                                              <td><a href="citas"><i class="fa fa-plus"> Ver mas </i></a></td>
+                                              <td><a href="cita?c=<%var ref = 'asdaodjvinrubtn8uhvwisvnuiev46164198741619413203061910316';
+																							var str = '';
+																							for(var c =0;c<50;c++){
+																									str += ref.charAt(Math.floor(Math.random()*ref.length));
+																							}%><%=str%><%=citas[j].id_cit%>"><i class="fa fa-plus"> Ver mas </i></a></td>
                                             </tr>
                                             <%}
                                         }
@@ -559,7 +563,7 @@ for(var i = 0 ; i < citas.length; i++){
     for(var i=0;i<citas.length;i++){
         var fecha1 = citas[i].dat_cit.split('-');
         var ft = new Date(fecha1[2],(fecha1[1]-1),fecha1[0]);
-        
+
         var vef = true;
 
         for(var vf = 0; vf < fver.length;vf++){
@@ -575,10 +579,10 @@ for(var i = 0 ; i < citas.length; i++){
                 if(ft.getMonth()==ftj.getMonth()&&(ft.getFullYear()==ftj.getFullYear())){
                     cont++;
                 }
-            }   
+            }
             fver.push(ft);
             hor.push((ft.getMonth()+1)+"/"+ft.getFullYear());
-            vet.push(cont); 
+            vet.push(cont);
             cont = 0;
         }
     }
