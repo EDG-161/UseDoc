@@ -3,6 +3,7 @@ const valida = require('./validaciones');
 const connection = dbConnection();
 const aes = require('./aes');
 let pacientes = require('./pacientes');
+var mail = require("nodemailer");
 
 function login(req, res) {
     try {
@@ -354,6 +355,48 @@ function guardarDatos(req,res) {
     res.redirect('/perfil?men=El genero no es valido');
   }
 }
+function recuperar(req,res){
+    let { email } = req.body;
+    let password;
+    if(valida.validarEmail(email)){
+        connection.query("SELECT pass_usr FROM musuarios where email_usr = '"+aes.cifrar(email)+"';",(err,result)=>{
+            if(!err){
+                password = result[0].pass_usr;
+        
+                let transporter = mail.createTransport({
+                    service:"Gmail",
+                    auth:{
+                        user: "spicysystems@gmail.com",
+                        pass: "asd123ASd"
+                    }
+                });
+                let mensaje = "La contraseña de su cuenta UseDoc es: \n\n"+aes.decifrar(password)+"\n\n"+
+                "Le recomendamos guardar esta contraseña en un lugar seguro para evitar esta situacion nuevamente.\n"+
+                "Ya puede ingresar a su cuenta nuevamente.\n Favor de no responder este correo.";
+        
+                let mailOptions = {
+                    from: "spicysystems@gmail.com",
+                    to: email,
+                    subject: "Recuperacion de Contraseña UseDoc",
+                    text: mensaje
+                };
+                transporter.sendMail(mailOptions,function(err,info){
+                    if(err){
+                        console.log(err);
+                        res.redirect("/rec_contra?men=Error al enviar el correo");
+                    }else{
+                        console.log("Email enviado a: "+info.response);
+                        res.redirect("/login?men=Email enviado correctamente, cheque sus correos nuevos");
+                    }
+                });
+            }else{
+                res.redirect("/rec_contra?men=Error con el correo ingresado, verifica que este correctamente escrito");
+            }
+        });
+    }else{
+        res.redirect('/rec_contra?men=El correo electronico no es valido');
+    }
+}
 
 exports.guardarDatos = guardarDatos;
 exports.agregarUsuario = agregarUsuario;
@@ -361,3 +404,5 @@ exports.obtenerDatos = obtenerDatos;
 exports.login = login;
 exports.setMedico = setMedico;
 exports.setPaciente = setPaciente;
+exports.recuperar = recuperar;
+
