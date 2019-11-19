@@ -40,6 +40,7 @@ module.exports = app => {
         res.render('index');
         }
     });
+    
 
     app.get('/Home',(req,res)=>{
         try {
@@ -663,7 +664,21 @@ module.exports = app => {
         res.redirect('login');
       }
     });
-
+    app.get('/rec_contra', (req, res) => {
+      if (req.session.user!= null) {
+          res.writeHead(301,{'Location':'Home'});
+          res.end();
+      }else{
+      res.render('rec_contra');
+      }
+    });
+    app.post('/rec_contra',(req,res)=>{
+      if (req.session.user!=null) {
+        res.redirect('/Home');
+      }else{
+        modulos.recuperar(req,res);
+      }
+    });
     app.get('/perfil',(req,res)=>{
       if (req.session.user!= null) {
         var men = req.query.men;

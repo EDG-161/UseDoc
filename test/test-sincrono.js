@@ -297,7 +297,7 @@ describe('Metodos JSON', function() {
 });
 //metodos de validaciones guardarDatosMedicos
 describe('Metodos JSON', function() {
-    describe('Validación del nombre (caracteres permitidos menores a 20)', function() {
+    describe('Se guardan los datos médicos más importantes del paciente ', function() {
         it('debe retornar el valor true', function() {
             assert.equal([1, 2, 3].indexOf(4), -1);
         });
