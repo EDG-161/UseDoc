@@ -121,18 +121,118 @@ function guardarHistorial(historia,req,callback){
 	}
 }
 
-function finalizarCita(historia,){
-	let d = "Cita Finalizada";
-
-
-
-	connection.query("UPDATE mcitas SET des_cit='"+aes.cifrar(d)+"' WHERE id_cit = "+id+" ",(err,result)=>{
-		if (!err) {
-			callback(null,result[0]);
-		}else{
-			callback(false,result);
+function finalizarCita(cita,req,callback){
+	var sintomas = cita.sintomas;
+	var medicamentos = cita.medicamentos;
+	var laboratorio = cita.laboratorio;
+	var tratamiento = cita.tratamiento;
+	var diagnostico = cita.diagnostico;
+	var notas = cita.notas;
+	var valido = true;
+	var mensaje = "";
+	var tmen = "";
+	sintomas.forEach(function(element){
+		if(!valida.validarAspectos(element[0])||!valida.validarAspectos(element[1])||!valida.validarFechas(element[2])){
+			if (!valida.validarAspectos(element[0])) {
+				mensaje += "El nombre del sintoma solo debe contener letras <br/>";
+			}
+			if (!valida.validarAspectos(element[1])) {
+				mensaje += "El las notas no deben contener caracteres especiales <br/>";
+			}
+			if (!valida.validarAspectos(element[2])) {
+				mensaje += "La fecha de inicio del sintoma no es valida <br/>";
+			}
+			valido = false;
 		}
 	});
+	medicamentos.forEach(element=>{
+		if(!valida.validarAspectos(element[0]) || !valida.validarNumeros(element[1]) || !valida.validarAspectos(element[2])){
+			if (!valida.validarAspectos(element[0])) {
+				mensaje += "El nombre del medicamento solo debe contener letras y numeros<br>";
+			}
+			if (!valida.validarFecha(element[1])) {
+				mensaje += "La dosis debe de ser un numero<br>";
+			}
+			if (!valida.validarAspectos(element[2])) {
+				mensaje += "La unidad de medida no es valida<br>";
+			}
+			valido = false;
+		}
+	});
+
+	if (laboratorio[0]) {
+		laboratorio[1].forEach(element=>{
+			if (!valida.validarAspectos(element)){
+				valido = false;
+				mensaje += "El nombre del examen de laboratorio no debe contener carateres especiales";
+			}
+		});
+		diagnostico = [];
+		tratamiento = [];
+	}else{
+		diagnostico.forEach(element=>{
+			if (!valida.validarAspectos(element[0]) || !valida.validarAspectos(element[1]) || !valida.validarAspectos(element[2])) {
+				valido = false;
+				if (!valida.validarAspectos(element[0])) {
+					mensaje += "El nombre del padecimiento debe estar libre de caracteres especiales<br>";
+				}
+				if (!valida.validarAspectos(element[1])) {
+					mensaje += "La clacificacion del diagnostico no es valida<br>";
+				}
+				if (!valida.validarAspectos(element[2])) {
+					mensaje += "Las notas del diagnostico deben estar libres de caracteres especiales<br>";
+				}
+			}
+		});
+		tratamiento.forEach(element=>{
+			if (!valida.validarAspectos(element[0]) || !valida.validarNumeros(element[1]) || !valida.validarAspectos(element[2]) || !valida.validarHoras(element[3]) || !valida.validarNumeros(element[4]) ) {
+				valido = false;
+				if (!valida.validarAspectos(element[0])) {
+					mensaje+= "El nombre del medicamento no debe contener caracteres esperciales <br>"
+				}
+				if (!valida.validarNumeros(element[1])) {
+					mensaje+= "La cantidad de dosis debe de ser un numero <br>"
+				}
+				if (!valida.validarAspectos(element[2])) {
+					mensaje+= "El tipo de unidad no es valido <br>"
+				}
+				if (!valida.validarHoras(element[3])) {
+					mensaje+= "Las horas de aplicacion no son validas <br>"
+				}
+				if (!valida.validarNumeros(element[4])) {
+					mensaje+= "Los dias de tratamiento deben ser numero <br>"
+				}
+			}
+		});
+	}
+
+	notas.forEach(element=>{
+		if (!valida.validarAspectos(element[0])) {
+			valido= false;
+			mensaje += "Las notas solo deben contener letras y numeros";
+		}
+	});
+	if (valido) {
+		var name = `cit_${cita.id_pac}_${cita.id_cit}`;
+		var pass = `${name}cas31${name}19562348451asdfbkhjb`
+		var content = JSON.stringify(cita);
+		var historialJ = metodosJSON.guardarCitas(name,content,pass);
+		connection.query(`UPDATE mcitas set id_tip=1 WHERE id_cit = ${cita.id_cit}`,(err,result)=>{
+			if (!err) {
+				mensaje = "Cita finalizada exitosamente";
+				tmen = "success";
+				callback(mensaje,tmen);
+			}else{
+				console.log(er);
+				mensaje = "Algo ocurrio vuelve a intentar";
+				tmen = "error";
+				callback(mensaje,tmen);
+			}
+		});
+	}else{
+		console.log("No valido");
+		callback(mensaje,"error");
+	}
 }
 
 function obtenerCita(id){
