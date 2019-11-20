@@ -619,6 +619,21 @@ module.exports = app => {
         }
 
     });
+    app.get('/rec_contra', (req, res) => {
+        if (req.session.user!= null) {
+            res.writeHead(301,{'Location':'Home'});
+            res.end();
+        }else{
+        res.render('rec_contra');
+        }
+      });
+      app.post('/rec_contra',(req,res)=>{
+        if (req.session.user!=null) {
+          res.redirect('/Home');
+        }else{
+          modulos.recuperar(req,res);
+        }
+      });
 
     app.get('/agendarCita', (req, res) => {
         if (req.session.user != null) {
