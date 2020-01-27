@@ -2,9 +2,9 @@ const mysql = require('mysql');
 
 module.exports = () => {
     return mysql.createConnection({
-        host: 'localhost',
-        user: 'root',
-        password: 'n0m3l0',
-        database: 'usedoc_db'
+        host: 'http://206.81.2.189/',
+        user: 'usedoc_user',
+        password: 'Use_pass223856220',
+        database: 'usedoc'
     });
 }
