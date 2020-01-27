@@ -29,7 +29,7 @@ function login(req, res) {
                         res.render('login', { mensaje: "Contraseña o usuario incorrecto" })
                     }
                 } else {
-                    console.log("Error login    " + err);
+                    console.log("Error login    " + err.code);
                 }
             });
         } else {
