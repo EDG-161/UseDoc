@@ -25,11 +25,16 @@ module.exports = app => {
     });
 
     app.post('/enc',(req,res)=>{
-        return aes.cifrarP(req.query.text,req.query.pass);
+        let text = req.body.text;
+        let pass = req.body.pass;
+
+        res.send(aes.cifrarP(text,pass));
     });
 
     app.post('/dec',(req,res)=>{
-        return aes.decifrarP(req.query.text,req.query.pass);
+        let text = req.body.text;
+        let pass = req.body.pass;
+        res.send(aes.decifrarP(text,pass));
     });
 
     app.get('/index', (req, res) => {
