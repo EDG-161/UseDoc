@@ -2,6 +2,28 @@ var crypto = require('crypto'),
     algorithm = 'aes-256-ctr',
     password = 'd6F3Efeqn0m3l0c3';
 
+const { generateKeyPair } = require('crypto');
+
+
+function genPairKey(text,call){
+  let pair = []
+  generateKeyPair('rsa', {
+  modulusLength: 512,
+  publicKeyEncoding: {
+    type: 'spki',
+    format: 'pem'
+  },
+  privateKeyEncoding: {
+    type: 'pkcs8',
+    format: 'pem',
+    cipher: 'aes-256-cbc',
+    passphrase: text
+  }
+  }, (err, publicKey, privateKey) => {
+    call([publicKey,privateKey])
+  });
+}
+
 
 function cifrar(text){
   var cipher = crypto.createCipher(algorithm,password)
@@ -35,3 +57,4 @@ exports.cifrar = cifrar;
 exports.decifrar = decifrar;
 exports.cifrarP = cifrarP;
 exports.decifrarP = decifrarP;
+exports.genPairKey = genPairKey;

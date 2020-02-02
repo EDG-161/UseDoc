@@ -24,6 +24,8 @@ function login(req, res) {
                         user2.reg_usr = aes.decifrar(user2.reg_usr);
                         req.session.user = user;
                         req.session.user2 = user2;
+                        
+                        
                         res.redirect('/Home');
                     } else {
                         res.render('login', { mensaje: "Contraseña o usuario incorrecto" })
@@ -88,11 +90,19 @@ function agregarUsuario(req, res) {
                                 registrado = false;
                             } else {
                                 registrado = true;
+
                             }
                         });
                         let id = 0;
                         vadUsuario(email, pass, function(err, data) {
                             id = data;
+                            aes.genPairKey(pass,(pair)=>{
+                                publicKey = pair[0].substring(26,pair[0].length-26);
+                                connection.query("UPDATE musuarios set key_usr='"+publicKey+"' where id_usr= " + user.id_usr,(err,result)=>{
+                                    console.log(result)
+                                    console.log(err)
+                                })    
+                            });
                             if (tip == 1) {
                                 connection.query('INSERT INTO mdoctores (name_med, appat_med, apmat_med, ced_med, id_usr) values("' + aes.cifrar(name) + '","' + aes.cifrar(appat) + '","' + aes.cifrar(apmat) + '","' + aes.cifrar(ced) + '",' + id + ')', (err, result) => {
                                     if (err) {
