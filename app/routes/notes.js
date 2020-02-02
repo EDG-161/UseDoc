@@ -24,8 +24,13 @@ module.exports = app => {
         res.redirect('index');
     });
 
+    app.post('/enc',(req,res)=>{
+        return aes.function cifrarP(req.query.text,req.query.pass);
+    });
 
-
+    app.post('/dec',(req,res)=>{
+        return aes.function decifrarP(req.query.text,req.query.pass);
+    });
 
     app.get('/index', (req, res) => {
         if (req.session.user != null) {
