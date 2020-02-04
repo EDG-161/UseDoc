@@ -18,7 +18,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'app/views'));
 // Middlewares
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(fileUpload());
 
 require('./app/routes/notes')(app);

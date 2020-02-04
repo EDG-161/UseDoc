@@ -29,7 +29,6 @@ function escribirJSON(idpac,idmed,idchat,tipusr, msg){
 function guardarHistorial(name, content,pass){
     var contenido = aes.cifrarP(content,pass)
     fs.writeFile('db/data/'+name,contenido,"utf-8",function(re){
-      console.log(re);
     });
 
     return name;

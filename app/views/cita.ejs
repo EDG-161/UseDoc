@@ -32,7 +32,7 @@ var id = <%=paciente.id_pac%>
 var id_cit = <%=cita.id_cit%>
 	var enfermedadesParentales = [
 		<%
-		if (historial.enfermedadesParentales.length>0) {
+		if (historial.enfermedadesParentales) {
 			%>
 			<%for (var i = 0; i < historial.enfermedadesParentales.length-1; i++) {
 				%>['<%=historial.enfermedadesParentales[i][0]%>','<%=historial.enfermedadesParentales[i][1]%>','<%=historial.enfermedadesParentales[i][2]%>'],<%
@@ -42,7 +42,7 @@ var id_cit = <%=cita.id_cit%>
 		%>
 	];
 	var vivienda = [
-		<%if (historial.vivienda.length>0) {
+		<%if (historial.vivienda) {
 			%>
 			<%for (var i = 0; i < historial.vivienda.length-1; i++) {
 				%>['<%=historial.vivienda[i][0]%>'],<%
@@ -52,7 +52,7 @@ var id_cit = <%=cita.id_cit%>
 		}%>
 	];
 	var alergias = [
-		<%if (historial.alergias.length>0) {
+		<%if (historial.alergias) {
 			%>
 			<%for (var i = 0; i < historial.alergias.length-1; i++) {
 				%>['<%=historial.alergias[i][0]%>'],<%
@@ -62,7 +62,7 @@ var id_cit = <%=cita.id_cit%>
 		%>
 	];
 	var cirugias = [
-		<%if (historial.cirugias.length>0) {
+		<%if (historial.cirugias) {
 		%>
 		<%for (var i = 0; i < historial.cirugias.length-1; i++) {
 			%>['<%=historial.cirugias[i][0]%>','<%=historial.cirugias[i][1]%>'],<%

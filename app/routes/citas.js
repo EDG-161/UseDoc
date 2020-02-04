@@ -33,43 +33,52 @@ function guardarHistorial(historia,req,callback){
 	var valido = true;
 	var mensaje = "";
 	var tmen = "";
-	parentales.forEach(function(element){
-		if(!valida.validarAspectos(element[0])||!valida.validarAspectos(element[1])||!valida.validarAspectos(element[2])){
+	if(typeof parentales !== "undefined"){
+		parentales.forEach(function(element){
+			if(!valida.validarAspectos(element[0])||!valida.validarAspectos(element[1])||!valida.validarAspectos(element[2])){
+				if (!valida.validarAspectos(element[0])) {
+					mensaje += "El nombre de enfermedad solo debe contener letras <br/>";
+				}
+				if (!valida.validarAspectos(element[1])) {
+					mensaje += "El parentesco solo debe contener letras <br/>";
+				}
+				if (!valida.validarAspectos(element[2])) {
+					mensaje += "La categoria no es valida <br/>";
+				}
+				valido = false;
+			}
+		});
+	}
+	if(!(!cirugias)){
+		cirugias.forEach(element=>{
+			if(!valida.validarAspectos(element[0])|| !valida.validarFechas(element[1])){
+				if (!valida.validarAspectos(element[0])) {
+					mensaje += "El nombre de la cirugia solo debe contener letras\n";
+				}
+				if (!valida.validarFecha(element[1])) {
+					mensaje += "La fecha no es valida\n";
+				}
+				valido = false;
+			}
+		});
+	}
+	if(alergias){
+		alergias.forEach(element=>{
 			if (!valida.validarAspectos(element[0])) {
-				mensaje += "El nombre de enfermedad solo debe contener letras <br/>";
+				valido= false;
+				mensaje += "La alergia solo debe contener letras y numeros";
 			}
-			if (!valida.validarAspectos(element[1])) {
-				mensaje += "El parentesco solo debe contener letras <br/>";
-			}
-			if (!valida.validarAspectos(element[2])) {
-				mensaje += "La categoria no es valida <br/>";
-			}
-			valido = false;
-		}
-	});
-	cirugias.forEach(element=>{
-		if(!valida.validarAspectos(element[0])|| !valida.validarFechas(element[1])){
+		});
+	}
+	if(vivienda){
+		vivienda.forEach(element=>{
 			if (!valida.validarAspectos(element[0])) {
-				mensaje += "El nombre de la cirugia solo debe contener letras\n";
+				mensaje += "Los aspectos de vivienda solo deben contener letras y numeros"
+				valido = false;
 			}
-			if (!valida.validarFecha(element[1])) {
-				mensaje += "La fecha no es valida\n";
-			}
-			valido = false;
-		}
-	});
-	alergias.forEach(element=>{
-		if (!valida.validarAspectos(element[0])) {
-			valido= false;
-			mensaje += "La alergia solo debe contener letras y numeros";
-		}
-	});
-	vivienda.forEach(element=>{
-		if (!valida.validarAspectos(element[0])) {
-			mensaje += "Los aspectos de vivienda solo deben contener letras y numeros"
-			valido = false;
-		}
-	});
+		});
+	}
+	
 	if (valido) {
 		var name = `hta_${historia.id_pac}`;
 		var pass = `${name}cas31${name}19562348451asdfbkhjb`
@@ -86,7 +95,6 @@ function guardarHistorial(historia,req,callback){
 							tmen = "success";
 							callback(mensaje,tmen);
 						}else{
-							console.log(er);
 							mensaje = "Algo ocurrio vuelve a intentar";
 							tmen = "error";
 							callback(mensaje,tmen);
@@ -101,7 +109,6 @@ function guardarHistorial(historia,req,callback){
 							tmen = "success";
 							callback(mensaje,tmen);
 						}else{
-							console.log(er);
 							mensaje = "Algo ocurrio vuelve a intentar";
 							tmen = "error";
 							callback(mensaje,tmen);
@@ -109,14 +116,12 @@ function guardarHistorial(historia,req,callback){
 					});
 				}
 			}else{
-				console.log(err);
 				mensaje = "Algo ocurrio vuelve a intentar";
 				tmen = "error";
 				callback(mensaje,tmen);
 			}
 		});
 	}else{
-		console.log("No valido");
 		callback(mensaje,"error");
 	}
 }
@@ -223,14 +228,12 @@ function finalizarCita(cita,req,callback){
 				tmen = "success";
 				callback(mensaje,tmen);
 			}else{
-				console.log(er);
 				mensaje = "Algo ocurrio vuelve a intentar";
 				tmen = "error";
 				callback(mensaje,tmen);
 			}
 		});
 	}else{
-		console.log("No valido");
 		callback(mensaje,"error");
 	}
 }

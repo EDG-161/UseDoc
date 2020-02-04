@@ -726,15 +726,10 @@ module.exports = app => {
         }
     });
 
-    app.get('/guardarHistoria', (req, res) => {
+    app.post('/guardarHistoria', (req, res) => {
         if (req.session.user != null) {
-            var str = req._parsedUrl.query;
-            str = str.replace(/%22/gi, " ");
-            str = str.replace(/%20/gi, " ");
-            str = str.replace(/`/gi, '"');
-            console.log(str);
-            var historia = JSON.parse(str);
-
+            var str = req.body;
+            var historia = str;
             citas.guardarHistorial(historia, req, function(mensaje, tm) {
                 res.json({ mensaje: mensaje, tipo: tm });
                 res.end();
